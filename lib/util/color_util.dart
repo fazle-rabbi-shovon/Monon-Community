@@ -79,10 +79,6 @@ class ColorUtil {
   static const Color navSelected = Color(0xFF1DB6DA);
   static const Color navDeselected = Colors.grey;
 
-  static const Color filterSelected = Color(0xFFCDDC39);
-  static const Color filterDeselected = Color(0xFFF3F5F5);
-  static const Color punchFingerIcon = Color(0xFFD286AE);
-  static const Color imageBorder = Color(0xFFE8E8E8);
 
   static const Color button = Color(0xFF1DB6DA);
   static const Color buttonSecondary = Color(0xFF25A763);
