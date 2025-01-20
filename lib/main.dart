@@ -253,7 +253,7 @@ class _MyAppState extends State<MyApp> {
       //   }
       //   return supportedLocales.first;
       // },
-      initialRoute: '/splash',
+      initialRoute: '/',
       onGenerateRoute: RouteGenerator.generateRoute,
       // navigatorObservers: [
       //   if (kReleaseMode) locator<AnalyticsService>().getAnalyticsObserver(),
