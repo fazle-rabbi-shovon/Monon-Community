@@ -10,7 +10,7 @@ import '../../../util/color_util.dart';
 import '../../route/navigation_service.dart';
 
 import 'common_dialog.dart';
-import 'login_button.dart';
+import '../../Common/login_button.dart';
 import 'login_view.dart';
 
 class LoginViewFinal extends StatefulWidget {
@@ -187,7 +187,7 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
             style: TextStyle(
               color: ColorUtil.button,
               fontSize: 25.0,
-              fontWeight: FontWeight.normal,
+              fontWeight: FontWeight.w600,
             ),),
             const Spacer(),
             // if (_session) _progressBar(),
@@ -215,8 +215,7 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
             Spacer(),
               LoginButton(
                 key: Key('login-btn-layout'),
-                onTap: () {
-                },
+                onTap: navigateToHome,
               ),
             Spacer(),
           ],
