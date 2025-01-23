@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../ui/login/login_view.dart';
+import '../ui/login/login_view_final.dart';
 import '../ui/splash/splash_screen_view.dart';
 /*
 import 'package:inhrm/app/ui/features/confirm_site_entry/model/path_argument_confirm_entry.dart';
@@ -78,7 +79,7 @@ class RouteGenerator {
     switch (settings.name) {
       case '/':
         return navigateToRoute(
-          builder: (_) => LoginView(),
+          builder: (_) => LoginViewFinal(),
         );
 
 
