@@ -229,14 +229,14 @@ class _MyAppState extends State<MyApp> {
       title: "Monon",
       // locale: _locale,
       navigatorKey: NavigationService.getNavigatorKey(),
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(systemOverlayStyle: SystemUiOverlayStyle.dark),
-        fontFamily: 'OpenSans',
-        primarySwatch: ColorUtil.primary,
-        primaryColorDark: ColorUtil.primaryDark,
-        // accentColor: ColorUtil.accent,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+      // theme: ThemeData(
+      //   appBarTheme: AppBarTheme(systemOverlayStyle: SystemUiOverlayStyle.dark),
+      //   fontFamily: 'OpenSans',
+      //   primarySwatch: ColorUtil.primaryDark,
+      //   primaryColorDark: ColorUtil.primaryDark,
+      //   // accentColor: ColorUtil.accent,
+      //   visualDensity: VisualDensity.adaptivePlatformDensity,
+      // ),
       supportedLocales: [Locale('en', 'US'), Locale('bn', null)],
       // localizationsDelegates: [
       //   DemoLocalization.delegate,

@@ -60,6 +60,8 @@ class ColorUtil {
     900: Color.fromRGBO(29, 182, 222, 1),
   };
 
+  static const Color button = Color(0xFF4218b5);
+
   static const Color bgTransperant = Colors.transparent;
   static const Color bgWhite = Colors.white;
   static const Color bgWhite2 = Color(0xFFFBFCFC);
@@ -80,7 +82,7 @@ class ColorUtil {
   static const Color navDeselected = Colors.grey;
 
 
-  static const Color button = Color(0xFF1DB6DA);
+
   static const Color buttonSecondary = Color(0xFF25A763);
 
   static const Color buttonDark = Color(0xFF14645c);
