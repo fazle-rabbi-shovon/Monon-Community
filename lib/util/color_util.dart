@@ -61,6 +61,8 @@ class ColorUtil {
   };
 
   static const Color button = Color(0xFF4218b5);
+  static const Color navSelected = Color(0xFF1DB6DA);
+  static const Color navDeselected = Colors.grey;
 
   static const Color bgTransperant = Colors.transparent;
   static const Color bgWhite = Colors.white;
@@ -77,10 +79,6 @@ class ColorUtil {
 
   static  Color statusBar = primary;
   static const Color navigationBar = Color(0xFF1C2A37);
-
-  static const Color navSelected = Color(0xFF1DB6DA);
-  static const Color navDeselected = Colors.grey;
-
 
 
   static const Color buttonSecondary = Color(0xFF25A763);
