@@ -2,7 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:monon/ui/feelings/feelings_view.dart';
+import 'package:monon/ui/folder/folder_view.dart';
+import 'package:monon/ui/info/info_view.dart';
+import 'package:monon/ui/submit/submit_view.dart';
 
+import '../ui/home/home_view.dart';
 import '../ui/login/login_view.dart';
 import '../ui/login/login_view_final.dart';
 import '../ui/splash/splash_screen_view.dart';
@@ -88,11 +93,30 @@ class RouteGenerator {
           builder: (_) => SplashScreen(),
         );
 
-      // case '/home':
-      //   return navigateToRoute(
-      //     builder: (_) => HomeView(),
-      //   );
-      //
+      case '/home':
+        return navigateToRoute(
+          builder: (_) => HomeView(),
+        );
+
+      case '/feelings':
+        return navigateToRoute(
+          builder: (_) => const FeelingsView(),
+        );
+
+      case '/folder':
+        return navigateToRoute(
+          builder: (_) => const FolderView(),
+        );
+
+      case '/info':
+        return navigateToRoute(
+          builder: (_) => const InfoView(),
+        );
+
+      case '/submit':
+        return navigateToRoute(
+          builder: (_) => const SubmitView(),
+        );
       // case '/attendance':
       //   if (args is int) {
       //     int employeeId = args;
