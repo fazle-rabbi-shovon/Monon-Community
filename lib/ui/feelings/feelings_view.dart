@@ -56,15 +56,8 @@ class _FeelingsViewState extends State<FeelingsView>
         ),
       ],
       leading: Container(
-        child: Center(
-          child: IconButton(
-            icon: Icon(
-              Icons.close,
-              color: ColorUtil.primary,
-            ),
-            onPressed: () =>
-                NavigationService.getCurrentState()?.pop(null),
-          ),
+        child: const Center(
+
         ),
       ),
       title: Text(
