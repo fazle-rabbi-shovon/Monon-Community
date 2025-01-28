@@ -50,8 +50,8 @@ class _FolderViewState extends State<FolderView>
                 context,
                 "VIDEO",
                 Icons.play_circle_fill,
-                Colors.purple.shade700,
-                Colors.purple.shade300,
+                ColorUtil.primary.shade700,
+                ColorUtil.primary.shade300,
                 // VideoPage(),
               ),
             ),
@@ -74,8 +74,8 @@ class _FolderViewState extends State<FolderView>
                 context,
                 "WRITTEN DOCUMENTS",
                 Icons.description,
-                Colors.purple.shade700,
-                Colors.purple.shade300,
+                ColorUtil.primary.shade700,
+                ColorUtil.primary.shade300,
                 // DocumentsPage(),
               ),
             ),
@@ -98,11 +98,12 @@ class _FolderViewState extends State<FolderView>
                 context,
                 "TASK\nComplete all and open it",
                 Icons.lock,
-                Colors.purple.shade700,
-                Colors.purple.shade300,
+                ColorUtil.primary.shade700,
+                ColorUtil.primary.shade300,
                 // TaskPage(),
               ),
             ),
+            const SizedBox(height: 16.0),
           ],
         ),
       ),
@@ -124,33 +125,30 @@ class _FolderViewState extends State<FolderView>
         //   MaterialPageRoute(builder: (context) => nextPage),
         // );
       },
-      child: Expanded(
-        child: Container(
-          height: 80.0,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12.0),
-            gradient: LinearGradient(
-              colors: [startColor, endColor],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12.0),
+          gradient: LinearGradient(
+            colors: [startColor, endColor],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-          child: Center(
-            child: ListTile(
-              title: Text(
-                title,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18.0,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              trailing: Icon(
-                icon,
+        ),
+        child: Center(
+          child: ListTile(
+            title: Text(
+              title,
+              style: const TextStyle(
                 color: Colors.white,
-                size: 30.0,
+                fontWeight: FontWeight.bold,
+                fontSize: 18.0,
               ),
+              textAlign: TextAlign.center,
+            ),
+            trailing: Icon(
+              icon,
+              color: Colors.white,
+              size: 30.0,
             ),
           ),
         ),
@@ -158,32 +156,30 @@ class _FolderViewState extends State<FolderView>
     );
   }
 
-  _appbar(){
+  _appbar() {
     return AppBar(
       actions: [
         IconButton(
           icon: const Icon(
             Icons.close,
-            color: Colors.transparent,
+            color: Colors.white,
           ),
           onPressed: () {},
         ),
       ],
       leading: Container(
-        child: const Center(
-
-        ),
+        child: const Center(),
       ),
-      title: Text(
+      title: const Text(
         // getTranslated(context, "LEAVE_APPLY"),
         "Folder",
         style: TextStyle(
-          color: ColorUtil.primary,
+          color: Colors.white,
           fontSize: 18.0,
         ),
       ),
-      backgroundColor: ColorUtil.bgGrey,
-      iconTheme: IconThemeData(color: ColorUtil.primary),
+      backgroundColor: ColorUtil.primary,
+      iconTheme: const IconThemeData(color: Colors.white),
       elevation: 0,
       centerTitle: true,
     );

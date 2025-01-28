@@ -21,10 +21,21 @@ class RouteGenerator {
           builder: (_) => LoginViewFinal(),
         );
 
+      // case '/home':
+      //   return navigateToRoute(
+      //     builder: (_) => HomeView(),
+      //   );
+
       case '/home':
-        return navigateToRoute(
-          builder: (_) => HomeView(),
-        );
+        if (args is int) {
+          int index = args;
+
+          return navigateToRoute(
+            builder: (_) => HomeView(index),
+          );
+        }
+
+        return _underConstructionRoute('Error');
 
       case '/feelings_main':
         return navigateToRoute(

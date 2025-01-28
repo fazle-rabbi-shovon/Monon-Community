@@ -2,13 +2,16 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:monon/Common/login_gradient_button.dart';
+import 'package:monon/Common/normal_gradient_button.dart';
 
 import '../../route/navigation_service.dart';
 import '../../util/color_util.dart';
+import '../../util/dimen_values_util.dart';
 
 class FeelingsView extends StatefulWidget {
-
   const FeelingsView({super.key});
+
   @override
   State<FeelingsView> createState() => _FeelingsViewState();
 }
@@ -21,7 +24,8 @@ class _FeelingsViewState extends State<FeelingsView>
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
   }
 
-  String currentFeeling = 'assets/images/emg_sad.png'; // Default top emoji image path
+  String currentFeeling =
+      'assets/images/emg_sad.png'; // Default top emoji image path
   String selectedFeeling = ''; // Tracks which emoji is selected for animation
 
   final Map<String, String> feelings = {
@@ -110,60 +114,63 @@ class _FeelingsViewState extends State<FeelingsView>
               ),
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Handle submit button action
-              },
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.blueAccent,
-                backgroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              child: const Text(
-                'Submit',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+            applyButton(),
           ],
         ),
       ),
     );
   }
 
-  _appbar(){
+  Widget applyButton() {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 20.0),
+      height: DimenValuesUtil.buttonHeight,
+      decoration: GradientButtonDecoration(),
+      child: InkWell(
+        onTap: () {
+          NavigationService.getCurrentState()
+              ?.pushReplacementNamed('/home', arguments: 1);
+        },
+        child: const Center(
+          child: Text(
+            "Submit",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: DimenValuesUtil.title,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  _appbar() {
     return AppBar(
       actions: [
         IconButton(
           icon: const Icon(
             Icons.close,
-            color: Colors.transparent,
+            color: Colors.white,
           ),
           onPressed: () {},
         ),
       ],
       leading: Container(
-        child: const Center(
-        ),
+        child: const Center(),
       ),
-      title: Text(
+      title: const Text(
         // getTranslated(context, "LEAVE_APPLY"),
-        "Feelings",
+        "Emotions",
         style: TextStyle(
-          color: ColorUtil.primary,
+          color: Colors.white,
           fontSize: 18.0,
         ),
       ),
-      backgroundColor: ColorUtil.bgGrey,
-      iconTheme: IconThemeData(color: ColorUtil.primary),
+      backgroundColor: ColorUtil.primary,
+      iconTheme: const IconThemeData(color: Colors.white),
       elevation: 0,
       centerTitle: true,
     );
   }
 }
-

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import '../../localization/localization_constants.dart';
 import '../util/color_util.dart';
-import 'gradient_button_decoration.dart';
+import 'login_gradient_button.dart';
 
 class LoginButton extends Container {
   LoginButton({Key? key, required this.onTap}) : super(key: key);

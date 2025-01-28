@@ -1,13 +1,16 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:monon/Common/login_gradient_button.dart';
+import 'package:monon/Common/normal_gradient_button.dart';
 
+import '../../route/navigation_service.dart';
 import '../../util/color_util.dart';
+import '../../util/dimen_values_util.dart';
 import 'feelings_view.dart';
 
 class FeelingsMainView extends StatefulWidget {
-
   const FeelingsMainView({super.key});
+
   @override
   State<FeelingsMainView> createState() => _FeelingsMainViewState();
 }
@@ -113,60 +116,64 @@ class _FeelingsMainViewState extends State<FeelingsMainView>
               ),
             ),
             const Spacer(),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  // Add your navigation or action here
-                },
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.yellow,
-                  backgroundColor: Colors.blue,
-                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                child: const Text(
-                  'Next',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
+            applyButton(),
           ],
         ),
       ),
     );
   }
 
-  _appbar(){
+  Widget applyButton() {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 20.0),
+      height: DimenValuesUtil.buttonHeight,
+      decoration: NormalGradientButtonDecoration(),
+      child: InkWell(
+        onTap: () {
+          NavigationService.getCurrentState()?.pushReplacementNamed(
+            '/emotions_first_submit',
+          );
+        },
+        child: const Center(
+          child: Text(
+            "Next",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: DimenValuesUtil.title,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  _appbar() {
     return AppBar(
       actions: [
         IconButton(
           icon: const Icon(
             Icons.close,
-            color: Colors.transparent,
+            color: Colors.white,
           ),
           onPressed: () {},
         ),
       ],
-      leading: const Center(
+      leading: Container(
+        child: const Center(),
       ),
-      title: Text(
+      title: const Text(
         // getTranslated(context, "LEAVE_APPLY"),
         "Feelings",
         style: TextStyle(
-          color: ColorUtil.primary,
+          color: Colors.white,
           fontSize: 18.0,
         ),
       ),
-      backgroundColor: ColorUtil.bgGrey,
-      iconTheme: IconThemeData(color: ColorUtil.primary),
+      backgroundColor: ColorUtil.primary,
+      iconTheme: const IconThemeData(color: Colors.white),
       elevation: 0,
       centerTitle: true,
     );
   }
 }
-

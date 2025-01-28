@@ -9,7 +9,6 @@ import '../../../../util/color_util.dart';
 import '../../route/navigation_service.dart';
 import '../../util/number_for_features.dart';
 import '../feelings/feelings_main_view.dart';
-import '../feelings/feelings_view.dart';
 import '../folder/folder_view.dart';
 import '../login/common_dialog.dart';
 import '../nav.dart';
@@ -17,19 +16,24 @@ import 'bottom_nav.dart';
 import 'nav_page.dart';
 
 class HomeView extends StatefulWidget {
+  HomeView(this.index);
+
+  int index;
+
   @override
-  State<HomeView> createState() => _HomeViewState();
+  State<HomeView> createState() => _HomeViewState(index);
 }
 
 class _HomeViewState extends BaseViewState<HomeView>
     with SingleTickerProviderStateMixin {
+  _HomeViewState(this._currentIndex);
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   late String currentDeviceId;
 
   Nav _navState = Nav.dashboard;
-  int _currentIndex = 0;
+  int _currentIndex;
 
   var config;
 
@@ -77,23 +81,22 @@ class _HomeViewState extends BaseViewState<HomeView>
             .entries
             .map(
               (entry) => Offstage(
-            offstage: _currentIndex != entry.key,
-            child: Navigator(
-              onGenerateRoute: (RouteSettings settings) {
-                return MaterialPageRoute(
-                  builder: (_) => entry.value,
-                  settings: settings,
-                );
-              },
-            ),
-          ),
-        )
+                offstage: _currentIndex != entry.key,
+                child: Navigator(
+                  onGenerateRoute: (RouteSettings settings) {
+                    return MaterialPageRoute(
+                      builder: (_) => entry.value,
+                      settings: settings,
+                    );
+                  },
+                ),
+              ),
+            )
             .toList(),
       ),
       bottomNavigationBar: _bottomNavBar(),
     );
   }
-
 
   // @override
   // Widget build(BuildContext context) {
@@ -162,18 +165,6 @@ class _HomeViewState extends BaseViewState<HomeView>
     } else {}
 
     return willPop;
-  }
-
-  Widget _homeBody() {
-    _navState = Nav.dashboard;
-    return Scaffold(
-      key: _scaffoldKey,
-      body: WillPopScope(
-        onWillPop: onWillPop,
-        child: _appBody(),
-      ),
-      bottomNavigationBar: _bottomNavBar(),
-    );
   }
 
   Widget _bottomNavBar() {
