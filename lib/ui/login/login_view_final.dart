@@ -72,7 +72,8 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
   }
 
   void navigateToHome() {
-        NavigationService.getCurrentState()?.pushReplacementNamed('/home');
+        NavigationService.getCurrentState()?.pushReplacementNamed('/home',
+        arguments: 0);
   }
 
   @override

@@ -20,7 +20,7 @@ class BottomNav extends StatelessWidget {
       currentIndex: currentIndex,
       showSelectedLabels: true,
       showUnselectedLabels: true,
-      backgroundColor: ColorUtil.bgWhite,
+      backgroundColor: ColorUtil.primarySwatch[100],
       selectedItemColor: ColorUtil.navSelected,
       unselectedItemColor: ColorUtil.navDeselected,
       items: [
