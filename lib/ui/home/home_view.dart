@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:monon/ui/info/info_view.dart';
+import 'package:monon/ui/submit/submit_view.dart';
 
 import '../../../../base/base_view_state.dart';
 import '../../../../localization/localization_constants.dart';
 import '../../../../util/color_util.dart';
 import '../../route/navigation_service.dart';
 import '../../util/number_for_features.dart';
+import '../feelings/feelings_main_view.dart';
+import '../feelings/feelings_view.dart';
+import '../folder/folder_view.dart';
 import '../login/common_dialog.dart';
 import '../nav.dart';
 import 'bottom_nav.dart';
@@ -45,9 +50,18 @@ class _HomeViewState extends BaseViewState<HomeView>
     NumberUtil.deviceHeight = MediaQuery.of(context).size.height;
   }
 
+  // int _currentIndex = 0;
+
+  // List of pages corresponding to bottom navigation bar tabs
+  final List<Widget> _pages = [
+    const FeelingsMainView(),
+    const FolderView(),
+    const InfoView(),
+    const SubmitView(),
+  ];
+
   @override
   Widget build(BuildContext context) {
-    // SystemChrome.restoreSystemUIOverlays();
     WidgetsBinding.instance.addPostFrameCallback((_) => afterBuild());
 
     SystemChrome.setSystemUIOverlayStyle(
@@ -56,9 +70,45 @@ class _HomeViewState extends BaseViewState<HomeView>
           statusBarBrightness: Brightness.dark,
           statusBarIconBrightness: Brightness.light),
     );
-
-    return _homeBody();
+    return Scaffold(
+      body: Stack(
+        children: _pages
+            .asMap()
+            .entries
+            .map(
+              (entry) => Offstage(
+            offstage: _currentIndex != entry.key,
+            child: Navigator(
+              onGenerateRoute: (RouteSettings settings) {
+                return MaterialPageRoute(
+                  builder: (_) => entry.value,
+                  settings: settings,
+                );
+              },
+            ),
+          ),
+        )
+            .toList(),
+      ),
+      bottomNavigationBar: _bottomNavBar(),
+    );
   }
+
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   // SystemChrome.restoreSystemUIOverlays();
+  //   WidgetsBinding.instance.addPostFrameCallback((_) => afterBuild());
+  //
+  //   SystemChrome.setSystemUIOverlayStyle(
+  //     SystemUiOverlayStyle(
+  //         statusBarColor: ColorUtil.statusBar,
+  //         statusBarBrightness: Brightness.dark,
+  //         statusBarIconBrightness: Brightness.light),
+  //   );
+  //
+  //   return _homeBody();
+  // }
 
   Future _logoutDialogue(BuildContext context) async {
     return await showDialog(
@@ -146,7 +196,7 @@ class _HomeViewState extends BaseViewState<HomeView>
     switch (index) {
       case 0:
         _currentIndex = 0;
-        _navState = Nav.feelings;
+        _navState = Nav.feelings_main;
 
         setState(() {});
         break;

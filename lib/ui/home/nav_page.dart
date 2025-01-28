@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:monon/ui/feelings/feelings_main_view.dart';
 import 'package:monon/ui/feelings/feelings_view.dart';
 import 'package:monon/ui/folder/folder_view.dart';
 import 'package:monon/ui/info/info_view.dart';
@@ -20,22 +21,10 @@ class NavPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // switch (nav) {
-    //   case Nav.feelings:
-    //     return const FeelingsView();
-    //   case Nav.folder:
-    //     return const FolderView();
-    //   case Nav.info:
-    //     return const InfoView();
-    //   case Nav.submit:
-    //     return const SubmitView();
-    //   default:
-    //     return const FeelingsView();
-    // }
 
     switch (currentIndex) {
       case 0:
-        return const FeelingsView();
+        return const FeelingsMainView();
       case 1:
         return const FolderView();
       case 2:
@@ -46,4 +35,5 @@ class NavPage extends StatelessWidget {
         return const FeelingsView();
     }
   }
+
 }
