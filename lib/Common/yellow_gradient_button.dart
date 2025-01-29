@@ -9,10 +9,10 @@ class YellowGradientButtonDecoration extends BoxDecoration {
     gradient: LinearGradient(
       begin: Alignment.bottomLeft,
       colors: [
-        ColorUtil.yellowSwatch[900]!,
         ColorUtil.yellowSwatch[800]!,
-        ColorUtil.yellowSwatch[700]!,
         ColorUtil.yellowSwatch[600]!,
+        ColorUtil.yellowSwatch[400]!,
+        ColorUtil.yellowSwatch[300]!,
       ],
     ),
   );

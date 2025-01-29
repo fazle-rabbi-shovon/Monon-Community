@@ -9,10 +9,10 @@ class NormalGradientButtonDecoration extends BoxDecoration {
     gradient: LinearGradient(
       begin: Alignment.bottomLeft,
       colors: [
-        ColorUtil.primarySwatch[600]!,
         ColorUtil.primarySwatch[700]!,
-        ColorUtil.primarySwatch[800]!,
-        ColorUtil.primarySwatch[900]!,
+        ColorUtil.primarySwatch[500]!,
+        ColorUtil.primarySwatch[400]!,
+        ColorUtil.primarySwatch[300]!,
       ],
     ),
   );

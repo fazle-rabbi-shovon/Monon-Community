@@ -43,6 +43,7 @@ dependencies:
   path_provider: ^2.0.7
   provider: ^6.0.1
   url_launcher: ^6.0.20
+  video_player: ^2.8.5
 
 
 
@@ -70,6 +71,7 @@ flutter:
   # the material Icons class.
   assets:
     - assets/images/
+    - assets/videos/
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:

@@ -119,11 +119,17 @@ class _FolderViewState extends State<FolderView>
       // Widget nextPage,
       ) {
     return GestureDetector(
+      // onTap: () {
+      //   // Navigator.push(
+      //   //   context,
+      //   //   MaterialPageRoute(builder: (context) => nextPage),
+      //   // );
+      //
+      // },
       onTap: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => nextPage),
-        // );
+        NavigationService.getCurrentState()?.pushNamed(
+          '/video',
+        );
       },
       child: Container(
         decoration: BoxDecoration(
@@ -162,7 +168,7 @@ class _FolderViewState extends State<FolderView>
         IconButton(
           icon: const Icon(
             Icons.close,
-            color: Colors.white,
+            color: Colors.transparent,
           ),
           onPressed: () {},
         ),
