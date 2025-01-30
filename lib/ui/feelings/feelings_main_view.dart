@@ -61,35 +61,35 @@ class _FeelingsMainViewState extends State<FeelingsMainView>
                         '• Self-awareness',
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.deepPurple,
+                          color: Colors.black,
                         ),
                       ),
                       Text(
                         '• Self-regulation',
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.deepPurple,
+                          color: Colors.black,
                         ),
                       ),
                       Text(
                         '• Motivation',
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.deepPurple,
+                          color: Colors.black,
                         ),
                       ),
                       Text(
                         '• Empathy',
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.deepPurple,
+                          color: Colors.black,
                         ),
                       ),
                       Text(
                         '• Social Skills',
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.deepPurple,
+                          color: Colors.black,
                         ),
                       ),
                     ],
@@ -154,7 +154,7 @@ class _FeelingsMainViewState extends State<FeelingsMainView>
         IconButton(
           icon: const Icon(
             Icons.close,
-            color: Colors.white,
+            color: Colors.transparent,
           ),
           onPressed: () {},
         ),

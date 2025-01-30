@@ -217,10 +217,10 @@ class _MyAppState extends State<MyApp> {
 
     //UI Overlay
     SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
+      const SystemUiOverlayStyle(
           statusBarColor: ColorUtil.statusBar,
-          statusBarBrightness: Brightness.dark,
-          statusBarIconBrightness: Brightness.light
+          statusBarBrightness: Brightness.light,
+          statusBarIconBrightness: Brightness.dark
         //systemNavigationBarColor: ColorUtil.navigationBar,
       ),
     );

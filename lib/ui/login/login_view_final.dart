@@ -112,10 +112,10 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: <Color>[
-                      ColorUtil.primaryDarkSwatch[900]!,
-                      ColorUtil.primaryDarkSwatch[600]!,
-                      ColorUtil.primaryDarkSwatch[600]!,
-                      ColorUtil.primaryDarkSwatch[100]!,
+                      ColorUtil.primarySwatch[700]!,
+                      ColorUtil.primarySwatch[400]!,
+                      ColorUtil.primarySwatch[300]!,
+                      ColorUtil.primarySwatch[200]!,
                     ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
@@ -267,12 +267,12 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
           autofocus: false,
           decoration: InputDecoration(
             hintText: "Enter phone no",
-            hintStyle: const TextStyle(
-              color: ColorUtil.button
+            hintStyle:  TextStyle(
+                color: Colors.grey.shade500
             ),
             labelText: "Email / Phone number",
-            labelStyle: const TextStyle(
-                color: ColorUtil.button
+            labelStyle:  TextStyle(
+                color: Colors.grey.shade500
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.0),
@@ -341,15 +341,16 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
           ),
         );
       }
-          : onPressDonePassword,
+          : navigateToHome,
       decoration: InputDecoration(
         labelText: "Enter Password",
-        labelStyle: const TextStyle(
-            color: ColorUtil.button
+        labelStyle:  TextStyle(
+            color: Colors.grey.shade500
         ),
         hintText: "Password",
-        hintStyle: const TextStyle(
-            color: ColorUtil.button
+        hintStyle:   TextStyle(
+            color: Colors.grey.shade500
+
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),

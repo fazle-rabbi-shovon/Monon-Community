@@ -9,6 +9,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../route/navigation_service.dart';
 import '../../util/color_util.dart';
+import '../../util/dimen_values_util.dart';
 
 class SubmitView extends StatefulWidget {
   const SubmitView({super.key});
@@ -33,7 +34,7 @@ class _SubmitViewState extends State<SubmitView>
   }
 
   // Replace with the actual help phone number
-  final String helpPhoneNumber = 'tel:+1234567890';
+  final String helpPhoneNumber = '+8801737281391';
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +48,7 @@ class _SubmitViewState extends State<SubmitView>
           children: [
             GestureDetector(
               onTap: ()  {
-                // Call the help phone number
+                NavigationService.getCurrentState()?.pushNamed('/settings');
               },
               child: Container(
                 height: 50.0,
@@ -100,8 +101,9 @@ class _SubmitViewState extends State<SubmitView>
             GestureDetector(
               onTap: () async {
                 // Call the help phone number
-                if (await canLaunchUrlString(helpPhoneNumber)) {
-                  await launchUrl(helpPhoneNumber as Uri);
+                final Uri phoneUri = Uri(scheme: 'tel', path: helpPhoneNumber);
+                if (await canLaunchUrl(phoneUri)) {
+                  await launchUrl(phoneUri);
                 } else {
                   // Show an error message if the call fails
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -143,24 +145,7 @@ class _SubmitViewState extends State<SubmitView>
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Check if the Next button is unlocked
-                // Perform navigation if unlocked
-              },
-              style: ElevatedButton.styleFrom(
-                primary: ColorUtil.primary,
-                onPrimary: Colors.black,
-              ),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Next"),
-                  SizedBox(width: 5),
-                  Icon(Icons.lock),
-                ],
-              ),
-            ),
+            nextButton(),
             const Text(
               "at least perform one activity or watch one document to unlock",
               textAlign: TextAlign.center,
@@ -172,13 +157,42 @@ class _SubmitViewState extends State<SubmitView>
     );
   }
 
+  Widget nextButton() {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 20.0),
+      height: DimenValuesUtil.buttonHeight,
+      decoration: NormalGradientButtonDecoration(),
+      child: InkWell(
+        onTap: () {
+        },
+        child: const Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Next",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: DimenValuesUtil.title,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(width: 5),
+              Icon(Icons.lock),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   _appbar() {
     return AppBar(
       actions: [
         IconButton(
           icon: const Icon(
             Icons.close,
-            color: Colors.white,
+            color: Colors.transparent,
           ),
           onPressed: () {},
         ),

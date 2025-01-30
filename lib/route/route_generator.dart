@@ -6,8 +6,10 @@ import 'package:monon/ui/feelings/feelings_main_view.dart';
 import 'package:monon/ui/feelings/feelings_view.dart';
 import 'package:monon/ui/folder/folder_view.dart';
 import 'package:monon/ui/info/info_view.dart';
+import 'package:monon/ui/submit/settings.dart';
 import 'package:monon/ui/submit/submit_view.dart';
 
+import '../ui/folder/video.dart';
 import '../ui/home/home_view.dart';
 import '../ui/login/login_view_final.dart';
 
@@ -60,6 +62,16 @@ class RouteGenerator {
       case '/submit':
         return navigateToRoute(
           builder: (_) => const SubmitView(),
+        );
+
+      case '/video':
+        return navigateToRoute(
+          builder: (_) => VideoPlayerScreen(),
+        );
+
+      case '/settings':
+        return navigateToRoute(
+          builder: (_) => const SettingsView(),
         );
 
       default:

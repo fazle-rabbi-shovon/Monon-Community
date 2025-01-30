@@ -132,7 +132,7 @@ class _InfoViewState extends State<InfoView>
         IconButton(
           icon: const Icon(
             Icons.close,
-            color: Colors.white,
+            color: Colors.transparent,
           ),
           onPressed: () {},
         ),
