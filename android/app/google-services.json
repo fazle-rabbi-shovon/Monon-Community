@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "677164680614",
+    "project_id": "monon-health",
+    "storage_bucket": "monon-health.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:677164680614:android:67f91bc11a6c8c5d4e3b67",
+        "android_client_info": {
+          "package_name": "com.monon.health"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpEEmKUMpQE1-V7wXwn7P48GVrfXFNeek"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
