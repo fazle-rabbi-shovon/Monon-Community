@@ -13,10 +13,6 @@ class _LoginViewState extends State<LoginView>
   @override
   void initState() {
     super.initState();
-    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
-    // Future.delayed(Duration(seconds: 2),(){
-    //   Navigator.of(context).pushReplacementNamed('/');
-    // });
   }
 
   @override

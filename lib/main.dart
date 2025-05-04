@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,8 +8,10 @@ import 'package:monon/route/navigation_service.dart';
 import 'package:monon/route/route_generator.dart';
 import 'package:monon/util/color_util.dart';
 
-void main() {
+Future<void> main() async {
   // setupLocator();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   HttpOverrides.global = new MyHttpOverrides();
   runApp(MyApp());
 }

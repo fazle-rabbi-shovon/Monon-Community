@@ -14,6 +14,8 @@ import '../../Common/login_button.dart';
 import 'login_view.dart';
 
 class LoginViewFinal extends StatefulWidget {
+  const LoginViewFinal({super.key});
+
   @override
   _LoginViewFinalState createState() => _LoginViewFinalState();
 }
@@ -373,10 +375,10 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
 
   Widget _newAccountText() {
     return Container(
-      margin: EdgeInsets.only(top: 10.0, bottom: 5.0),
+      margin: const EdgeInsets.only(top: 10.0, bottom: 5.0),
       child: Text(
         getTranslated(context, "NEW_ACCOUNT"),
-        style: TextStyle(color: ColorUtil.loginDarkBackground),
+        style: const TextStyle(color: ColorUtil.loginDarkBackground),
       ),
     );
   }
