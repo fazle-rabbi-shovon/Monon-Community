@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:monon/ui/info/info_view.dart';
+import 'package:monon/ui/password_changer/password_changer.dart';
 import 'package:monon/ui/submit/submit_view.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../base/base_view_state.dart';
 import '../../../../localization/localization_constants.dart';
@@ -11,8 +15,9 @@ import '../../util/number_for_features.dart';
 import '../feelings/feelings_main_view.dart';
 import '../folder/folder_view.dart';
 import '../login/common_dialog.dart';
-import '../nav.dart';
+import 'Nav.dart';
 import 'bottom_nav.dart';
+import 'nav_data.dart';
 import 'nav_page.dart';
 
 class HomeView extends StatefulWidget {
@@ -32,7 +37,7 @@ class _HomeViewState extends BaseViewState<HomeView>
 
   late String currentDeviceId;
 
-  Nav _navState = Nav.dashboard;
+  Nav _navState = Nav.feelings;
   int _currentIndex;
 
   var config;
@@ -69,49 +74,35 @@ class _HomeViewState extends BaseViewState<HomeView>
     WidgetsBinding.instance.addPostFrameCallback((_) => afterBuild());
 
     SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
+      const SystemUiOverlayStyle(
           statusBarColor: ColorUtil.statusBar,
           statusBarBrightness: Brightness.dark,
           statusBarIconBrightness: Brightness.light),
     );
-    return Scaffold(
-      body: Stack(
-        children: _pages
-            .asMap()
-            .entries
-            .map(
-              (entry) => Offstage(
-                offstage: _currentIndex != entry.key,
-                child: Navigator(
-                  onGenerateRoute: (RouteSettings settings) {
-                    return MaterialPageRoute(
-                      builder: (_) => entry.value,
-                      settings: settings,
-                    );
-                  },
-                ),
-              ),
-            )
-            .toList(),
-      ),
-      bottomNavigationBar: _bottomNavBar(),
-    );
+    return _homeBody();
+
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   // SystemChrome.restoreSystemUIOverlays();
-  //   WidgetsBinding.instance.addPostFrameCallback((_) => afterBuild());
-  //
-  //   SystemChrome.setSystemUIOverlayStyle(
-  //     SystemUiOverlayStyle(
-  //         statusBarColor: ColorUtil.statusBar,
-  //         statusBarBrightness: Brightness.dark,
-  //         statusBarIconBrightness: Brightness.light),
-  //   );
-  //
-  //   return _homeBody();
-  // }
+  Widget _homeBody() {
+    return ChangeNotifierProvider(
+      create: (context) => NavData(),
+      child: Consumer<NavData>(
+        builder: (ctx, navData, child) {
+          _navState = navData.navState;
+
+          return Scaffold(
+            key: _scaffoldKey,
+            body: WillPopScope(
+              onWillPop: onWillPop,
+              child: _appBody(),
+            ),
+            bottomNavigationBar:
+            _bottomNavBar(),
+          );
+        },
+      ),
+    );
+  }
 
   Future _logoutDialogue(BuildContext context) async {
     return await showDialog(
@@ -136,7 +127,7 @@ class _HomeViewState extends BaseViewState<HomeView>
   Future<bool> onWillPop() async {
     bool willPop = false;
 
-    willPop = _navState == Nav.dashboard;
+    willPop = _navState == Nav.feelings;
     if (willPop) {
       willPop = await showDialog(
             context: context,
@@ -187,7 +178,7 @@ class _HomeViewState extends BaseViewState<HomeView>
     switch (index) {
       case 0:
         _currentIndex = 0;
-        _navState = Nav.feelings_main;
+        _navState = Nav.feelings;
 
         setState(() {});
         break;

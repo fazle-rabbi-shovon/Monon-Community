@@ -7,7 +7,7 @@ import 'package:monon/ui/folder/folder_view.dart';
 import 'package:monon/ui/info/info_view.dart';
 import 'package:monon/ui/submit/submit_view.dart';
 
-import '../nav.dart';
+import 'Nav.dart';
 
 class NavPage extends StatelessWidget {
   const NavPage({
@@ -32,7 +32,7 @@ class NavPage extends StatelessWidget {
       case 3:
         return const SubmitView();
       default:
-        return const FeelingsView();
+        return const FeelingsMainView();
     }
   }
 

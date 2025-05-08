@@ -6,12 +6,15 @@ import 'package:monon/ui/feelings/feelings_main_view.dart';
 import 'package:monon/ui/feelings/feelings_view.dart';
 import 'package:monon/ui/folder/folder_view.dart';
 import 'package:monon/ui/info/info_view.dart';
-import 'package:monon/ui/submit/settings.dart';
+import 'package:monon/ui/password_changer/password_changer.dart';
+import 'package:monon/ui/submit/language_setting.dart';
 import 'package:monon/ui/submit/submit_view.dart';
 
+import '../ui/activities/activities_main.dart';
 import '../ui/folder/video.dart';
 import '../ui/home/home_view.dart';
-import '../ui/login/login_view_final.dart';
+import '../ui/login/login_view_state.dart';
+import '../ui/submit/settings_submit.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -59,6 +62,11 @@ class RouteGenerator {
           builder: (_) => const InfoView(),
         );
 
+      case '/Password_changer':
+        return navigateToRoute(
+          builder: (_) => const PasswordChanger(),
+        );
+
       case '/submit':
         return navigateToRoute(
           builder: (_) => const SubmitView(),
@@ -66,12 +74,22 @@ class RouteGenerator {
 
       case '/video':
         return navigateToRoute(
-          builder: (_) => VideoPlayerScreen(),
+          builder: (_) => const VideoPlayerScreen(),
         );
 
-      case '/settings':
+      case '/activities_main':
         return navigateToRoute(
-          builder: (_) => const SettingsView(),
+          builder: (_) => const ActivitiesMain(),
+        );
+
+      case '/settings_submit':
+        return navigateToRoute(
+          builder: (_) => const SettingsSubmitView(),
+        );
+
+      case '/language_setting':
+        return navigateToRoute(
+          builder: (_) => const LanguageSettingsView(),
         );
 
       default:

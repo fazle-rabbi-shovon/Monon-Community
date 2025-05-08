@@ -48,7 +48,7 @@ class _SubmitViewState extends State<SubmitView>
           children: [
             GestureDetector(
               onTap: ()  {
-                NavigationService.getCurrentState()?.pushNamed('/settings');
+                NavigationService.getCurrentState()?.pushNamed('/settings_submit');
               },
               child: Container(
                 height: 50.0,

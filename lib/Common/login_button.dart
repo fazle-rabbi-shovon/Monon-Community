@@ -5,9 +5,11 @@ import '../util/color_util.dart';
 import 'login_gradient_button.dart';
 
 class LoginButton extends Container {
-  LoginButton({Key? key, required this.onTap}) : super(key: key);
+  LoginButton(this.isLoading, {Key? key, required this.onTap})
+      : super(key: key);
 
   final Function() onTap;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -17,18 +19,19 @@ class LoginButton extends Container {
         width: 200,
         height: 50.0,
         decoration: GradientButtonDecoration(),
-          child: const Center(
-            child: Text(
-              // getTranslated(context, "LOGIN_TITLE"),
-              "Login",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 30.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-
+        child: Center(
+          child: isLoading
+              ? const CircularProgressIndicator()
+              : const Text(
+                  // getTranslated(context, "LOGIN_TITLE"),
+                  "Login",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+        ),
       ),
     );
   }

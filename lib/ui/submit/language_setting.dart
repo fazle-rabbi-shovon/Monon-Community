@@ -7,14 +7,14 @@ import '../../route/navigation_service.dart';
 import '../../util/color_util.dart';
 import '../../util/dimen_values_util.dart';
 
-class SettingsView extends StatefulWidget {
-  const SettingsView({super.key});
+class LanguageSettingsView extends StatefulWidget {
+  const LanguageSettingsView({super.key});
 
   @override
-  State<SettingsView> createState() => _SettingsViewState();
+  State<LanguageSettingsView> createState() => _LanguageSettingsViewState();
 }
 
-class _SettingsViewState extends State<SettingsView>
+class _LanguageSettingsViewState extends State<LanguageSettingsView>
     with SingleTickerProviderStateMixin {
   @override
   void initState() {

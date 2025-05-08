@@ -1,17 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-import "../../../util/image_util.dart";
-import '../../../../main.dart';
-import '../../../base/request_state.dart';
 
 import '../../../localization/localization_constants.dart';
 import '../../../util/color_util.dart';
-import '../../route/navigation_service.dart';
-
-import 'common_dialog.dart';
+import "../../../util/image_util.dart";
 import '../../Common/login_button.dart';
-import 'login_view.dart';
+import '../../route/navigation_service.dart';
+import '../../shared_pref/shared_pref_util.dart';
+import 'common_dialog.dart';
 
 class LoginViewFinal extends StatefulWidget {
   const LoginViewFinal({super.key});
@@ -21,75 +20,140 @@ class LoginViewFinal extends StatefulWidget {
 }
 
 class _LoginViewFinalState extends State<LoginViewFinal> {
-  // late LoginPresenter _presenter;
-  // late LoginUserDataModel _loginUserDataModel;
-  // late LoginDataModel _loginDataModel;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  bool _session = true;
-  bool _loggedInChecked = false;
-  bool _isLoading = true;
   bool _keyboardOpen = false;
   bool _passVisibility = true;
 
-  bool _hasLoginData = false;
-  bool _isRefreshTokenCheck = false;
-  bool _navigated = false;
-  bool _isWaiting = true;
-  bool _errorShown = false; // Flag to track if error has been shown
   late StateSetter _setInnerState;
-  // late AppConfig appConfig;
 
   List<String> _suggestedEmails = [];
 
   TextEditingController userNameCon = TextEditingController();
   TextEditingController passwordCon = TextEditingController();
 
-
   void afterBuild() async {
+    // Check if user is logged in
+    bool isLoggedIn =  await SharedPrefUtil().getIsLoggedIn();
+
+    if (isLoggedIn == true){
+      isLoading = false;
+      _setInnerState(() {});
+      navigateToHome();
+    } else{
+      isLoading = false;
+      _setInnerState(() {});
+    }
+
   }
 
   @override
   void initState() {
+    isLoading = true;
     super.initState();
   }
+
   @override
   void dispose() {
     super.dispose();
+  }
+
+  String? userRole;
+  late bool isLoading;
+
+  Future<void> login() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: userNameCon.text.trim(),
+              password: passwordCon.text.trim());
+
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userCredential.user!.uid)
+          .get();
+
+      if (userDoc.exists) {
+        setState(() {
+          userRole = userDoc['role'];
+        });
+
+        if (userRole == 'super_admin') {
+          if (kDebugMode) {
+            print(userRole);
+          }
+        } else if (userRole == 'admin') {
+          if (kDebugMode) {
+            print(userRole);
+          }
+        } else {
+          if (kDebugMode) {
+            print("Unauthorized role");
+          }
+        }
+
+        SharedPrefUtil().setLoggedIn();
+        navigateToHome();
+
+      } else {
+        if(userCredential.user != null){
+          SharedPrefUtil().setLoggedIn();
+          navigateToHome();
+        }
+        else{
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("❌ Error: Credentials did not found")),
+          );
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print("Login failed: $e");
+      }
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Login failed')));
+    }
+
+    setState(() {
+      isLoading = false;
+    });
   }
 
   void showSnackBar(String msg) {
     if (msg != 'Error') {
       final snackBar = SnackBar(
         content: Text(msg),
-        duration: Duration(seconds: 3),
+        duration: const Duration(seconds: 3),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-      Future.delayed(Duration(seconds: 3), () {
+      Future.delayed(const Duration(seconds: 3), () {
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
       });
     }
   }
 
   void navigateToHome() {
-        NavigationService.getCurrentState()?.pushReplacementNamed('/home',
-        arguments: 0);
+    NavigationService.getCurrentState()
+        ?.pushReplacementNamed('/home', arguments: 0);
   }
 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-       SystemUiOverlayStyle(
+      SystemUiOverlayStyle(
         statusBarColor: ColorUtil.primaryDark, // Same as AppBar color
         statusBarIconBrightness: Brightness.light, // For light or dark icons
       ),
     );
 
-    Color backgroundColor =
-            const Color(0xFFFFB300);
-    String loginIcon =  "Monon";
+    Color backgroundColor = const Color(0xFFFFB300);
+    String loginIcon = "Monon";
 
     WidgetsBinding.instance.addPostFrameCallback((_) => afterBuild());
 
@@ -100,7 +164,6 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
     _keyboardOpen = MediaQuery.of(context).viewInsets.bottom == 0;
 
     return SafeArea(
-
       key: Key('login-page'),
       child: Scaffold(
         key: _scaffoldKey,
@@ -150,7 +213,6 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
                   fit: BoxFit.contain,
                 ),
                 const SizedBox(height: 15),
-
               ],
             ),
           ),
@@ -179,24 +241,20 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Spacer(),
-            // LoginText(
-            //   isWaiting: _isWaiting,
-            //   session: _session,
-            //   isLoading: _isLoading,
-            // ),
             const Spacer(),
-            const Text("LOGIN TO CONTINUE",
-            style: TextStyle(
-              color: ColorUtil.button,
-              fontSize: 25.0,
-              fontWeight: FontWeight.w600,
-            ),),
+            const Text(
+              "LOGIN TO CONTINUE",
+              style: TextStyle(
+                color: ColorUtil.button,
+                fontSize: 25.0,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
             const Spacer(),
             // if (_session) _progressBar(),
-             _emailWidget(),
+            _emailWidget(),
             const Spacer(),
-             _passwordWidget(),
+            _passwordWidget(),
           ],
         ),
       ),
@@ -215,12 +273,15 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Spacer(),
-              LoginButton(
-                key: Key('login-btn-layout'),
-                onTap: navigateToHome,
-              ),
-            Spacer(),
+            const Spacer(),
+            // isLoading
+            //     ? CircularProgressIndicator()
+            //     : ElevatedButton(
+            //         onPressed: login,
+            //         child: Text('Login'),
+            //       ),
+            LoginButton(isLoading, onTap: login,),
+            const Spacer(),
           ],
         ),
       ),
@@ -228,14 +289,6 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
   }
 
   void onPressDonePassword() {
-    // _errorShown = false; // Reset the error flag for a new login attempt
-    // _presenter.attemptLogin(
-    //   userNameCon.text.trim(),
-    //   passwordCon.text,
-    // );
-    // _isLoading = true;
-    // _session = true;
-    // _setInnerState(() {});
   }
 
   Widget _emailWidget() {
@@ -269,13 +322,9 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
           autofocus: false,
           decoration: InputDecoration(
             hintText: "Enter phone no",
-            hintStyle:  TextStyle(
-                color: Colors.grey.shade500
-            ),
+            hintStyle: TextStyle(color: Colors.grey.shade500),
             labelText: "Email / Phone number",
-            labelStyle:  TextStyle(
-                color: Colors.grey.shade500
-            ),
+            labelStyle: TextStyle(color: Colors.grey.shade500),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.0),
               borderSide: const BorderSide(width: 2, color: ColorUtil.button),
@@ -331,29 +380,24 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
       obscureText: _passVisibility,
       onEditingComplete: (userNameCon.text.isEmpty)
           ? () {
-        showDialog(
-          context: context,
-          builder: (context) => CommonDialog(
-            title: getTranslated(context, "NO_EMAIL_ADDRESS"),
-            description:
-            getTranslated(context, "PLEASE_ENTER_YOUR EMAIL"),
-            button1: getTranslated(context, "OK"),
-            button1Flag: true,
-            button1Color: ColorUtil.button,
-          ),
-        );
-      }
-          : navigateToHome,
+              showDialog(
+                context: context,
+                builder: (context) => CommonDialog(
+                  title: getTranslated(context, "NO_EMAIL_ADDRESS"),
+                  description:
+                      getTranslated(context, "PLEASE_ENTER_YOUR_EMAIL"),
+                  button1: getTranslated(context, "OK"),
+                  button1Flag: true,
+                  button1Color: ColorUtil.button,
+                ),
+              );
+            }
+          : login,
       decoration: InputDecoration(
         labelText: "Enter Password",
-        labelStyle:  TextStyle(
-            color: Colors.grey.shade500
-        ),
+        labelStyle: TextStyle(color: Colors.grey.shade500),
         hintText: "Password",
-        hintStyle:   TextStyle(
-            color: Colors.grey.shade500
-
-        ),
+        hintStyle: TextStyle(color: Colors.grey.shade500),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide: const BorderSide(width: 2, color: ColorUtil.button),
@@ -363,7 +407,9 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
           borderSide: const BorderSide(width: 2, color: ColorUtil.button),
         ),
         suffixIcon: IconButton(
-          icon: _passVisibility ? Icon(Icons.visibility_off) : Icon(Icons.visibility),
+          icon: _passVisibility
+              ? Icon(Icons.visibility_off)
+              : Icon(Icons.visibility),
           onPressed: () {
             _passVisibility = !_passVisibility;
             _setInnerState(() {});
@@ -387,8 +433,10 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
     return const Center(
       child: Padding(
         padding: EdgeInsets.all(16),
-        child: LinearProgressIndicator(),
+        child: LinearProgressIndicator(color: Colors.green,),
       ),
     );
   }
+
+
 }

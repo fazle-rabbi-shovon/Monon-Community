@@ -5,6 +5,7 @@ import '../../route/navigation_service.dart';
 import '../../util/color_util.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
+  const VideoPlayerScreen({super.key});
   @override
   _VideoPlayerScreenState createState() => _VideoPlayerScreenState();
 }

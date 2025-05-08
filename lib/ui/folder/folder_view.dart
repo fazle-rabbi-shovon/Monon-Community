@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:monon/ui/folder/video.dart';
 
 import '../../route/navigation_service.dart';
 import '../../util/color_util.dart';
@@ -52,6 +53,7 @@ class _FolderViewState extends State<FolderView>
                 Icons.play_circle_fill,
                 ColorUtil.primary.shade700,
                 ColorUtil.primary.shade300,
+                videoPush,
                 // VideoPage(),
               ),
             ),
@@ -64,7 +66,7 @@ class _FolderViewState extends State<FolderView>
                 Icons.music_note,
                 Colors.yellow.shade700,
                 Colors.yellow.shade300,
-                // AudioPage(),
+                audioPush,
               ),
             ),
             const SizedBox(height: 16.0),
@@ -76,7 +78,7 @@ class _FolderViewState extends State<FolderView>
                 Icons.description,
                 ColorUtil.primary.shade700,
                 ColorUtil.primary.shade300,
-                // DocumentsPage(),
+                documentPush,
               ),
             ),
             const SizedBox(height: 16.0),
@@ -88,7 +90,7 @@ class _FolderViewState extends State<FolderView>
                 Icons.directions_run,
                 Colors.yellow.shade700,
                 Colors.yellow.shade300,
-                // ActivitiesPage(),
+                activityPush,
               ),
             ),
             const SizedBox(height: 16.0),
@@ -100,7 +102,7 @@ class _FolderViewState extends State<FolderView>
                 Icons.lock,
                 ColorUtil.primary.shade700,
                 ColorUtil.primary.shade300,
-                // TaskPage(),
+                finalTaskPush,
               ),
             ),
             const SizedBox(height: 16.0),
@@ -110,27 +112,40 @@ class _FolderViewState extends State<FolderView>
     );
   }
 
+  void audioPush() {
+    NavigationService.getCurrentState()
+        ?.pushNamed('/video');
+  }
+
+  void videoPush() {
+    NavigationService.getCurrentState()
+        ?.pushNamed('/video');
+  }
+  void documentPush() {
+    NavigationService.getCurrentState()
+        ?.pushNamed('/video');
+  }
+
+  void activityPush() {
+    NavigationService.getCurrentState()
+        ?.pushNamed('/activities_main');
+  }
+
+  void finalTaskPush() {
+    NavigationService.getCurrentState()
+        ?.pushNamed('/video');
+  }
+
   Widget buildOptionCard(
       BuildContext context,
       String title,
       IconData icon,
       Color startColor,
       Color endColor,
-      // Widget nextPage,
+      VoidCallback nextPage,
       ) {
     return GestureDetector(
-      // onTap: () {
-      //   // Navigator.push(
-      //   //   context,
-      //   //   MaterialPageRoute(builder: (context) => nextPage),
-      //   // );
-      //
-      // },
-      onTap: () {
-        NavigationService.getCurrentState()?.pushNamed(
-          '/video',
-        );
-      },
+      onTap: nextPage,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.0),

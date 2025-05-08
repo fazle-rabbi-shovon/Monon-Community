@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 // import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -80,20 +79,6 @@ class SharedPrefUtil {
     await pref.setBool(SharedPrefConstants.FIRST_LAUNCH, false);
   }
 
-  Future<bool> isLoggedIn() async {
-    final SharedPreferences pref = await _pref;
-    String? token = pref.getString(SharedPrefConstants.API_TOKEN_AUTH);
-
-    if (token == null)
-      return false;
-    else if (token == 'logout')
-      return false;
-    else if (pref.getString(SharedPrefConstants.EMPLOYEE) == '')
-      return false;
-    else
-      return true;
-  }
-
   Future<void> storeAPIToken(String? token) async {
     final SharedPreferences pref = await _pref;
     await pref.setString(SharedPrefConstants.API_TOKEN_AUTH, token!);
@@ -118,12 +103,10 @@ class SharedPrefUtil {
 
   Future<void> clearAPITokens() async {
     final SharedPreferences pref = await _pref;
-    // await FirebaseMessaging.instance.deleteToken();
     await pref.setString(SharedPrefConstants.API_TOKEN_AUTH, 'logout');
     await pref.setString(SharedPrefConstants.API_REFRESH_TOKEN, 'logout');
     await pref.setString(SharedPrefConstants.EMPLOYEE, '');
     await pref.setInt(SharedPrefConstants.TEMP, 0);
-    await pref.setBool(SharedPrefConstants.FIREBASE_TOKEN, false);
   }
 
   // Future<Employee> getEmployeeInfo() async {
@@ -134,12 +117,6 @@ class SharedPrefUtil {
   //       : Employee.fromJson(jsonDecode(userInfoJson));
   // }
 
-  Future<int> getEmployeeInfo() async {
-    final SharedPreferences pref = await _pref;
-    String? userInfoJson = pref.getString(SharedPrefConstants.EMPLOYEE);
-    return 1;
-  }
-
   // Future<int> getEmployeeId() async {
   //   final SharedPreferences pref = await _pref;
   //   String? userInfoJson = pref.getString(SharedPrefConstants.EMPLOYEE);
@@ -148,25 +125,14 @@ class SharedPrefUtil {
   //       : Employee.fromJson(jsonDecode(userInfoJson)).id;
   // }
 
-  Future<int> getEmployeeId() async {
-    final SharedPreferences pref = await _pref;
-    String? userInfoJson = pref.getString(SharedPrefConstants.EMPLOYEE);
-    return 1;
-  }
-
   // Future<void> setEmployeeInfo(Employee? user) async {
   //   if (user != null) {
   //     final SharedPreferences pref = await _pref;
   //     String userInfoJson = jsonEncode(user.toJson());
-  //     print("EMPLOYEE !: " + userInfoJson);
+  //     print("EMPLOYEE: " + userInfoJson);
   //     await pref.setString(SharedPrefConstants.EMPLOYEE, userInfoJson);
   //   }
   // }
-
-  Future<void> setEmployeeInfo() async {
-      final SharedPreferences pref = await _pref;
-      await pref.setString(SharedPrefConstants.EMPLOYEE, "shovon");
-  }
 
   Future<void> storeEnrollmentPerson(int employeeId) async {
     final SharedPreferences pref = await _pref;
@@ -223,7 +189,7 @@ class SharedPrefUtil {
   Future<String> getLastLoginPass() async {
     final SharedPreferences pref = await _pref;
     String result = pref.getString(SharedPrefConstants.LAST_LOGGED_PASS) ?? '';
-    return (result == null) ? '' : result;
+    return result;
   }
 
   Future<void> storeSuggestedEmails(List<String> mail) async {
@@ -286,17 +252,17 @@ class SharedPrefUtil {
     }
   }
 
-  Future<void> setFormattedEndTime(String formattedTime) async {
+  Future<void> setLoggedIn() async {
     final SharedPreferences pref = await _pref;
-    await pref.setString(SharedPrefConstants.FORMATTED_END_TIME, formattedTime);
-    print("Formatted End Time set to: $formattedTime");
+    await pref.setBool(SharedPrefConstants.IS_LOGGED_IN, true);
   }
 
-  // Get the formatted end time
-  Future<String?> getFormattedEndTime() async {
+  Future<bool> getIsLoggedIn() async {
     final SharedPreferences pref = await _pref;
-    String? formattedTime = pref.getString(SharedPrefConstants.FORMATTED_END_TIME);
-    print("Retrieved Formatted End Time: $formattedTime");
-    return formattedTime;
+    bool? isLoggedIn = pref.getBool(SharedPrefConstants.IS_LOGGED_IN) ?? false;
+    return isLoggedIn;
   }
+
+
+
 }

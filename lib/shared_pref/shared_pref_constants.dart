@@ -52,6 +52,6 @@ class SharedPrefConstants {
 
   static final String REFRESH_TIME = 'firebase_token_set_time';
 
-  static const String FORMATTED_END_TIME = 'formattedEndTime';
+  static final String IS_LOGGED_IN = 'is_logged_in';
 
 }
