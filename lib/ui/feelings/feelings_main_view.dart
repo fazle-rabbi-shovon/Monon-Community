@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:monon/Common/login_gradient_button.dart';
-import 'package:monon/Common/normal_gradient_button.dart';
+import 'package:monon/Common/login_gradient_button_decoration.dart';
+import 'package:monon/Common/normal_gradient_button_decoration.dart';
 
 import '../../route/navigation_service.dart';
 import '../../util/color_util.dart';

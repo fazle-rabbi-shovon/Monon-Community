@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:monon/Common/normal_gradient_button.dart';
+import 'package:monon/Common/normal_gradient_button_decoration.dart';
 import 'package:monon/Common/yellow_gradient_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';

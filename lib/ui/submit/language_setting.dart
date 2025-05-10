@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../Common/normal_gradient_button.dart';
+import '../../Common/normal_gradient_button_decoration.dart';
 import '../../route/navigation_service.dart';
 import '../../util/color_util.dart';
 import '../../util/dimen_values_util.dart';
