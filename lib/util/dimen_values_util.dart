@@ -8,6 +8,7 @@ class DimenValuesUtil {
   static const double headerLarge = 18;
   static const double headerXLarge = 20;
   static const double headerXXLarge = 24;
+  static const double normalFontSize = 16;
   static const double title = 14;
   static const double titleSmall = 13;
   static const double subTitle = 12;

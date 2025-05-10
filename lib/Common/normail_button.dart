@@ -2,21 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import '../../localization/localization_constants.dart';
 import '../util/color_util.dart';
+import '../util/dimen_values_util.dart';
 import 'login_gradient_button_decoration.dart';
 
-class LoginButton extends Container {
-  LoginButton(this.isLoading, {Key? key, required this.onTap})
+class NormalButton extends Container {
+  NormalButton(this.isLoading, this.buttonText, {Key? key, required this.onTap})
       : super(key: key);
 
-  final Function() onTap;
   final bool isLoading;
+  final String buttonText;
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 200,
+        margin: const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 20.0),
+        width:  double.infinity,
         height: 50.0,
         decoration: GradientButtonDecoration(),
         // decoration: const BoxDecoration(
@@ -26,12 +29,11 @@ class LoginButton extends Container {
         child: Center(
           child: isLoading
               ? const CircularProgressIndicator()
-              : const Text(
-                  // getTranslated(context, "LOGIN_TITLE"),
-                  "Login",
-                  style: TextStyle(
+              : Text(
+                  buttonText,
+                  style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 30.0,
+                    fontSize: DimenValuesUtil.normalFontSize,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
