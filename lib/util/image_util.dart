@@ -1,8 +1,5 @@
 class ImageUtil {
-  static const String LOGIN_MONON_ICON = 'assets/images/logo-monon.png';
-
-
-
+  static const String LOGIN_MONON_ICON = 'assets/images/logo_monon.png';
 
   static const String BACKGROUND_IMAGE = 'assets/images/background.png';
 

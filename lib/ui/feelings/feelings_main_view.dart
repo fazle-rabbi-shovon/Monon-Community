@@ -174,6 +174,11 @@ class _FeelingsMainViewState extends State<FeelingsMainView>
       iconTheme: const IconThemeData(color: Colors.white),
       elevation: 0,
       centerTitle: true,
+      systemOverlayStyle: const SystemUiOverlayStyle(
+        statusBarColor: ColorUtil.statusBar,
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.light,
+      ),
     );
   }
 }

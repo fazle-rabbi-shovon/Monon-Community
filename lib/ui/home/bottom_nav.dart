@@ -21,7 +21,6 @@ class BottomNav extends StatelessWidget {
       showSelectedLabels: true,
       showUnselectedLabels: true,
       // backgroundColor: ColorUtil.primarySwatch[100],
-      backgroundColor: Colors.black,
       selectedItemColor: ColorUtil.navSelected,
       unselectedItemColor: ColorUtil.navDeselected,
       items: [

@@ -19,6 +19,10 @@ class LoginButton extends Container {
         width: 200,
         height: 50.0,
         decoration: GradientButtonDecoration(),
+        // decoration: const BoxDecoration(
+        //     borderRadius: BorderRadius.all(Radius.circular(5.0)),
+        //   color: Colors.white,
+        // ),
         child: Center(
           child: isLoading
               ? const CircularProgressIndicator()
