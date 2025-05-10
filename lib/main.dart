@@ -59,6 +59,16 @@ class _MyAppState extends State<MyApp> {
 
     return MaterialApp(
       title: "Monon",
+      theme: ThemeData(
+        useMaterial3: false,
+        scaffoldBackgroundColor: Colors.white, // Sets background of entire app
+        // primarySwatch: ColorUtil.primary, // For AppBar, buttons, etc.
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          backgroundColor: ColorUtil.bgGreyDarkReal, // Background color of bottom nav
+          selectedItemColor: ColorUtil.button, // Selected item color
+          unselectedItemColor: ColorUtil.bgGrey, // Unselected item color
+        ),
+      ),
       navigatorKey: NavigationService.getNavigatorKey(),
       supportedLocales: [Locale('en', 'US'), Locale('bn', null)],
       initialRoute: '/',

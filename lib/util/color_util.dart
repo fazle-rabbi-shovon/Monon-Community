@@ -1,37 +1,37 @@
 import 'package:flutter/material.dart';
 
 class ColorUtil {
-  static final MaterialColor primary = MaterialColor(0xFF408bea , primarySwatch);
+  static final MaterialColor primary = MaterialColor(0xFF9ccd65 , primarySwatch);
   static final MaterialColor primaryDark =
-  MaterialColor(0xFF4218b5, primaryDarkSwatch);
+  MaterialColor(0xFF519843, primaryDarkSwatch);
   static final MaterialColor primaryYellow = MaterialColor(0xFFfadc3a, yellowSwatch);
   static final MaterialColor accent = MaterialColor(0xFF01243D, accentSwatch);
 
   static Map<int, Color> primarySwatch = {
-    50: Color.fromRGBO(64,139,234, .1),
-    100: Color.fromRGBO(64,139,234, .2),
-    200: Color.fromRGBO(64,139,234, .3),
-    300: Color.fromRGBO(64,139,234, .4),
-    400: Color.fromRGBO(64,139,234, .5),
-    500: Color.fromRGBO(64,139,234, .6),
-    600: Color.fromRGBO(64,139,234, .7),
-    700: Color.fromRGBO(64,139,234, .8),
-    800: Color.fromRGBO(64,139,234, .9),
-    900: Color.fromRGBO(64,139,234, 1),
+    50: Color.fromRGBO(156, 205, 101, .1),
+    100: Color.fromRGBO(156, 205, 101, .2),
+    200: Color.fromRGBO(156, 205, 101, .3),
+    300: Color.fromRGBO(156, 205, 101, .4),
+    400: Color.fromRGBO(156, 205, 101, .5),
+    500: Color.fromRGBO(156, 205, 101, .6),
+    600: Color.fromRGBO(156, 205, 101, .7),
+    700: Color.fromRGBO(156, 205, 101, .8),
+    800: Color.fromRGBO(156, 205, 101, .9),
+    900: Color.fromRGBO(156, 205, 101, 1),
   };
 
 
   static Map<int, Color> primaryDarkSwatch = {
-    50: Color.fromRGBO(66,24,181, .1),
-    100: Color.fromRGBO(66,24,181, .2),
-    200: Color.fromRGBO(66,24,181, .3),
-    300: Color.fromRGBO(66,24,181, .4),
-    400: Color.fromRGBO(66,24,181, .5),
-    500: Color.fromRGBO(66,24,181, .6),
-    600: Color.fromRGBO(66,24,181, .7),
-    700: Color.fromRGBO(66,24,181, .8),
-    800: Color.fromRGBO(66,24,181, .9),
-    900: Color.fromRGBO(66,24,181, 1),
+    50: Color.fromRGBO(81, 152, 67, .1),
+    100: Color.fromRGBO(81, 152, 67, .2),
+    200: Color.fromRGBO(81, 152, 67, .3),
+    300: Color.fromRGBO(81, 152, 67, .4),
+    400: Color.fromRGBO(81, 152, 67, .5),
+    500: Color.fromRGBO(81, 152, 67, .6),
+    600: Color.fromRGBO(81, 152, 67, .7),
+    700: Color.fromRGBO(81, 152, 67, .8),
+    800: Color.fromRGBO(81, 152, 67, .9),
+    900: Color.fromRGBO(81, 152, 67, 1),
   };
 
   static Map<int, Color> yellowSwatch = {
@@ -60,9 +60,9 @@ class ColorUtil {
     900: Color.fromRGBO(29, 182, 222, 1),
   };
 
-  static const Color button = Color(0xFF408bea);
-  static const Color statusBar = Color(0xFF408bea);
-  static const Color navSelected = Color(0xFF1DB6DA);
+  static const Color button = Color(0xFF519843);
+  static const Color statusBar = Color(0xFF9ccd65);
+  static const Color navSelected = Color(0xFF9ccd65);
   static const Color navDeselected = Colors.grey;
 
   static const Color bgTransperant = Colors.transparent;
@@ -74,6 +74,7 @@ class ColorUtil {
   red = Colors.red;
   static const Color bgGrey = Color(0xFFF3F5F5);
   static const Color bgGreyDark = Color(0xFFDDE6E6);
+  static const Color bgGreyDarkReal = Color(0xFFa4a4a4);
   static const Color bgGreyLight = Color(0xFFFBFBFB);
 
   static const Color bgGreyLight2 = Color(0xFFF9F9F9);

@@ -174,17 +174,19 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
           return Stack(
             children: [
               Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: <Color>[
-                      ColorUtil.primarySwatch[700]!,
-                      ColorUtil.primarySwatch[400]!,
-                      ColorUtil.primarySwatch[300]!,
-                      ColorUtil.primarySwatch[200]!,
-                    ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                  ),
+                decoration: const BoxDecoration(
+                  color: Colors.white
+                  // gradient: LinearGradient(
+                  //   colors: <Color>[
+                  //     ColorUtil.primarySwatch[700]!,
+                  //     ColorUtil.primarySwatch[400]!,
+                  //     ColorUtil.primarySwatch[300]!,
+                  //     ColorUtil.primarySwatch[200]!,
+                  //   ],
+                  //   begin: Alignment.topCenter,
+                  //   end: Alignment.bottomCenter,
+                  // ),
+
                 ),
               ),
               _backgroundLayout(loginIcon),
@@ -229,11 +231,21 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
       bottom: (_keyboardOpen) ? 150 : 0,
       child: Container(
         padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
+        // height: 300,
         height: 300,
         width: MediaQuery.of(context).size.width,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.centerLeft,
+            colors: [
+              ColorUtil.primarySwatch[700]!,
+              ColorUtil.primarySwatch[500]!,
+              ColorUtil.primarySwatch[400]!,
+              ColorUtil.primarySwatch[300]!,
+            ],
+          ),
+          // color: Colors.white,
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(40.0),
             topRight: Radius.circular(40.0),
           ),
@@ -245,7 +257,8 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
             const Text(
               "LOGIN TO CONTINUE",
               style: TextStyle(
-                color: ColorUtil.button,
+                // color: ColorUtil.button,
+                color: Colors.white,
                 fontSize: 25.0,
                 fontWeight: FontWeight.w600,
               ),
@@ -255,6 +268,7 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
             _emailWidget(),
             const Spacer(),
             _passwordWidget(),
+            // SizedBox(height: (_keyboardOpen)? 0: 150,)
           ],
         ),
       ),
@@ -267,8 +281,20 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
       child: Container(
         height: 150,
         width: MediaQuery.of(context).size.width,
-        decoration: const BoxDecoration(
-          color: Colors.white,
+        // decoration: const BoxDecoration(
+        //   color: Colors.white,
+        // ),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.centerLeft,
+            colors: [
+              ColorUtil.primarySwatch[700]!,
+              ColorUtil.primarySwatch[500]!,
+              ColorUtil.primarySwatch[400]!,
+              ColorUtil.primarySwatch[300]!,
+            ],
+          ),
+          // color: Colors.white,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -330,6 +356,10 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
               borderSide: const BorderSide(width: 2, color: ColorUtil.button),
             ),
             enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: const BorderSide(width: 2, color: ColorUtil.button),
+            ),
+            focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.0),
               borderSide: const BorderSide(width: 2, color: ColorUtil.button),
             ),
@@ -403,6 +433,10 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
           borderSide: const BorderSide(width: 2, color: ColorUtil.button),
         ),
         enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: const BorderSide(width: 2, color: ColorUtil.button),
+        ),
+        focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide: const BorderSide(width: 2, color: ColorUtil.button),
         ),
