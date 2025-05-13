@@ -11,6 +11,8 @@ import 'package:monon/ui/submit/language_setting.dart';
 import 'package:monon/ui/submit/submit_view.dart';
 
 import '../ui/activities/activities_main.dart';
+import '../ui/audio/audio_sub.dart';
+import '../ui/audio/main_audio.dart';
 import '../ui/folder/video.dart';
 import '../ui/home/home_view.dart';
 import '../ui/login/login_view_state.dart';
@@ -76,6 +78,26 @@ class RouteGenerator {
         return navigateToRoute(
           builder: (_) => const VideoPlayerScreen(),
         );
+
+      case '/main_audio':
+        return navigateToRoute(
+          builder: (_) => const MainAudio(),
+        );
+
+      case '/audio_sub':
+        if (args is int) {
+          int pageNumber = args;
+
+          return navigateToRoute(
+            builder: (_) => AudioSub(pageNumber: pageNumber,),
+          );
+        }
+
+        return _underConstructionRoute('Error');
+        // return navigateToRoute(
+        //   builder: (_) => const AudioSub(),
+        // );
+        //
 
       case '/activities_main':
         return navigateToRoute(

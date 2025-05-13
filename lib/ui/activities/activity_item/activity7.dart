@@ -113,10 +113,7 @@ class _Activity7State extends State<Activity7> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Activity 7: নিজেকে সময় দেই", style: TextStyle(fontSize: 18)),
-        backgroundColor: ColorUtil.primary,
-      ),
+      appBar: _appbar(),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: SingleChildScrollView(
@@ -188,80 +185,6 @@ class _Activity7State extends State<Activity7> {
       ),
     );
   }
-
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       title: const Text("Activity 7: নিজেকে সময় দেই", style: TextStyle(fontSize: 18)),
-  //       backgroundColor: ColorUtil.primary,
-  //     ),
-  //     body: Padding(
-  //       padding: const EdgeInsets.all(12.0),
-  //       child: SingleChildScrollView(
-  //         scrollDirection: Axis.vertical,
-  //         child: Column(
-  //           children: [
-  //             const Text(
-  //               "নিজেকে শারীরিক ও মানসিকভাবে ভালো রাখার দায়িত্ব নিজেরই নিতে হবে...",
-  //               style: TextStyle(fontSize: 16),
-  //             ),
-  //             const SizedBox(height: 12),
-  //             Expanded(
-  //               child: SingleChildScrollView(
-  //                 scrollDirection: Axis.horizontal,
-  //                 child: Column(
-  //                   children: [
-  //                     Row(
-  //                       children: [
-  //                         Container(
-  //                           width: 80,
-  //                           height: 150,
-  //                           alignment: Alignment.center,
-  //                           padding: const EdgeInsets.all(8),
-  //                           margin: const EdgeInsets.all(4),
-  //                           decoration: BoxDecoration(
-  //                             color: Colors.grey.shade300,
-  //                             border: Border.all(color: Colors.grey),
-  //                           ),
-  //                           child: const Text("দিন", style: TextStyle(fontWeight: FontWeight.bold)),
-  //                         ),
-  //                         ...headers.map((h) => buildHeaderCell(h)).toList(),
-  //                       ],
-  //                     ),
-  //                     ...days.map((day) => Row(
-  //                       children: [
-  //                         Container(
-  //                           width: 80,
-  //                           height: 60,
-  //                           alignment: Alignment.center,
-  //                           padding: const EdgeInsets.all(8),
-  //                           margin: const EdgeInsets.all(4),
-  //                           decoration: BoxDecoration(
-  //                             color: Colors.white,
-  //                             border: Border.all(color: Colors.grey),
-  //                           ),
-  //                           child: Text(day, style: const TextStyle(fontWeight: FontWeight.bold)),
-  //                         ),
-  //                         ...headers.map((header) => buildCell(day, header)).toList(),
-  //                       ],
-  //                     )),
-  //                   ],
-  //                 ),
-  //               ),
-  //             ),
-  //             const SizedBox(height: 12),
-  //             ElevatedButton(
-  //               onPressed: saveData,
-  //               child: const Text("Save My Activity"),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   _appbar() {
     return AppBar(
