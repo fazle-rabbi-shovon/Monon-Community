@@ -114,7 +114,7 @@ class _FolderViewState extends State<FolderView>
 
   void audioPush() {
     NavigationService.getCurrentState()
-        ?.pushNamed('/video');
+        ?.pushNamed('/main_audio');
   }
 
   void videoPush() {
