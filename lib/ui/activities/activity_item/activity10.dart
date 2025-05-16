@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../Common/normail_button.dart';
+import '../../../Common/normal_button.dart';
 import '../../../Common/text_input_field.dart';
 import '../../../route/navigation_service.dart';
 import '../../../util/color_util.dart';

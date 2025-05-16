@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:monon/Common/normal_button.dart';
 
 import '../../route/navigation_service.dart';
 import '../../util/color_util.dart';
@@ -89,10 +90,11 @@ class _PasswordChangerState extends State<PasswordChanger> {
             SizedBox(height: 24),
             isLoading
                 ? CircularProgressIndicator()
-                : ElevatedButton(
-                    onPressed: _changePassword,
-                    child: Text("Change Password"),
-                  ),
+                // : ElevatedButton(
+                //     onPressed: _changePassword,
+                //     child: Text("Change Password"),
+                //   ),
+                : NormalButton(false, "Change Password", onTap: _changePassword)
           ],
         ),
       ),

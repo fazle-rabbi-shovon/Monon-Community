@@ -7,6 +7,8 @@ class NavigationService {
     return _navigatorKey;
   }
 
+  static BuildContext? getCurrentContext() => _navigatorKey.currentContext;
+
   static NavigatorState? getCurrentState() {
     return _navigatorKey.currentState;
   }
