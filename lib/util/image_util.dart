@@ -25,6 +25,19 @@ class ImageUtil {
   static const String EMPATHY = 'assets/images/5.empathy_new.png';
   static const String SOCIAL_SKILL = 'assets/images/6.social_skill.png';
 
+  static const String ACT_SELF_AWARENESS = 'assets/images/act_self_awareness.png';
+  static const String UNDERSTANDING_EMOTIONS = 'assets/images/act_understanding_emotions.png';
+  static const String STRENGth_AND_WEAKNESS = 'assets/images/act_strength_and_weakness.png';
+  static const String POSITIVE_SELF_TALK = 'assets/images/act_positive_self_talk.png';
+  static const String CARING_LOVED_ONES = 'assets/images/act_caring_loved_ones.png';
+  static const String LEARNING_FROM_OTHERS = 'assets/images/act_learning_from_others.png';
+  static const String TIME_FOR_SELF = 'assets/images/act_time_for_self.png';
+  static const String EMPATHY_PRACTICE = 'assets/images/act_empathy_practice.png';
+  static const String COMPASSIONATE_COMMUNICATION = 'assets/images/act_compassionate_communication.png';
+  static const String LIFE_REFLECTION = 'assets/images/act_life_reflection.png';
+  static const String SOCIAL_BONDING = 'assets/images/act_social_bonding.png';
+  static const String FORGIVENESS_PRACTICE = 'assets/images/act_forgiveness_practice.png';
+
 
 
 }

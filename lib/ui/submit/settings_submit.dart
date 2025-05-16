@@ -52,7 +52,7 @@ class _SettingsSubmitViewState extends State<SettingsSubmitView>
               },
               child: Container(
                 height: 50.0,
-                decoration: YellowGradientButtonDecoration(),
+                decoration: GradientButtonDecoration(),
                 child: const Center(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -62,7 +62,7 @@ class _SettingsSubmitViewState extends State<SettingsSubmitView>
                         "Language Setting",
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 30.0,
+                          fontSize: 20.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -78,7 +78,7 @@ class _SettingsSubmitViewState extends State<SettingsSubmitView>
               },
               child: Container(
                 height: 50.0,
-                decoration: YellowGradientButtonDecoration(),
+                decoration: GradientButtonDecoration(),
                 child: const Center(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -88,7 +88,7 @@ class _SettingsSubmitViewState extends State<SettingsSubmitView>
                         "Password Setting",
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 30.0,
+                          fontSize: 20.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

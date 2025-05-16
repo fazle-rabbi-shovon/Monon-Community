@@ -1,11 +1,14 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:monon/ui/info/info_view.dart';
 import 'package:monon/ui/password_changer/password_changer.dart';
 import 'package:monon/ui/submit/submit_view.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../base/base_view_state.dart';
 import '../../../../localization/localization_constants.dart';
@@ -45,7 +48,7 @@ class _HomeViewState extends BaseViewState<HomeView>
   @override
   void initState() {
     // _checkRatingPrompt();
-
+    _checkAppVersion();
     super.initState();
   }
 
@@ -213,5 +216,68 @@ class _HomeViewState extends BaseViewState<HomeView>
     _logoutDialogue(context).then((value) {
       if (value) _logout();
     });
+  }
+
+  Future<void> _checkAppVersion() async {
+    try {
+      final packageInfo = await PackageInfo.fromPlatform();
+      final currentVersion = packageInfo.version;
+
+      final doc = await FirebaseFirestore.instance.collection('config').doc('app_version').get();
+      if (doc.exists) {
+        final latestVersion = doc['latest_version'];
+        final isUpdateRequired = doc['update_required'] ?? false;
+        final playStoreUrl = doc['play_store_url'];
+
+        if (_isVersionLower(currentVersion, latestVersion) && isUpdateRequired) {
+          _showUpdateDialog(playStoreUrl);
+        }
+      }
+    } catch (e) {
+      debugPrint("Version check failed: $e");
+    }
+  }
+
+  bool _isVersionLower(String current, String latest) {
+    final currentParts = current.split('.').map(int.parse).toList();
+    final latestParts = latest.split('.').map(int.parse).toList();
+
+    for (int i = 0; i < latestParts.length; i++) {
+      if (i >= currentParts.length || currentParts[i] < latestParts[i]) return true;
+      if (currentParts[i] > latestParts[i]) return false;
+    }
+    return false;
+  }
+
+  void _showUpdateDialog(String playStoreUrl) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (_) => AlertDialog(
+        title: const Text("Update Available", style: TextStyle(color: ColorUtil.mainColor),),
+        content: const Text("A new version of the app is available. Please update to continue."),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              NavigationService.getCurrentState()
+                  ?.pop();
+            },
+            child: const Text("Later", style: TextStyle(color: Colors.red),),
+          ),
+          TextButton(
+            onPressed: () async {
+              final uri = Uri.parse(playStoreUrl);
+              if (await canLaunchUrl(uri)) {
+                await launchUrl(uri, mode: LaunchMode.externalApplication);
+              }
+            },
+            child: const Text("Update", style: TextStyle(color: ColorUtil.mainColor),),
+          ),
+        ],
+      ),
+    ) ??
+        NavigationService.getCurrentState()
+            ?.pop()
+    ;
   }
 }

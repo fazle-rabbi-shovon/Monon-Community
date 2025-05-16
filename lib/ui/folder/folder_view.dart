@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:monon/ui/folder/video.dart';
 
 import '../../route/navigation_service.dart';
 import '../../util/color_util.dart';
@@ -64,8 +63,10 @@ class _FolderViewState extends State<FolderView>
                 context,
                 "AUDIO",
                 Icons.music_note,
-                Colors.yellow.shade700,
-                Colors.yellow.shade300,
+                // ColorUtil.primaryDark.shade700,
+                // ColorUtil.primaryDark.shade300,
+                Colors.grey.shade300,
+                Colors.grey.shade200,
                 audioPush,
               ),
             ),
@@ -88,8 +89,8 @@ class _FolderViewState extends State<FolderView>
                 context,
                 "ACTIVITIES",
                 Icons.directions_run,
-                Colors.yellow.shade700,
-                Colors.yellow.shade300,
+                Colors.grey.shade300,
+                Colors.grey.shade200,
                 activityPush,
               ),
             ),
@@ -117,9 +118,21 @@ class _FolderViewState extends State<FolderView>
         ?.pushNamed('/main_audio');
   }
 
+  // void videoPush() {
+  //   NavigationService.getCurrentState()
+  //       ?.pushNamed('/video');
+  // }
+
   void videoPush() {
-    NavigationService.getCurrentState()
-        ?.pushNamed('/video');
+    final context = NavigationService.getCurrentContext();
+    if (context != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('This feature will be available in the next version of the app.'),
+          duration: Duration(seconds: 3),
+        ),
+      );
+    }
   }
   void documentPush() {
     NavigationService.getCurrentState()

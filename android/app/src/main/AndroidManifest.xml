@@ -1,5 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.monon.health">
+    package="com.monon.health"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove"/>
 
     <application
         android:allowBackup="false"
@@ -32,26 +35,3 @@
             android:value="2" />
     </application>
 </manifest>
-
-    <!--    <application-->
-    <!--        android:label="monon"-->
-    <!--        android:name="${applicationName}"-->
-    <!--        android:icon="@mipmap/ic_launcher">-->
-    <!--        <activity-->
-    <!--            android:name=".SplashActivity"-->
-    <!--            android:theme="@style/LaunchTheme"-->
-    <!--            android:exported="true"-->
-    <!--            android:label="Monon">-->
-    <!--            <intent-filter>-->
-    <!--                <action android:name="android.intent.action.MAIN" />-->
-    <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-    <!--            </intent-filter>-->
-    <!--        </activity>-->
-    <!--        <activity-->
-    <!--            android:name=".MainActivity"-->
-    <!--            android:launchMode="singleTop"-->
-    <!--            android:theme="@style/Theme.Monon"-->
-    <!--            android:configChanges="orientation|keyboardHidden|screenSize"-->
-    <!--            android:hardwareAccelerated="true"-->
-    <!--            android:windowSoftInputMode="adjustResize">-->
-    <!--        </activity>-->

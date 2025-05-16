@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../Common/normail_button.dart';
+import '../../../Common/normal_button.dart';
 import '../../../route/navigation_service.dart';
 import '../../../util/color_util.dart';
 

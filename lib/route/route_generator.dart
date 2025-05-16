@@ -13,7 +13,6 @@ import 'package:monon/ui/submit/submit_view.dart';
 import '../ui/activities/activities_main.dart';
 import '../ui/audio/audio_sub.dart';
 import '../ui/audio/main_audio.dart';
-import '../ui/folder/video.dart';
 import '../ui/home/home_view.dart';
 import '../ui/login/login_view_state.dart';
 import '../ui/submit/settings_submit.dart';
@@ -72,11 +71,6 @@ class RouteGenerator {
       case '/submit':
         return navigateToRoute(
           builder: (_) => const SubmitView(),
-        );
-
-      case '/video':
-        return navigateToRoute(
-          builder: (_) => const VideoPlayerScreen(),
         );
 
       case '/main_audio':

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:monon/Common/normail_button.dart';
+import 'package:monon/Common/normal_button.dart';
 import '../../../util/color_util.dart';
 
 class Activity7 extends StatefulWidget {

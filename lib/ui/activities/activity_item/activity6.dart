@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:monon/Common/normail_button.dart';
+import 'package:monon/Common/normal_button.dart';
 import '../../../Common/text_input_field.dart';
 import '../../../util/color_util.dart';
 import '../../../util/dimen_values_util.dart';
