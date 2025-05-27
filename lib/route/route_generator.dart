@@ -9,6 +9,7 @@ import 'package:monon/ui/info/info_view.dart';
 import 'package:monon/ui/password_changer/password_changer.dart';
 import 'package:monon/ui/submit/language_setting.dart';
 import 'package:monon/ui/submit/submit_view.dart';
+import 'package:monon/ui/video/vide_main.dart';
 
 import '../ui/activities/activities_main.dart';
 import '../ui/audio/audio_sub.dart';
@@ -71,6 +72,11 @@ class RouteGenerator {
       case '/submit':
         return navigateToRoute(
           builder: (_) => const SubmitView(),
+        );
+
+      case '/video':
+        return navigateToRoute(
+          builder: (_) => const VideoMain(),
         );
 
       case '/main_audio':

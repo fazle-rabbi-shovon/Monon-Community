@@ -10,6 +10,7 @@ import 'news_item.dart';
 class InfoView extends StatefulWidget {
 
   const InfoView({super.key});
+
   @override
   State<InfoView> createState() => _InfoViewState();
 }
@@ -43,7 +44,7 @@ class _InfoViewState extends State<InfoView>
             },
             child: Container(
               decoration: const BoxDecoration(
-                color: Colors.white
+                  color: Colors.white
               ),
               padding: EdgeInsets.all(20),
               child: Column(
@@ -117,16 +118,16 @@ class _InfoViewState extends State<InfoView>
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.add, ),
-        backgroundColor: ColorUtil.primary.shade700,
-        shape: const CircleBorder(),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {},
+      //   child: Icon(Icons.add, ),
+      //   backgroundColor: ColorUtil.primary.shade700,
+      //   shape: const CircleBorder(),
+      // ),
     );
   }
 
-  _appbar(){
+  _appbar() {
     return AppBar(
       actions: [
         IconButton(

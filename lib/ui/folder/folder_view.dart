@@ -118,12 +118,24 @@ class _FolderViewState extends State<FolderView>
         ?.pushNamed('/main_audio');
   }
 
+  void videoPush() {
+    NavigationService.getCurrentState()
+        ?.pushNamed('/video');
+  }
+
   // void videoPush() {
-  //   NavigationService.getCurrentState()
-  //       ?.pushNamed('/video');
+  //   final context = NavigationService.getCurrentContext();
+  //   if (context != null) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(
+  //         content: Text('This feature will be available in the next version of the app.'),
+  //         duration: Duration(seconds: 3),
+  //       ),
+  //     );
+  //   }
   // }
 
-  void videoPush() {
+  void documentPush() {
     final context = NavigationService.getCurrentContext();
     if (context != null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -134,19 +146,22 @@ class _FolderViewState extends State<FolderView>
       );
     }
   }
-  void documentPush() {
-    NavigationService.getCurrentState()
-        ?.pushNamed('/video');
+
+  void finalTaskPush() {
+    final context = NavigationService.getCurrentContext();
+    if (context != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('This feature will be available in the next version of the app.'),
+          duration: Duration(seconds: 3),
+        ),
+      );
+    }
   }
 
   void activityPush() {
     NavigationService.getCurrentState()
         ?.pushNamed('/activities_main');
-  }
-
-  void finalTaskPush() {
-    NavigationService.getCurrentState()
-        ?.pushNamed('/video');
   }
 
   Widget buildOptionCard(
