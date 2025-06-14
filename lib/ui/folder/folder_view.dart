@@ -44,24 +44,24 @@ class _FolderViewState extends State<FolderView>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // Expanded(
+            //   flex: 1,
+            //   child: buildOptionCard(
+            //     context,
+            //     "অনুভূতি ও স্থিতিশীলতা",
+            //     Icons.play_circle_fill,
+            //     ColorUtil.primary.shade700,
+            //     ColorUtil.primary.shade300,
+            //     videoPush,
+            //     // VideoPage(),
+            //   ),
+            // ),
+            // const SizedBox(height: 16.0),
             Expanded(
               flex: 1,
               child: buildOptionCard(
                 context,
-                "VIDEO",
-                Icons.play_circle_fill,
-                ColorUtil.primary.shade700,
-                ColorUtil.primary.shade300,
-                videoPush,
-                // VideoPage(),
-              ),
-            ),
-            const SizedBox(height: 16.0),
-            Expanded(
-              flex: 1,
-              child: buildOptionCard(
-                context,
-                "AUDIO",
+                "বুদ্ধিমত্তা ও আবেগ",
                 Icons.music_note,
                 // ColorUtil.primaryDark.shade700,
                 // ColorUtil.primaryDark.shade300,
@@ -75,7 +75,7 @@ class _FolderViewState extends State<FolderView>
               flex: 1,
               child: buildOptionCard(
                 context,
-                "WRITTEN DOCUMENTS",
+                "কিছু কথা",
                 Icons.description,
                 ColorUtil.primary.shade700,
                 ColorUtil.primary.shade300,
@@ -87,7 +87,7 @@ class _FolderViewState extends State<FolderView>
               flex: 1,
               child: buildOptionCard(
                 context,
-                "ACTIVITIES",
+                "আমার কাজ",
                 Icons.directions_run,
                 Colors.grey.shade300,
                 Colors.grey.shade200,
@@ -99,7 +99,7 @@ class _FolderViewState extends State<FolderView>
               flex: 1,
               child: buildOptionCard(
                 context,
-                "TASK\nComplete all and open it",
+                "নিজ পরিকল্পনা\n(উপরের সবগুলো কাজ সম্পন্ন করুন এবং এটি অনুশীলন করুন)",
                 Icons.lock,
                 ColorUtil.primary.shade700,
                 ColorUtil.primary.shade300,
@@ -118,12 +118,29 @@ class _FolderViewState extends State<FolderView>
         ?.pushNamed('/main_audio');
   }
 
+  void videoPush() {
+    NavigationService.getCurrentState()
+        ?.pushNamed('/video');
+  }
+
   // void videoPush() {
-  //   NavigationService.getCurrentState()
-  //       ?.pushNamed('/video');
+  //   final context = NavigationService.getCurrentContext();
+  //   if (context != null) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(
+  //         content: Text('This feature will be available in the next version of the app.'),
+  //         duration: Duration(seconds: 3),
+  //       ),
+  //     );
+  //   }
   // }
 
-  void videoPush() {
+  void documentPush() {
+    NavigationService.getCurrentState()
+        ?.pushNamed('/written_documents');
+  }
+
+  void finalTaskPush() {
     final context = NavigationService.getCurrentContext();
     if (context != null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -134,19 +151,10 @@ class _FolderViewState extends State<FolderView>
       );
     }
   }
-  void documentPush() {
-    NavigationService.getCurrentState()
-        ?.pushNamed('/video');
-  }
 
   void activityPush() {
     NavigationService.getCurrentState()
         ?.pushNamed('/activities_main');
-  }
-
-  void finalTaskPush() {
-    NavigationService.getCurrentState()
-        ?.pushNamed('/video');
   }
 
   Widget buildOptionCard(
@@ -173,7 +181,7 @@ class _FolderViewState extends State<FolderView>
             title: Text(
               title,
               style: const TextStyle(
-                color: Colors.white,
+                color: Colors.black,
                 fontWeight: FontWeight.bold,
                 fontSize: 18.0,
               ),
@@ -181,7 +189,7 @@ class _FolderViewState extends State<FolderView>
             ),
             trailing: Icon(
               icon,
-              color: Colors.white,
+              color: Colors.grey,
               size: 30.0,
             ),
           ),

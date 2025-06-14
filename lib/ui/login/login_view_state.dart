@@ -113,15 +113,21 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
       }
     } catch (e) {
       if (kDebugMode) {
-        print("Login failed: $e");
+        print('Login failed: $e'); // this already exists
       }
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Login failed')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Login failed: ${e.toString()}')),
+      );
     }
 
     setState(() {
       isLoading = false;
     });
+  }
+
+  Future<void> loginNew () async {
+    SharedPrefUtil().setLoggedIn();
+    navigateToHome();
   }
 
   void showSnackBar(String msg) {
@@ -300,13 +306,13 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Spacer(),
-            // isLoading
-            //     ? CircularProgressIndicator()
-            //     : ElevatedButton(
-            //         onPressed: login,
-            //         child: Text('Login'),
-            //       ),
-            LoginButton(isLoading, onTap: login,),
+            isLoading
+                ? CircularProgressIndicator()
+                // : ElevatedButton(
+                //     onPressed: login,
+                //     child: Text('Login'),
+                //   ),
+            : LoginButton(isLoading, onTap: login,),
             const Spacer(),
           ],
         ),

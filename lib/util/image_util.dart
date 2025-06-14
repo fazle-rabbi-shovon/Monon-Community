@@ -25,6 +25,14 @@ class ImageUtil {
   static const String EMPATHY = 'assets/images/5.empathy_new.png';
   static const String SOCIAL_SKILL = 'assets/images/6.social_skill.png';
 
+  static const String VID_EMOTIONAL_BANK_ACCOUNT = 'assets/images/vid_emotional_bank_account.png';
+  static const String VID_EMPATHY = 'assets/images/vid_empathy.png';
+  static const String VID_HURT_NO_ONE = 'assets/images/vid_hurt_no_one.png';
+  static const String VID_KNOW_YOURSELF = 'assets/images/vid_know_yourself.png';
+  static const String VID_MENTAL = 'assets/images/vid_mental.png';
+  static const String VID_NON_VIOLENT_COMMUNICATION = 'assets/images/vid_non_violent_communication.png';
+  static const String VID_HOW_TAKE_CARE = 'assets/images/video_how_take_care_yourself.png';
+
   static const String ACT_SELF_AWARENESS = 'assets/images/act_self_awareness.png';
   static const String UNDERSTANDING_EMOTIONS = 'assets/images/act_understanding_emotions.png';
   static const String STRENGth_AND_WEAKNESS = 'assets/images/act_strength_and_weakness.png';
