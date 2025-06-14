@@ -63,6 +63,7 @@ class ColorUtil {
   static const Color mainColor = Color(0xFF9ccd65);
 
   static const Color button = Color(0xFF519843);
+  static  Color writtenDoc = const Color(0xFFddf9d8);
   static const Color statusBar = Color(0xFF9ccd65);
   static const Color navSelected = Color(0xFF9ccd65);
   static const Color navDeselected = Colors.grey;

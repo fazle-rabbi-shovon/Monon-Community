@@ -3,25 +3,21 @@ import 'package:video_player/video_player.dart';
 import '../../route/navigation_service.dart';
 import '../../util/color_util.dart';
 
-class VideoPlayerScreen extends StatefulWidget {
+class WrittenDocumentsPlayer extends StatefulWidget {
   final String title;
   final String url;
-  final String imagePath;
-  final String duration;
 
-  const VideoPlayerScreen({
+  const WrittenDocumentsPlayer({
     Key? key,
     required this.title,
     required this.url,
-    required this.imagePath,
-    required this.duration,
   }) : super(key: key);
 
   @override
-  State<VideoPlayerScreen> createState() => _VideoPlayerScreenState();
+  State<WrittenDocumentsPlayer> createState() => _WrittenDocumentsPlayerState();
 }
 
-class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
+class _WrittenDocumentsPlayerState extends State<WrittenDocumentsPlayer> {
   late VideoPlayerController _controller;
   bool _isControlsVisible = true;
   bool _wasPlayingBeforeHide = false;
@@ -64,9 +60,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            const SizedBox(height: 12),
-            Text(widget.title, style: const TextStyle(fontSize: 20)),
-            const SizedBox(height: 12),
+            const SizedBox(height: 24),
             _controller.value.isInitialized
                 ? GestureDetector(
               onTap: _toggleControls,
@@ -94,7 +88,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                             icon: Icon(
                               _controller.value.isPlaying
                                   ? Icons.pause_circle_filled
-                                  : Icons.play_circle,
+                                  : Icons.play_circle_filled,
                               color: ColorUtil.mainColor,
                             ),
                             onPressed: () {
@@ -148,11 +142,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               inactiveColor: Colors.grey,
             ),
             const SizedBox(height: 10),
-            const Text(
-              "Self-awareness is your ability to perceive and understand the things that make you who you are",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14),
-            ),
           ],
         ),
       ),
