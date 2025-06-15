@@ -1,25 +1,15 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:monon/Common/normal_button.dart';
-
-import '../../../Common/normal_gradient_button_decoration.dart';
 import '../../../route/navigation_service.dart';
 import '../../../util/color_util.dart';
-import '../../../util/dimen_values_util.dart';
-
 
 class Activity1 extends StatefulWidget {
-
   const Activity1({super.key});
   @override
   State<Activity1> createState() => _Activity1State();
 }
 
 class _Activity1State extends State<Activity1> {
-  final TextEditingController commentController = TextEditingController();
-
   final List<String> questions = [
     "১. আমার নাম",
     "২. আমার পছন্দ",
@@ -33,18 +23,49 @@ class _Activity1State extends State<Activity1> {
     "১০. আমার জীবনের লক্ষ্য"
   ];
 
+  late List<TextEditingController> controllers;
+
+  @override
+  void initState() {
+    super.initState();
+    controllers = List.generate(questions.length, (_) => TextEditingController());
+  }
+
   @override
   void dispose() {
-    commentController.dispose();
+    for (final controller in controllers) {
+      controller.dispose();
+    }
     super.dispose();
   }
 
-  void _submitComment() {
-    final answer = commentController.text.trim();
-    debugPrint('User comment: $answer');
-    // Save to Firestore or local DB here
+  bool _anyFieldFilled() {
+    return controllers.any((controller) => controller.text.trim().isNotEmpty);
+  }
+
+  void _submitAnswers() {
+    if (!_anyFieldFilled()) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text("সতর্কতা"),
+          content: const Text("অনুগ্রহ করে সবগুলো ঘর পূরণ করুন"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text("ঠিক আছে", style: TextStyle(color: ColorUtil.button),),
+            )
+          ],
+        ),
+      );
+      return;
+    }
+
+    for (int i = 0; i < questions.length; i++) {
+      debugPrint("${questions[i]} => ${controllers[i].text.trim()}");
+    }
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Your response has been saved.')),
+      const SnackBar(content: Text('All responses have been saved.')),
     );
   }
 
@@ -54,85 +75,82 @@ class _Activity1State extends State<Activity1> {
       appBar: _appbar(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: ListView(
-          children: [
-            const Text(
-              "Activity-1: নিজের সম্পর্কে জানি",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 12),
-            const Text(
-              "নিচের প্রশ্নগুলোর উত্তর দিন (যতগুলি পারেন):",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-            for (var question in questions)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: Text("• $question",
-                  style: const TextStyle(fontSize: DimenValuesUtil.normalFontSize, fontWeight: FontWeight.normal),),
-              ),
-            const SizedBox(height: 20),
-            TextField(
-              controller: commentController,
-              decoration: InputDecoration(
-                labelText: "Write your answers here...",
-                labelStyle: TextStyle(color: Colors.grey.shade500),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(width: 2, color: ColorUtil.button),
+        child: ListView.builder(
+          itemCount: questions.length + 1,
+          itemBuilder: (context, index) {
+            if (index == questions.length) {
+              return Column(
+                children: [
+                  const SizedBox(height: 20),
+                  NormalButton(
+                    false, // always enabled
+                    "সাবমিট",
+                    onTap: _submitAnswers,
+                  ),
+                ],
+              );
+            }
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "• ${questions[index]}",
+                  style: const TextStyle(fontSize: 16),
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(width: 2, color: ColorUtil.button),
+                const SizedBox(height: 6),
+                TextField(
+                  controller: controllers[index],
+                  decoration: InputDecoration(
+                    hintText: "Add comment",
+                    hintStyle: TextStyle(color: Colors.grey.shade500),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: const BorderSide(width: 2, color: ColorUtil.button),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: const BorderSide(width: 2, color: ColorUtil.button),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: const BorderSide(width: 2, color: ColorUtil.button),
+                    ),
+                  ),
+                  maxLines: 2,
+                  minLines: 2,
                 ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(width: 2, color: ColorUtil.button),
-                ),
-              ),
-              maxLines: 15,
-              minLines: 5,
-            ),
-            const SizedBox(height: 20),
-            NormalButton(false, "Submit", onTap: _submitComment)
-            // ElevatedButton(
-            //   onPressed: _submitComment,
-            //   child: const Text("Submit"),
-            // )
-          ],
+                const SizedBox(height: 16),
+              ],
+            );
+          },
         ),
       ),
     );
   }
 
-  _appbar() {
+  AppBar _appbar() {
     return AppBar(
+      title: const Text(
+        "নিজের সম্পর্কে জানি",
+        style: TextStyle(color: Colors.white, fontSize: 18.0),
+      ),
+      centerTitle: true,
+      backgroundColor: ColorUtil.primary,
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back, color: Colors.white),
+        onPressed: () {
+          NavigationService.getCurrentState()?.pop();
+        },
+      ),
       actions: [
         IconButton(
-          icon: const Icon(
-            Icons.close,
-            color: Colors.transparent,
-          ),
-          onPressed: () {},
+          icon: const Icon(Icons.close, color: Colors.white),
+          onPressed: () {
+            NavigationService.getCurrentState()?.pop();
+          },
         ),
       ],
-      leading: Container(
-        child: const Center(),
-      ),
-      title: const Text(
-        // getTranslated(context, "LEAVE_APPLY"),
-        "Activity 1: নিজের সম্পর্কে আমি",
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 18.0,
-        ),
-      ),
-      backgroundColor: ColorUtil.primary,
-      iconTheme: const IconThemeData(color: Colors.white),
-      elevation: 0,
-      centerTitle: true,
     );
   }
 }
-

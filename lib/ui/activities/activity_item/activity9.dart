@@ -74,20 +74,16 @@ class _Activity9State extends State<Activity9> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Activity- 9: ননভায়োলেন্ট কমিউনিকেশন বা সমানুভূতিশীল যোগাযোগ",
-              style: TextStyle(
-                  fontSize: 20, fontWeight: FontWeight.bold),
-            ),
             const SizedBox(height: 10),
             const Text(
-              "যখন কারও সাথে কথা বলি, কথা বলার সময় খেয়াল রাখি, আমার কোন কথায় যেন কেউ কষ্ট না পায়। ননভায়োলেন্ট কমিউনিকেশন বা সমানুভূতিশীল যোগাযোগের মাধ্যমে আমরা পরস্পরের "
-                  "সাথে দৃঢ় সম্পর্ক গড়ে তুলতে পারি। এটি পারস্পরিক সম্মান, বোঝাপড়া ও সমানুভূতি গড়ে তোলে, যা বিভিন্ন ধরনের দ্বন্দ্ব ও মতবিরোধ মীমাংসায় কার্যকর ভূমিকা রাখে।",
+              "যখন কারও সাথে কথা বলি, কথা বলার সময় খেয়াল রাখি, আমার কোন কথায় যেন কেউ কষ্ট না পায়। "
+                  "ননভায়োলেন্ট কমিউনিকেশন বা সমানুভূতিশীল যোগাযোগের মাধ্যমে আমরা পরস্পরের সাথে দৃঢ় সম্পর্ক "
+                  "গড়ে তুলতে পারি। এটি পারস্পরিক সম্মান, বোঝাপড়া ও সমানুভূতি গড়ে তোলে, যা বিভিন্ন "
+                  "ধরনের দ্বন্দ্ব ও মতবিরোধ মীমাংসায় কার্যকর ভূমিকা রাখে।",
               style: TextStyle(fontSize: 16),
             ),
-            const SizedBox(height: 20),
             const Text(
-            "নিচের কথাগুলো পড়ুন এবং প্রতিদিন আপনি কিভাবে অপর ব্যক্তির সাথে পজিটিভ বা ইতিবাচক কথা বলার মাধ্যমে একটি চমৎকার যোগাযোগ তৈরি করতে পারেন সেটি প্রাকটিস করুন। ",
+            "নিচের কথাগুলো পড়ুন এবং প্রতিদিন আপনি কিভাবে অপর ব্যক্তির সাথে পজিটিভ বা ইতিবাচক কথা বলার মাধ্যমে একটি চমৎকার যোগাযোগ তৈরি করতে পারেন সেটি প্রাকটিস করুন।",
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 20),
@@ -109,7 +105,7 @@ class _Activity9State extends State<Activity9> {
             TextInputFieldComment(
                 commentControllerTwo, "Add comment", 2, 3),
             const SizedBox(height: 20),
-            NormalButton(false, "Submit", onTap: _submit),
+            NormalButton(false, "সাবমিট", onTap: _submit),
             const SizedBox(height: 40),
           ],
         ),
@@ -234,7 +230,7 @@ class _Activity9State extends State<Activity9> {
                     color: Colors.black
                 ),
                 decoration: InputDecoration(
-                  hintText: "আমরা যেভাবে বলতে পারি",
+                  // hintText: "আমরা যেভাবে বলতে পারি",
                   hintStyle: const TextStyle(
                       color: Colors.grey
                   ),
@@ -262,30 +258,30 @@ class _Activity9State extends State<Activity9> {
 
   _appbar() {
     return AppBar(
-      actions: [
-        IconButton(
-          icon: const Icon(
-            Icons.close,
-            color: Colors.transparent,
-          ),
-          onPressed: () {},
-        ),
-      ],
-      leading: Container(
-        child: const Center(),
-      ),
       title: const Text(
         // getTranslated(context, "LEAVE_APPLY"),
-        "Activities 9",
+        "ননভায়োলেন্ট কমিউনিকেশন বা সমানুভূতিশীল যোগাযোগ",
         style: TextStyle(
           color: Colors.white,
           fontSize: 18.0,
         ),
       ),
-      backgroundColor: ColorUtil.primary,
-      iconTheme: const IconThemeData(color: Colors.white),
-      elevation: 0,
       centerTitle: true,
+      backgroundColor: ColorUtil.primary,
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back, color: Colors.white),
+        onPressed: () {
+          NavigationService.getCurrentState()?.pop();
+        },
+      ),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.close, color: Colors.white),
+          onPressed: () {
+            NavigationService.getCurrentState()?.pop();
+          },
+        ),
+      ],
     );
   }
 }

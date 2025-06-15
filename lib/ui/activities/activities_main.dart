@@ -42,18 +42,18 @@ class _ActivitiesMainState extends State<ActivitiesMain>
   }
 
   final List<ActivityItem> activities = [
-    ActivityItem("Self-awareness", "Discovering myself and understand who I am", ImageUtil.ACT_SELF_AWARENESS, const Activity1()),
-    ActivityItem("Understanding Emotions", "Analyze my responses to various emotions", ImageUtil.UNDERSTANDING_EMOTIONS, const Activity2()),
-    ActivityItem("Strengths and Weaknesses", "List my strengths and weaknesses", ImageUtil.STRENGth_AND_WEAKNESS, const Activity3()),
-    ActivityItem("Positive Self-Talk", "Practice speaking to yourself positively", ImageUtil.POSITIVE_SELF_TALK, const Activity4()),
-    ActivityItem("Caring Loved Ones", "Become more aware to friends and family", ImageUtil.CARING_LOVED_ONES, const Activity5()),
-    ActivityItem("Learning from Others", "Adopt the positive traits of people around you", ImageUtil.LEARNING_FROM_OTHERS, const Activity6()),
-    ActivityItem("Time for Self", "Make time regularly to rest, reflect and recharge", ImageUtil.TIME_FOR_SELF, const Activity7()),
-    ActivityItem("Empathy Practice", "Develop your ability to understand others", ImageUtil.EMPATHY_PRACTICE, const Activity8()),
-    ActivityItem("Compassionate Communication", "Learn to express yourself respectfully", ImageUtil.COMPASSIONATE_COMMUNICATION, const Activity9()),
-    ActivityItem("Life Reflections", "Reflect on the events of your life to better understand patterns", ImageUtil.LIFE_REFLECTION, const Activity10()),
-    ActivityItem("Social Bonding", "Build supportive social connections", ImageUtil.SOCIAL_BONDING, const Activity11()),
-    ActivityItem("Forgiveness Practice", "Cultivate the habit of forgiveness", ImageUtil.FORGIVENESS_PRACTICE, const Activity12()),
+    ActivityItem("নিজের সম্পর্কে জানি", "Discovering myself and understand who I am", ImageUtil.ACT_SELF_AWARENESS, const Activity1()),
+    ActivityItem("আবেগের বিভিন্ন পরিস্থিতিতে আমি কি করি", "Analyze my responses to various emotions", ImageUtil.UNDERSTANDING_EMOTIONS, const Activity2()),
+    ActivityItem("নিজের মানসিক শক্তি এবং দুর্বলতাগুলো জানি", "List my strengths and weaknesses", ImageUtil.STRENGth_AND_WEAKNESS, const Activity3()),
+    ActivityItem("নিজের সাথে পজিটিভ বা ইতিবাচক কথা বলার অভ্যাস করি", "Practice speaking to yourself positively", ImageUtil.POSITIVE_SELF_TALK, const Activity4()),
+    ActivityItem("কাছের মানুষের প্রতি সচেতনতা বাড়াই ও যত্নশীল হই", "Become more aware to friends and family", ImageUtil.CARING_LOVED_ONES, const Activity5()),
+    ActivityItem("অন্যদের ভালো গুণাবলীগুলোকে রপ্ত করি", "Adopt the positive traits of people around you", ImageUtil.LEARNING_FROM_OTHERS, const Activity6()),
+    ActivityItem("নিজেকে সময় দেই", "Make time regularly to rest, reflect and recharge", ImageUtil.TIME_FOR_SELF, const Activity7()),
+    ActivityItem("সমানুভূতি বা সমমর্মিতার চর্চা করি", "Develop your ability to understand others", ImageUtil.EMPATHY_PRACTICE, const Activity8()),
+    ActivityItem("ননভায়োলেন্ট কমিউনিকেশন বা সমানুভূতিশীল যোগাযোগ", "Learn to express yourself respectfully", ImageUtil.COMPASSIONATE_COMMUNICATION, const Activity9()),
+    ActivityItem("বর্তমান জীবনের নিয়ন্ত্রিত ও অনিয়ন্ত্রিত ঘটনা বা বিষয়বস্তুগুলো নিয়ে অবগত হই", "Reflect on the events of your life to better understand patterns", ImageUtil.LIFE_REFLECTION, const Activity10()),
+    ActivityItem("সামাজিক যোগাযোগ বাড়াই ও সামাজিক বন্ধন সুন্দর করি", "Build supportive social connections", ImageUtil.SOCIAL_BONDING, const Activity11()),
+    ActivityItem("ক্ষমা করার অভ্যাস চর্চা করি", "Cultivate the habit of forgiveness", ImageUtil.FORGIVENESS_PRACTICE, const Activity12()),
   ];
 
   @override
@@ -65,7 +65,7 @@ class _ActivitiesMainState extends State<ActivitiesMain>
         itemBuilder: (context, index) {
           final activity = activities[index];
           return Card(
-            margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             elevation: 4,
             child: ListTile(
@@ -86,8 +86,8 @@ class _ActivitiesMainState extends State<ActivitiesMain>
                   ),
                 ),
               ),
-              title: Text(activity.title, style: TextStyle(fontWeight: FontWeight.bold)),
-              subtitle: Text(activity.subtitle),
+              title: Text(activity.title, style: const TextStyle(fontWeight: FontWeight.w500)),
+              // subtitle: Text(activity.subtitle),
               onTap: () {
                 Navigator.push(
                   context,
@@ -101,32 +101,33 @@ class _ActivitiesMainState extends State<ActivitiesMain>
     );
   }
 
-  _appbar() {
+  AppBar _appbar() {
     return AppBar(
+      title: const Text(
+        "আমার কাজ",
+        style: TextStyle(color: Colors.white, fontSize: 18.0),
+      ),
       actions: [
         IconButton(
           icon: const Icon(
             Icons.close,
-            color: Colors.transparent,
+            color: Colors.white,
           ),
-          onPressed: () {},
+          onPressed: () {
+            NavigationService.getCurrentState()?.pop();
+          },
         ),
       ],
-      leading: Container(
-        child: const Center(),
-      ),
-      title: const Text(
-        // getTranslated(context, "LEAVE_APPLY"),
-        "Activity",
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 18.0,
-        ),
-      ),
       backgroundColor: ColorUtil.primary,
       iconTheme: const IconThemeData(color: Colors.white),
       elevation: 0,
       centerTitle: true,
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back, color: Colors.white),
+        onPressed: () {
+          NavigationService.getCurrentState()?.pop();
+        },
+      ),
     );
   }
 }

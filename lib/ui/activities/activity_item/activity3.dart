@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:monon/Common/normal_button.dart';
 
 import '../../../Common/text_input_field.dart';
+import '../../../route/navigation_service.dart';
 import '../../../util/color_util.dart';
 
 class Activity3 extends StatefulWidget {
@@ -35,16 +36,9 @@ class _Activity3State extends State<Activity3> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Activity- 3: নিজের মানসিক শক্তি এবং দুর্বলতাগুলো আমি",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
             const SizedBox(height: 10),
             const Text(
-              "নিজের মানসিক শক্তি ও দুর্বলতা সম্পর্কে ধারণা রাখলে আত্মবিশ্বাস বাড়ে। "
+              "নিজের মানসিক শক্তি ও দুর্বলতা সম্পর্কে ধারণা থাকলে আত্মবিশ্বাস বাড়ে। "
               "নিচের ঘরগুলোতে নিজের তিনটি গুণ ও তিনটি দুর্বলতা সম্পর্কে লিখুন।",
               style: TextStyle(fontSize: 16),
             ),
@@ -74,24 +68,29 @@ class _Activity3State extends State<Activity3> {
 
   _appbar() {
     return AppBar(
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.close, color: Colors.transparent),
-          onPressed: () {},
-        ),
-      ],
-      leading: Container(child: const Center()),
       title: const Text(
-        "Activity 3",
+        "নিজের মানসিক শক্তি এবং দুর্বলতাগুলো জানি",
         style: TextStyle(
           color: Colors.white,
           fontSize: 18.0,
         ),
       ),
-      backgroundColor: ColorUtil.primary,
-      iconTheme: const IconThemeData(color: Colors.white),
-      elevation: 0,
       centerTitle: true,
+      backgroundColor: ColorUtil.primary,
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back, color: Colors.white),
+        onPressed: () {
+          NavigationService.getCurrentState()?.pop();
+        },
+      ),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.close, color: Colors.white),
+          onPressed: () {
+            NavigationService.getCurrentState()?.pop();
+          },
+        ),
+      ],
     );
   }
 }

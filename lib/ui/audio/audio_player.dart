@@ -133,20 +133,6 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
 
   _appbar() {
     return AppBar(
-      actions: [
-        IconButton(
-          icon: const Icon(
-            Icons.close,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            NavigationService.getCurrentState()?.pop();
-          },
-        ),
-      ],
-      leading: Container(
-        child: const Center(),
-      ),
       title:  Text(
         // getTranslated(context, "LEAVE_APPLY"),
         widget.title,
@@ -155,10 +141,22 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
           fontSize: 18.0,
         ),
       ),
-      backgroundColor: ColorUtil.primary,
-      iconTheme: const IconThemeData(color: Colors.white),
-      elevation: 0,
       centerTitle: true,
+      backgroundColor: ColorUtil.primary,
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back, color: Colors.white),
+        onPressed: () {
+          NavigationService.getCurrentState()?.pop();
+        },
+      ),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.close, color: Colors.white),
+          onPressed: () {
+            NavigationService.getCurrentState()?.pop();
+          },
+        ),
+      ],
     );
   }
 }

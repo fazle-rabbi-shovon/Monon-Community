@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:monon/Common/normal_button.dart';
 import '../../../Common/text_input_field.dart';
+import '../../../route/navigation_service.dart';
 import '../../../util/color_util.dart';
 
 class Activity4 extends StatefulWidget {
@@ -13,17 +14,17 @@ class Activity4 extends StatefulWidget {
 class _Activity4State extends State<Activity4> {
 
   final List<String> negativeStatements = [
-    "আমি তো কিছুই ঠিকমতো পারি না",
-    "আমি খুবই দুর্বল",
-    "আমার কারণে পরিবারের অনেক ক্ষতি হয়েছে",
-    "আমার দ্বারা কিছু হবে না",
-    "আমি কোনো কিছুতেই সফল হতে পারি না",
-    "আমার তুলনায় অন্যরা অনেক ভালো",
+    "আমি তো কিছুই করতে পারছি না",
+    "আমি কেমনে কী করব?",
+    "আমাকে দিয়ে কখনোই কিছু হবে না",
+    "এটা অসম্ভব বা এটা একেবারেই সম্ভব না",
+    "আমি কোন কিছুই সহজভাবে মেনে নিতে পারছিনা",
+    "আমার অনেক বেশি টেনশন হচ্ছে",
   ];
 
   final List<String> positiveStatements = [
-    "আমি চেষ্টা চালিয়ে যাচ্ছি",
-    "আমি ধীরে ধীরে পরিবর্তনের চেষ্টা করছি",
+    "আমি প্রতিদিনই কিছু করছি",
+    "আমি সবকিছু পরিকল্পিতভাবে করছি। আমি পারবো।",
   ];
   // Controllers for each row's input
   final List<TextEditingController> negativeControllers =
@@ -56,29 +57,27 @@ class _Activity4State extends State<Activity4> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Activity- 4: নিজের সাথে পজিটিভ বা ইতিবাচক কথা বলার অভ্যাস করি",
-              style: TextStyle(
-                  fontSize: 20, fontWeight: FontWeight.bold),
-            ),
             const SizedBox(height: 10),
             const Text(
-              "প্রতিদিন নিজের সাথে পজিটিভ বা ইতিবাচক কথা বলার অভ্যাস জীবনকে দৃঢ় এবং স্থির করে। "
-                  "এই অভ্যাসটি আমাদের আত্মবিশ্বাস বাড়াতে এবং কর্মক্ষমতা বৃদ্ধি করতে, হতাশা দূর করতে এবং ইতিবাচক মনোভাব গড়ে তুলতে সাহায্য করে।",
+              "প্রতিদিন নিজের সাথে পজিটিভ বা ইতিবাচক কথা বলার অভ্যাস গড়ে তুলি এবং লেখি।",
+              style: TextStyle(fontSize: 16),
+            ),
+            const Text(
+                  "এই অভ্যাসটি চর্চার ফলে আপনার আত্মবিশ্বাস বাড়ার সাথে সাথে কর্মক্ষমতা বৃদ্ধি পাবে, হতাশা দূর হবে এবং ইতিবাচক মনোভাব তৈরি হবে।",
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 20),
             _buildTable(),
             const SizedBox(height: 20),
             const Text(
-              "আরও বেশি নিজের সাথে পজিটিভ বা ইতিবাচক কথা বলার অভ্যাস গড়ে তুলি।",
+              "আরও বেশি বেশি নিজের সাথে পজিটিভ বা ইতিবাচক কথা বলার অভ্যাস চর্চা করি-",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
             TextInputFieldComment(
                 commentController, "Add comment", 3, 6),
             const SizedBox(height: 20),
-            NormalButton(false, "Submit", onTap: _submit),
+            NormalButton(false, "সাবমিট", onTap: _submit),
             const SizedBox(height: 40),
           ],
         ),
@@ -99,12 +98,12 @@ class _Activity4State extends State<Activity4> {
           children: [
             Padding(
               padding: EdgeInsets.all(8.0),
-              child: Text("নেগেটিভ বা নেতিবাচক কথা",
+              child: Text("নেগেটিভ বা নেতিবাচক বাক্য",
                   style: TextStyle(fontWeight: FontWeight.bold)),
             ),
             Padding(
               padding: EdgeInsets.all(8.0),
-              child: Text("পজিটিভ বা ইতিবাচক কথা",
+              child: Text("পজিটিভ বা ইতিবাচক বাক্য",
                   style: TextStyle(fontWeight: FontWeight.bold)),
             ),
           ],
@@ -209,7 +208,7 @@ class _Activity4State extends State<Activity4> {
                 color: Colors.black
               ),
               decoration: InputDecoration(
-                hintText: "ইতিবাচক কথা",
+                // hintText: "ইতিবাচক কথা",
                 hintStyle: const TextStyle(
                     color: Colors.grey
                 ),
@@ -238,13 +237,25 @@ class _Activity4State extends State<Activity4> {
   AppBar _appbar() {
     return AppBar(
       title: const Text(
-        "Activity 4",
+        "নিজের সাথে পজিটিভ বা ইতিবাচক কথা বলার অভ্যাস করি",
         style: TextStyle(color: Colors.white, fontSize: 18.0),
       ),
-      backgroundColor: ColorUtil.primary,
-      iconTheme: const IconThemeData(color: Colors.white),
-      elevation: 0,
       centerTitle: true,
+      backgroundColor: ColorUtil.primary,
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back, color: Colors.white),
+        onPressed: () {
+          NavigationService.getCurrentState()?.pop();
+        },
+      ),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.close, color: Colors.white),
+          onPressed: () {
+            NavigationService.getCurrentState()?.pop();
+          },
+        ),
+      ],
     );
   }
 }

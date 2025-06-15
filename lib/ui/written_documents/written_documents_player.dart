@@ -20,14 +20,16 @@ class WrittenDocumentsPlayer extends StatefulWidget {
 class _WrittenDocumentsPlayerState extends State<WrittenDocumentsPlayer> {
   late VideoPlayerController _controller;
   bool _isControlsVisible = true;
-  bool _wasPlayingBeforeHide = false;
+  bool _isInitialized = false;
 
   @override
   void initState() {
     super.initState();
     _controller = VideoPlayerController.network(widget.url)
       ..initialize().then((_) {
-        setState(() {});
+        setState(() {
+           _isInitialized = true;
+        });
       });
     _controller.addListener(() {
       setState(() {});
@@ -61,87 +63,89 @@ class _WrittenDocumentsPlayerState extends State<WrittenDocumentsPlayer> {
         child: Column(
           children: [
             const SizedBox(height: 24),
-            _controller.value.isInitialized
-                ? GestureDetector(
-              onTap: _toggleControls,
-              child: AspectRatio(
+              AspectRatio(
                 aspectRatio: _controller.value.aspectRatio,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    VideoPlayer(_controller),
-                    if (_isControlsVisible)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          if (!_controller.value.isPlaying)
+                child: _isInitialized
+                ? GestureDetector(
+                  onTap: _toggleControls,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      VideoPlayer(_controller),
+                      if (_isControlsVisible)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
                             IconButton(
                               icon: const Icon(Icons.fast_rewind, size: 36, color: ColorUtil.mainColor),
                               onPressed: () {
-                                _controller.seekTo(
-                                  _controller.value.position - const Duration(seconds: 10),
-                                );
+                                _controller.seekTo(_controller.value.position - const Duration(seconds: 10));
                               },
                             ),
-                          IconButton(
-                            iconSize: 48,
-                            icon: Icon(
-                              _controller.value.isPlaying
-                                  ? Icons.pause_circle_filled
-                                  : Icons.play_circle_filled,
-                              color: ColorUtil.mainColor,
-                            ),
-                            onPressed: () {
-                              setState(() {
+                            IconButton(
+                              iconSize: 48,
+                              icon: Icon(
                                 _controller.value.isPlaying
-                                    ? _controller.pause()
-                                    : _controller.play();
-                              });
-                            },
-                          ),
-                          if (!_controller.value.isPlaying)
+                                    ? Icons.pause_circle_filled
+                                    : Icons.play_circle_filled,
+                                color: ColorUtil.mainColor,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _controller.value.isPlaying
+                                      ? _controller.pause()
+                                      : _controller.play();
+                                });
+                              },
+                            ),
                             IconButton(
                               icon: const Icon(Icons.fast_forward, size: 36, color: ColorUtil.mainColor),
                               onPressed: () {
-                                _controller.seekTo(
-                                  _controller.value.position + const Duration(seconds: 10),
-                                );
+                                _controller.seekTo(_controller.value.position + const Duration(seconds: 10));
                               },
                             ),
-                        ],
-                      ),
-                    Positioned(
-                      bottom: 8,
-                      left: 12,
-                      child: Text(
-                        _formatTime(_controller.value.position),
-                        style: const TextStyle(color: ColorUtil.mainColor, fontSize: 12),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 8,
-                      right: 12,
-                      child: Text(
-                        _formatTime(_controller.value.duration),
-                        style: const TextStyle(color: ColorUtil.mainColor, fontSize: 12),
-                      ),
-                    ),
-                  ],
-                ),
+                          ],
+                        ),
+                      if (_isControlsVisible) ...[
+                        Positioned(
+                          bottom: 8,
+                          left: 12,
+                          child: Text(
+                            _formatTime(_controller.value.position),
+                            style: const TextStyle(color: ColorUtil.mainColor, fontSize: 12),
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 8,
+                          right: 12,
+                          child: Text(
+                            _formatTime(_controller.value.duration),
+                            style: const TextStyle(color: ColorUtil.mainColor, fontSize: 12),
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ) :
+                const Center(child: CircularProgressIndicator()),
               ),
-            )
-                : const CircularProgressIndicator(),
+            const SizedBox(height: 10),
             Slider(
-              value: _controller.value.position.inSeconds.toDouble(),
+              value: _isInitialized
+                  ? _controller.value.position.inSeconds.toDouble()
+                  : 0,
               min: 0,
-              max: _controller.value.duration.inSeconds.toDouble(),
-              onChanged: (value) {
+              max: _isInitialized
+                  ? _controller.value.duration.inSeconds.toDouble()
+                  : 1,
+              onChanged: _isInitialized
+                  ? (value) {
                 _controller.seekTo(Duration(seconds: value.toInt()));
-              },
+              }
+                  : null,
               activeColor: ColorUtil.mainColor,
               inactiveColor: Colors.grey,
             ),
-            const SizedBox(height: 10),
           ],
         ),
       ),
@@ -154,11 +158,19 @@ class _WrittenDocumentsPlayerState extends State<WrittenDocumentsPlayer> {
       centerTitle: true,
       backgroundColor: ColorUtil.primary,
       leading: IconButton(
-        icon: const Icon(Icons.close, color: Colors.white),
+        icon: const Icon(Icons.arrow_back, color: Colors.white),
         onPressed: () {
           NavigationService.getCurrentState()?.pop();
         },
       ),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.close, color: Colors.white),
+          onPressed: () {
+            NavigationService.getCurrentState()?.pop();
+          },
+        ),
+      ],
     );
   }
 }
