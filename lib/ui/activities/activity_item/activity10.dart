@@ -54,15 +54,9 @@ class _Activity10State extends State<Activity10> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Activity- 10: বর্তমান জীবনের নিয়ন্ত্রিত ও অনিয়ন্ত্রিত ঘটনা বা বিষয়বস্তুগুলো নিয়ে অবগত হই ",
-              style: TextStyle(
-                  fontSize: 20, fontWeight: FontWeight.bold),
-            ),
             const SizedBox(height: 10),
             const Text(
-              "বর্তমানে যে ঘটনা বা বিষয়বস্তুগুলো আপনার নিয়ন্ত্রণে আছে এবং যা নিয়ন্ত্রণে নেই সেগুলো সম্পর্কে এখানে লিখুন (যেমন দ্রব্য মূল্য, ঘুম, ইত্যাদি যে কোন ঘটনা বা বিষয়)। এর মাধ্যমে আপনার "
-                  "আত্মসচেতনতা বৃদ্ধি পাবে এবং আপনি নিজের অনুভূতিগুলোকে দৈনন্দিন জীবনের সকল কিছুর সাথে মানিয়ে নিতে পারবেন। ",
+              "বর্তমানে যে ঘটনা বা বিষয়বস্তুগুলো আপনার নিয়ন্ত্রণে আছে এবং যা নিয়ন্ত্রণে নেই সেগুলো সম্পর্কে এখানে লিখুন (যেমন দ্রব্য মূল্য, ঘুম, ইত্যাদি যে কোন ঘটনা বা বিষয়)। এর মাধ্যমে আপনার আত্মসচেতনতা বৃদ্ধি পাবে এবং আপনি নিজের অনুভূতিগুলোকে দৈনন্দিন জীবনের সকল কিছুর সাথে মানিয়ে নিতে পারবেন।",
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 20),
@@ -92,30 +86,30 @@ class _Activity10State extends State<Activity10> {
 
   _appbar() {
     return AppBar(
-      actions: [
-        IconButton(
-          icon: const Icon(
-            Icons.close,
-            color: Colors.transparent,
-          ),
-          onPressed: () {},
-        ),
-      ],
-      leading: Container(
-        child: const Center(),
-      ),
       title: const Text(
         // getTranslated(context, "LEAVE_APPLY"),
-        "Activities 10",
+        "বর্তমান জীবনের নিয়ন্ত্রিত ও অনিয়ন্ত্রিত ঘটনা বা বিষয়বস্তুগুলো নিয়ে অবগত হই ",
         style: TextStyle(
           color: Colors.white,
           fontSize: 18.0,
         ),
       ),
-      backgroundColor: ColorUtil.primary,
-      iconTheme: const IconThemeData(color: Colors.white),
-      elevation: 0,
       centerTitle: true,
+      backgroundColor: ColorUtil.primary,
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back, color: Colors.white),
+        onPressed: () {
+          NavigationService.getCurrentState()?.pop();
+        },
+      ),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.close, color: Colors.white),
+          onPressed: () {
+            NavigationService.getCurrentState()?.pop();
+          },
+        ),
+      ],
     );
   }
 }

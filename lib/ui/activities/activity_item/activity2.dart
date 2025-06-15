@@ -47,13 +47,9 @@ class _Activity2State extends State<Activity2> {
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
-            const Text(
-              "Activity- 2: আবেগের বিভিন্ন পরিস্থিতিতে আমি কী করি",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
             const SizedBox(height: 12),
             const Text(
-              "আবেগের বিভিন্ন পরিস্থিতিতে আমি কীভাবে আচরণ করি, তা ভিন্ন ভিন্ন এবং লিঙ্গি প্রতিটি অনুভূতির পেছনে কারণ থাকতে পারে। যে কোনো বিষয়ে সমাধান করা সহজতর হয়। আপনি যেমন অনুভব করছেন:",
+              "আবেগজনিত বিভিন্ন পরিস্থিতিতে আমি কীভাবে আচরণ করি, তা চিন্তা করি এবং লেখি। প্রতিটি অনুভূতির পিছনের কারণ বুঝতে পারলে যে কোন বিষয় সমাধান করা সহজ হবে।",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
             ),
             const SizedBox(height: 12),
@@ -65,20 +61,20 @@ class _Activity2State extends State<Activity2> {
             ),
             const SizedBox(height: 16),
             const Text(
-              "এই অনুভূতির সময়, এই পরিস্থিতিতে আপনি কী করেন, সাধারণত আপনার জন্য কী হয়।",
+              "এই অনুভূতির কারণ, এই পরিস্থিতিতে আপনি কি করেন, নিয়ন্ত্রণে রাখার জন্য কি করেন।",
               style: TextStyle(fontSize: DimenValuesUtil.normalFontSize),
             ),
             const SizedBox(height: 8),
             TextInputFieldComment(firstCommentController, "Add comment", 3,6 ),
             const SizedBox(height: 16),
             const Text(
-              "এই অনুভূতি আপনার শরীর ও মনে কোন প্রভাব ফেলেছে (যেমন: বুক ধড়ফড় করা, মাথাব্যথা, মন খালি খালি লাগা, মনমালিন্যতা অনুভব, নেতিবাচক চিন্তাধারা, ইনসোমনিয়া বা কোনো কিছু হতে পাড়া)? যদি প্রভাব না থাকে উত্তরটি “না” লিখুন।",
+              "এই অনুভূতিটি আপনার শরীর ও মনে কোন প্রভাব ফেলেছে (যেমন: বুক ভারী লাগা, মাথাব্যথা, হাত কাঁপা, অস্থির লাগা, মনোযোগের অভাব, নেতিবাচক চিন্তা-ভাবনা, ইত্যাদি যে কোন কিছু হতে পারে)? কোন প্রভাব না ফেললে উত্তরটি “না” লিখুন।",
               style: TextStyle(fontSize: DimenValuesUtil.normalFontSize),
             ),
             const SizedBox(height: 8),
             TextInputFieldComment(secondCommentController, "Add comment", 3,6 ),
             const SizedBox(height: 20),
-            NormalButton(false, "Submit", onTap: _submitComment),
+            NormalButton(false, "সাবমিট", onTap: _submitComment),
           ],
         ),
       ),
@@ -87,24 +83,29 @@ class _Activity2State extends State<Activity2> {
 
   _appbar() {
     return AppBar(
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.close, color: Colors.transparent),
-          onPressed: () {},
-        ),
-      ],
-      leading: Container(child: const Center()),
       title: const Text(
-        "Activity 2: আবেগের বিভিন্ন পরিস্থিতিতে আমি কী করি",
+        "আবেগের বিভিন্ন পরিস্থিতিতে আমি কী করি",
         style: TextStyle(
           color: Colors.white,
           fontSize: 18.0,
         ),
       ),
-      backgroundColor: ColorUtil.primary,
-      iconTheme: const IconThemeData(color: Colors.white),
-      elevation: 0,
       centerTitle: true,
+      backgroundColor: ColorUtil.primary,
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back, color: Colors.white),
+        onPressed: () {
+          NavigationService.getCurrentState()?.pop();
+        },
+      ),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.close, color: Colors.white),
+          onPressed: () {
+            NavigationService.getCurrentState()?.pop();
+          },
+        ),
+      ],
     );
   }
 }

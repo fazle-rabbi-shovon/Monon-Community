@@ -100,11 +100,19 @@ class WrittenDocumentsPage extends StatelessWidget {
       centerTitle: true,
       backgroundColor: ColorUtil.primary,
       leading: IconButton(
-        icon: const Icon(Icons.close, color: Colors.white),
+        icon: const Icon(Icons.arrow_back, color: Colors.white),
         onPressed: () {
           NavigationService.getCurrentState()?.pop();
         },
       ),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.close, color: Colors.white),
+          onPressed: () {
+            NavigationService.getCurrentState()?.pop();
+          },
+        ),
+      ],
     );
   }
 }

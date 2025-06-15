@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:monon/Common/normal_button.dart';
 import '../../../Common/text_input_field.dart';
+import '../../../route/navigation_service.dart';
 import '../../../util/color_util.dart';
 import '../../../util/dimen_values_util.dart';
 
@@ -37,16 +38,17 @@ class _Activity8State extends State<Activity8> {
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
-            const Text(
-              "Activity-8: সমানুভূতি বা সমমর্মিতার চর্চা করি",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
             const SizedBox(height: 12),
             const Text(
-              "সমানুভূতি বা সমমর্মিতা বা Empathy হলো সংবেদনশীলভাবে অন্য ব্যক্তির আবেগ-অনুভূতি বোঝা এবং তার অবস্থান বা দৃষ্টিকোণ থেকে কোন বিষয় দেখার ক্ষমতা। সমমর্মিতার মাধ্যমে পরস্পরের সাথে ইতিবাচক ও দৃঢ় সম্পর্ক গড়ে ওঠে। নিচের অংশটুকু পড়ুন এবং এই পরিস্থিতিতে আপনি কিভাবে অন্যের প্রতি আপনার সমানুভূতি বা সমমর্মিতা জানাবেন তা লিখুনঃ ",
+              "সমানুভূতি বা সমমর্মিতা বা Empathy হলো সংবেদনশীলভাবে অন্য ব্যক্তির আবেগ-অনুভূতি বোঝা এবং তার অবস্থান বা দৃষ্টিকোণ থেকে কোন বিষয় দেখার ক্ষমতা। সমমর্মিতার মাধ্যমে পরস্পরের সাথে ইতিবাচক ও দৃঢ় সম্পর্ক গড়ে ওঠে।",
               style: TextStyle(fontSize: DimenValuesUtil.normalFontSize),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
+            const Text(
+              "নিচের অংশটুকু পড়ুন এবং এই পরিস্থিতিতে আপনি কিভাবে অন্যের প্রতি আপনার সমানুভূতি বা সমমর্মিতা জানাবেন তা লিখুনঃ",
+              style: TextStyle(fontSize: DimenValuesUtil.normalFontSize),
+            ),
+            const SizedBox(height: 8),
             RichText(
               text: const TextSpan(
                 style: TextStyle(fontSize: 16, color: Colors.black),
@@ -64,7 +66,7 @@ class _Activity8State extends State<Activity8> {
             const SizedBox(height: 16),
             TextInputFieldComment(commentController, "Add comment", 2, 3),
             const SizedBox(height: 20),
-            NormalButton(false, "Submit", onTap: _submitComment),
+            NormalButton(false, "সাবমিট", onTap: _submitComment),
           ],
         ),
       ),
@@ -73,24 +75,29 @@ class _Activity8State extends State<Activity8> {
 
   _appbar() {
     return AppBar(
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.close, color: Colors.transparent),
-          onPressed: () {},
-        ),
-      ],
-      leading: Container(child: const Center()),
       title: const Text(
-        "Activity-8",
+        "সমানুভূতি বা সমমর্মিতার চর্চা করি",
         style: TextStyle(
           color: Colors.white,
           fontSize: 18.0,
         ),
       ),
-      backgroundColor: ColorUtil.primary,
-      iconTheme: const IconThemeData(color: Colors.white),
-      elevation: 0,
       centerTitle: true,
+      backgroundColor: ColorUtil.primary,
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back, color: Colors.white),
+        onPressed: () {
+          NavigationService.getCurrentState()?.pop();
+        },
+      ),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.close, color: Colors.white),
+          onPressed: () {
+            NavigationService.getCurrentState()?.pop();
+          },
+        ),
+      ],
     );
   }
 }

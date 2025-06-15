@@ -60,32 +60,30 @@ class AudioSubState extends State<AudioSub> {
 
   _appbar() {
     return AppBar(
-      actions: [
-        IconButton(
-          icon: const Icon(
-            Icons.close,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            NavigationService.getCurrentState()?.pop();
-          },
-        ),
-      ],
-      leading: Container(
-        child: const Center(),
-      ),
       title: Text(
         // getTranslated(context, "LEAVE_APPLY"),
-        (pageNumber == 1) ? "Audio One" : "Audio Two",
+        (pageNumber == 1) ? "ইমোশনাল ইন্টেলিজেন্স বা আবেগীয় বুদ্ধিমত্তা" : "আবেগের বিভিন্ন রূপ",
         style: const TextStyle(
           color: Colors.white,
           fontSize: 18.0,
         ),
       ),
-      backgroundColor: ColorUtil.primary,
-      iconTheme: const IconThemeData(color: Colors.white),
-      elevation: 0,
       centerTitle: true,
+      backgroundColor: ColorUtil.primary,
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back, color: Colors.white),
+        onPressed: () {
+          NavigationService.getCurrentState()?.pop();
+        },
+      ),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.close, color: Colors.white),
+          onPressed: () {
+            NavigationService.getCurrentState()?.pop();
+          },
+        ),
+      ],
     );
   }
 
@@ -142,7 +140,7 @@ class AudioSubState extends State<AudioSub> {
               ],
             ),
             const SizedBox(height: 8),
-            Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+            Text(title, style: const TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.center,),
           ],
         ),
       ),
@@ -153,42 +151,42 @@ class AudioSubState extends State<AudioSub> {
     if (pageNumber == 1) {
       return [
         {
-          "title": "emotional_intelligence",
+          "title": "ইমোশনাল ইন্টেলিজেন্স বা আবেগীয় বুদ্ধিমত্তা সম্পর্কে জানি",
           "duration": "01:24",
           "image": ImageUtil.EMOTIONAL_INTELLIGENCE,
           "url":
               "https://f003.backblazeb2.com/file/monon-audio/Audio1/Folder+1_Audio_1_%E0%A6%87%E0%A6%AE%E0%A7%8B%E0%A6%B6%E0%A6%A8%E0%A6%BE%E0%A6%B2+%E0%A6%87%E0%A6%A8%E0%A7%8D%E0%A6%9F%E0%A7%87%E0%A6%B2%E0%A6%BF%E0%A6%9C%E0%A7%87%E0%A6%A8%E0%A7%8D%E0%A6%B8+%E0%A6%AC%E0%A6%BE+%E0%A6%86%E0%A6%AC%E0%A7%87%E0%A6%97%E0%A7%80%E0%A7%9F+%E0%A6%AC%E0%A7%81%E0%A6%A6%E0%A7%8D%E0%A6%A7%E0%A6%BF%E0%A6%AE%E0%A6%A4%E0%A7%8D%E0%A6%A4%E0%A6%BE.mp3"
         },
         {
-          "title": "Self-awareness",
+          "title": "আত্ম-সচেতনতা",
           "duration": "02:35",
           "image": ImageUtil.SELF_AWARENESS,
           "url":
               "https://f003.backblazeb2.com/file/monon-audio/Audio1/Folder+1_Audio_2_%E0%A6%86%E0%A6%A4%E0%A7%8D%E0%A6%AE%E0%A6%B8%E0%A6%9A%E0%A7%87%E0%A6%A4%E0%A6%A8%E0%A6%A4%E0%A6%BE.mp3"
         },
         {
-          "title": "Self-regulations",
+          "title": "আত্মনিয়ন্ত্রণ",
           "duration": "02:07",
           "image": ImageUtil.SELF_REGULATION,
           "url":
               "https://f003.backblazeb2.com/file/monon-audio/Audio1/Folder+1_Audio_3_%E0%A6%86%E0%A6%A4%E0%A7%8D%E0%A6%A8%E0%A6%A8%E0%A6%BF%E0%A6%AF%E0%A6%BC%E0%A6%A8%E0%A7%8D%E0%A6%A4%E0%A7%8D%E0%A6%B0%E0%A6%A8+(Self+Regulation).mp3"
         },
         {
-          "title": "Motivations",
+          "title": "অনুপ্রেরণা",
           "duration": "01:39",
           "image": ImageUtil.MOTIVATION,
           "url":
               "https://f003.backblazeb2.com/file/monon-audio/Audio1/Folder+1_Audio_4_%E0%A6%85%E0%A6%A8%E0%A7%81%E0%A6%AA%E0%A7%8D%E0%A6%B0%E0%A7%87%E0%A6%B0%E0%A6%A3%E0%A6%BE.mp3"
         },
         {
-          "title": "Empathy",
+          "title": "সমানুভূতি বা সমমর্মিতা",
           "duration": "03:46",
           "image": ImageUtil.EMPATHY,
           "url":
               "https://f003.backblazeb2.com/file/monon-audio/Audio1/Folder+1_Audio_5_%E0%A6%B8%E0%A6%AE%E0%A6%BE%E0%A6%A8%E0%A7%81%E0%A6%AD%E0%A7%82%E0%A6%A4%E0%A6%BF+%E0%A6%AC%E0%A6%BE+%E0%A6%B8%E0%A6%AE%E0%A6%AE%E0%A6%B0%E0%A7%8D%E0%A6%AE%E0%A6%BF%E0%A6%A4%E0%A6%BE.mp3"
         },
         {
-          "title": "Social Skills",
+          "title": "সামাজিক দক্ষতা",
           "duration": "02:09",
           "image": ImageUtil.SOCIAL_SKILL,
           "url":
@@ -198,42 +196,42 @@ class AudioSubState extends State<AudioSub> {
     } else {
       return [
         {
-          "title": "Anxiety",
+          "title": "দুশ্চিন্তা",
           "duration": "03:47",
           "image": ImageUtil.ANXIETY,
           "url":
               "https://f003.backblazeb2.com/file/monon-audio/Audio2/Folder+2_Audio_01_%E0%A6%A6%E0%A7%81%E0%A6%83%E0%A6%B6%E0%A7%8D%E0%A6%9A%E0%A6%BF%E0%A6%A8%E0%A7%8D%E0%A6%A4%E0%A6%BE.mp3"
         },
         {
-          "title": "Fear",
+          "title": "ভয়",
           "duration": "03:58",
           "image": ImageUtil.FEAR,
           "url":
               "https://f003.backblazeb2.com/file/monon-audio/Audio2/Folder+2_Audio_02_%E0%A6%AD%E0%A7%9F.mp3"
         },
         {
-          "title": "Anger",
+          "title": "রাগ",
           "duration": "03:46",
           "image": ImageUtil.ANGER,
           "url":
               "https://f003.backblazeb2.com/file/monon-audio/Audio2/Folder+2_Audio_03_%E0%A6%B0%E0%A6%BE%E0%A6%97.mp3"
         },
         {
-          "title": "Sadness",
+          "title": "দুঃখ",
           "duration": "03:04",
           "image": ImageUtil.SADNESS,
           "url":
               "https://f003.backblazeb2.com/file/monon-audio/Audio2/Folder+2_Audio_04_%E0%A6%A6%E0%A7%81%E0%A6%83%E0%A6%96.mp3"
         },
         {
-          "title": "Disgust",
+          "title": "বিরক্তি",
           "duration": "03:31",
           "image": ImageUtil.DISGUST,
           "url":
               "https://f003.backblazeb2.com/file/monon-audio/Audio2/Folder+2_Audio_05_%E0%A6%AC%E0%A6%BF%E0%A6%B0%E0%A6%95%E0%A7%8D%E0%A6%A4%E0%A6%BF.mp3"
         },
         {
-          "title": "Happiness",
+          "title": "আনন্দ",
           "duration": "02:52",
           "image": ImageUtil.HAPPINESS,
           "url":

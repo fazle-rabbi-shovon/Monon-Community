@@ -34,8 +34,8 @@ class _MainAudioState extends State<MainAudio> {
           mainAxisSpacing: 16,
           crossAxisSpacing: 16,
           children: [
-            _buildAudioFolder(context, "Audio1", 1),
-            _buildAudioFolder(context, "Audio2", 2),
+            _buildAudioFolder(context, "ইমোশনাল ইন্টেলিজেন্স বা আবেগীয় বুদ্ধিমত্তা", 1),
+            _buildAudioFolder(context, "আবেগের বিভিন্ন রূপ", 2),
           ],
         ),
       ),
@@ -62,11 +62,11 @@ class _MainAudioState extends State<MainAudio> {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Image.asset(
-                ImageUtil.AUDIO_IMAGE,), // Replace with your image asset
+                ImageUtil.AUDIO_IMAGE, scale: 10.0,), // Replace with your image asset
             ),
           ),
           const SizedBox(height: 8),
-          Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+          Text(title, style: const TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.center,),
         ],
       ),
     );
@@ -74,32 +74,30 @@ class _MainAudioState extends State<MainAudio> {
 
   _appbar() {
     return AppBar(
-      actions: [
-        IconButton(
-          icon: const Icon(
-            Icons.close,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            NavigationService.getCurrentState()?.pop();
-          },
-        ),
-      ],
-      leading: Container(
-        child: const Center(),
-      ),
       title: const Text(
         // getTranslated(context, "LEAVE_APPLY"),
-        "Audio",
+        "বুদ্ধিমত্তা ও আবেগ",
         style: TextStyle(
           color: Colors.white,
           fontSize: 18.0,
         ),
       ),
-      backgroundColor: ColorUtil.primary,
-      iconTheme: const IconThemeData(color: Colors.white),
-      elevation: 0,
       centerTitle: true,
+      backgroundColor: ColorUtil.primary,
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back, color: Colors.white),
+        onPressed: () {
+          NavigationService.getCurrentState()?.pop();
+        },
+      ),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.close, color: Colors.white),
+          onPressed: () {
+            NavigationService.getCurrentState()?.pop();
+          },
+        ),
+      ],
     );
   }
 }

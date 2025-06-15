@@ -95,8 +95,8 @@ class _Activity11State extends State<Activity11> {
           border: Border.all(color: Colors.grey),
         ),
         child: Icon(
-          checked ? Icons.check_circle : Icons.cancel,
-          color: checked ? Colors.green : Colors.red,
+          checked ? Icons.check_circle : Icons.radio_button_unchecked,
+          color: checked ? Colors.green : Colors.transparent,
         ),
       ),
     );
@@ -131,10 +131,6 @@ class _Activity11State extends State<Activity11> {
           scrollDirection: Axis.vertical,
           child: Column(
             children: [
-              const Text(
-                "Activity- 11:  সামাজিক যোগাযোগ বাড়াই ও সামাজিক বন্ধন সুন্দর করি",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
               const SizedBox(height: 12),
               const Text(
                 "পরস্পরের সাথে ভাল সম্পর্ক রাখলে পারিবারিক ও সামাজিক সম্পর্কগুলোর উন্নয়ন হয় এবং পারস্পরিক বোঝাপড়া বৃদ্ধি পায় ফলে পারস্পরিক যে কোনো বিরোধ নিরসন হয়। "
@@ -184,7 +180,7 @@ class _Activity11State extends State<Activity11> {
                 ),
               ),
               const SizedBox(height: 12),
-              NormalButton(false, "Save My Activity", onTap: saveData),
+              NormalButton(false, "সাবমিট", onTap: saveData),
               const SizedBox(height: 15),
             ],
           ),
@@ -195,30 +191,30 @@ class _Activity11State extends State<Activity11> {
 
   _appbar() {
     return AppBar(
-      actions: [
-        IconButton(
-          icon: const Icon(
-            Icons.close,
-            color: Colors.transparent,
-          ),
-          onPressed: () {},
-        ),
-      ],
-      leading: Container(
-        child: const Center(),
-      ),
       title: const Text(
         // getTranslated(context, "LEAVE_APPLY"),
-        "Activities 11",
+        "সামাজিক যোগাযোগ বাড়াই ও সামাজিক বন্ধন সুন্দর করি",
         style: TextStyle(
           color: Colors.white,
           fontSize: 18.0,
         ),
       ),
-      backgroundColor: ColorUtil.primary,
-      iconTheme: const IconThemeData(color: Colors.white),
-      elevation: 0,
       centerTitle: true,
+      backgroundColor: ColorUtil.primary,
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back, color: Colors.white),
+        onPressed: () {
+          NavigationService.getCurrentState()?.pop();
+        },
+      ),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.close, color: Colors.white),
+          onPressed: () {
+            NavigationService.getCurrentState()?.pop();
+          },
+        ),
+      ],
     );
   }
 }

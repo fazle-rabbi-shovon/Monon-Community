@@ -64,9 +64,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            const SizedBox(height: 12),
-            Text(widget.title, style: const TextStyle(fontSize: 20)),
-            const SizedBox(height: 12),
+            const SizedBox(height: 24),
             _controller.value.isInitialized
                 ? GestureDetector(
               onTap: _toggleControls,
@@ -148,11 +146,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               inactiveColor: Colors.grey,
             ),
             const SizedBox(height: 10),
-            const Text(
-              "Self-awareness is your ability to perceive and understand the things that make you who you are",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14),
-            ),
           ],
         ),
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:monon/Common/normal_button.dart';
+import '../../../route/navigation_service.dart';
 import '../../../util/color_util.dart';
 
 class Activity7 extends StatefulWidget {
@@ -17,7 +18,7 @@ class _Activity7State extends State<Activity7> {
     "সোমবার",
     "মঙ্গলবার",
     "বুধবার",
-    "বৃহস্পতিবার",
+    "বৃহস্পতি",
     "শুক্রবার",
   ];
 
@@ -26,8 +27,8 @@ class _Activity7State extends State<Activity7> {
     "সুষম খাবার যেমন শাক-সবজি, ফলমূল পর্যাপ্ত পরিমাণে খেয়েছি",
     "কমপক্ষে পনের মিনিট সময় নিজের পছন্দমত করে কাটিয়েছি",
     "বিভিন্ন শরীরচর্চা  যেমন হাঁটা বা ব্যায়াম করেছি",
-    "পরিপূর্ণ মনোযোগ দিয়ে ধর্মীয়   প্রার্থনা করেছি",
-    "প্রয়োজ- নের বেশি মোবাইল ফোন ব্যবহার করিনি",
+    "পরিপূর্ণ মনোযোগ দিয়ে ধর্মীয় প্রার্থনা করেছি",
+    "প্রয়োজনের বেশি মোবাইল ফোন ব্যবহার করিনি",
     "প্রতিটি কাজ পুরোপুরিভাবে শেষ করেছি",
   ];
 
@@ -84,8 +85,8 @@ class _Activity7State extends State<Activity7> {
           border: Border.all(color: Colors.grey),
         ),
         child: Icon(
-          checked ? Icons.check_circle : Icons.cancel,
-          color: checked ? Colors.green : Colors.red,
+          checked ? Icons.check_circle : Icons.radio_button_unchecked,
+          color: checked ? Colors.green : Colors.grey,
         ),
       ),
     );
@@ -120,19 +121,16 @@ class _Activity7State extends State<Activity7> {
           scrollDirection: Axis.vertical,
           child: Column(
             children: [
-              const Text(
-                "Activity 7: নিজেকে সময় দেই",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
               const SizedBox(height: 12),
               const Text(
-                "নিজেকে শারীরিক ও মানসিকভাবে ভালো রাখার দায়িত্ব নিজেকেই নিতে হবে এবং নিজেকে ভালো রাখতে পারলে অন্যদেরও ভালো রাখা যায়। ",
+                "নিজেকে শারীরিক ও মানসিকভাবে ভালো রাখার দায়িত্ব নিজেকেই নিতে হবে এবং নিজেকে ভালো রাখতে পারলে অন্যদেরও ভালো রাখা যায়।",
                 style: TextStyle(fontSize: 16),
+                textAlign: TextAlign.start,
               ),
-              const SizedBox(height: 12),
               const Text(
                 "নিজেকে সময় দিন এবং নিচের ঘরগুলোতে টিক চিহ্ন দিন।",
                 style: TextStyle(fontSize: 16),
+                textAlign: TextAlign.start,
               ),
               const SizedBox(height: 12),
               SingleChildScrollView(
@@ -177,7 +175,7 @@ class _Activity7State extends State<Activity7> {
                 ),
               ),
               const SizedBox(height: 12),
-              NormalButton(false, "Save My Activity", onTap: saveData),
+              NormalButton(false, "সাবমিট", onTap: saveData),
               const SizedBox(height: 15),
             ],
           ),
@@ -188,24 +186,29 @@ class _Activity7State extends State<Activity7> {
 
   _appbar() {
     return AppBar(
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.close, color: Colors.transparent),
-          onPressed: () {},
-        ),
-      ],
-      leading: Container(child: const Center()),
       title: const Text(
-        "Activity 7: নিজেকে সময় দেই",
+        "নিজেকে সময় দেই",
         style: TextStyle(
           color: Colors.white,
           fontSize: 18.0,
         ),
       ),
-      backgroundColor: ColorUtil.primary,
-      iconTheme: const IconThemeData(color: Colors.white),
-      elevation: 0,
       centerTitle: true,
+      backgroundColor: ColorUtil.primary,
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back, color: Colors.white),
+        onPressed: () {
+          NavigationService.getCurrentState()?.pop();
+        },
+      ),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.close, color: Colors.white),
+          onPressed: () {
+            NavigationService.getCurrentState()?.pop();
+          },
+        ),
+      ],
     );
   }
 }
