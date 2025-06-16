@@ -66,7 +66,7 @@ class _HomeViewState extends BaseViewState<HomeView>
 
   // List of pages corresponding to bottom navigation bar tabs
   final List<Widget> _pages = [
-    const FeelingsMainView(),
+    // const FeelingsMainView(),
     const FolderView(),
     const InfoView(),
     const SubmitView(),
@@ -181,28 +181,23 @@ class _HomeViewState extends BaseViewState<HomeView>
     switch (index) {
       case 0:
         _currentIndex = 0;
-        _navState = Nav.feelings;
+        _navState = Nav.folder;
 
         setState(() {});
         break;
       case 1:
         _currentIndex = 1;
-        _navState = Nav.folder;
-        setState(() {});
-        break;
-      case 2:
-        _currentIndex = 2;
-        _navState = Nav.info;
-        setState(() {});
-        break;
-      case 3:
-        _currentIndex = 3;
         _navState = Nav.submit;
         setState(() {});
         break;
+      // case 2:
+      //   _currentIndex = 2;
+      //   _navState = Nav.info;
+      //   setState(() {});
+      //   break;
       default:
         _currentIndex = 0;
-        _navState = Nav.feelings;
+        _navState = Nav.folder;
         break;
     }
   }

@@ -20,24 +20,24 @@ class BottomNav extends StatelessWidget {
       currentIndex: currentIndex,
       showSelectedLabels: true,
       showUnselectedLabels: true,
-      // backgroundColor: ColorUtil.primarySwatch[100],
+      backgroundColor: Colors.grey.shade100,
       selectedItemColor: ColorUtil.navSelected,
       unselectedItemColor: ColorUtil.navDeselected,
       items: [
+        // NavItem(
+        //   "Feelings",
+        //   ImageUtil.NAV_FEELINGS,
+        // ),
         NavItem(
-          "Feelings",
-          ImageUtil.NAV_FEELINGS,
-        ),
-        NavItem(
-          "folder",
+          "আবেগ",
           ImageUtil.NAV_FOLDER,
         ),
+        // NavItem(
+        //   "Info",
+        //   ImageUtil.NAV_INFO,
+        // ),
         NavItem(
-          "Info",
-          ImageUtil.NAV_INFO,
-        ),
-        NavItem(
-          "Submit",
+          "সেটিংস",
           ImageUtil.NAV_SUBMIT,
         ),
       ],

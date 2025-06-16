@@ -263,6 +263,17 @@ class SharedPrefUtil {
     return isLoggedIn;
   }
 
+  Future<void> setIsTntro() async {
+    final SharedPreferences pref = await _pref;
+    await pref.setBool(SharedPrefConstants.IS_INTRO, true);
+  }
+
+  Future<bool> getIsTntro() async {
+    final SharedPreferences pref = await _pref;
+    bool? isLoggedIn = pref.getBool(SharedPrefConstants.IS_INTRO) ?? false;
+    return isLoggedIn;
+  }
+
 
 
 }

@@ -144,7 +144,8 @@ class _Activity9State extends State<Activity9> {
                 // controller: negativeControllers[i],
                 controller: TextEditingController(text: negativeStatements[i]),
                 style: const TextStyle(
-                    color: Colors.black
+                    color: Colors.black,
+                  fontSize: 12,
                 ),
                 enabled: false,
                 decoration: InputDecoration(
@@ -162,7 +163,7 @@ class _Activity9State extends State<Activity9> {
                     borderSide: const BorderSide(width: 1, color: ColorUtil.button),
                   ),
                 ),
-                maxLines: 3,
+                maxLines: 6,
               ),
             ),
             Padding(
@@ -171,7 +172,8 @@ class _Activity9State extends State<Activity9> {
                 // controller: negativeControllers[i],
                 controller: TextEditingController(text: positiveStatements[i]),
                 style: const TextStyle(
-                    color: Colors.black
+                    color: Colors.black,
+                  fontSize: 12.0,
                 ),
                 enabled: false,
                 decoration: InputDecoration(
@@ -189,7 +191,7 @@ class _Activity9State extends State<Activity9> {
                     borderSide: const BorderSide(width: 1, color: ColorUtil.button),
                   ),
                 ),
-                maxLines: 3,
+                maxLines: 6,
               ),
             ),
           ],),
@@ -202,7 +204,8 @@ class _Activity9State extends State<Activity9> {
                 controller: TextEditingController(text: negativeStatements[i]),
                 enabled: false,
                 style: const TextStyle(
-                    color: Colors.black
+                    color: Colors.black,
+                  fontSize: 12.0,
                 ),
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.all(8),
@@ -219,7 +222,7 @@ class _Activity9State extends State<Activity9> {
                     borderSide: const BorderSide(width: 1, color: ColorUtil.button),
                   ),
                 ),
-                maxLines: 3,
+                maxLines: 6,
               ),
             ),
             Padding(
@@ -227,7 +230,8 @@ class _Activity9State extends State<Activity9> {
               child: TextField(
                 controller: positiveControllers[i],
                 style: const TextStyle(
-                    color: Colors.black
+                    color: Colors.black,
+                  fontSize: 12.0,
                 ),
                 decoration: InputDecoration(
                   // hintText: "আমরা যেভাবে বলতে পারি",
@@ -248,7 +252,7 @@ class _Activity9State extends State<Activity9> {
                     borderSide: const BorderSide(width: 1, color: ColorUtil.button),
                   ),
                 ),
-                maxLines: 3,
+                maxLines: 6,
               ),
             ),
           ], ),

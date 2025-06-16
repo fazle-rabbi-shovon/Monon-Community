@@ -29,12 +29,19 @@ class _FeelingsViewState extends State<FeelingsView>
   String selectedFeeling = ''; // Tracks which emoji is selected for animation
 
   final Map<String, String> feelings = {
-    'Happy': 'assets/images/emg_happy.png',
-    'Sad': 'assets/images/emg_sad.png',
-    'Neutral': 'assets/images/emg_neutral.png',
-    'Angry': 'assets/images/emg_angry.png',
-    'Surprised': 'assets/images/emg_shock.png',
-    'Anxious': 'assets/images/emg_anxious.png',
+    // 'Happy': 'assets/images/emg_happy.png',
+    // 'Sad': 'assets/images/emg_sad.png',
+    // 'Neutral': 'assets/images/emg_neutral.png',
+    // 'Angry': 'assets/images/emg_angry.png',
+    // 'Surprised': 'assets/images/emg_shock.png',
+    // 'Anxious': 'assets/images/emg_anxious.png',
+
+    'দুশ্চিন্তা': 'assets/images/emg_anxious.png',
+    'ভয়': 'assets/images/emg_shock.png',
+    'রাগ': 'assets/images/emg_angry.png',
+    'দুঃখ': 'assets/images/emg_sad.png',
+    'বিরক্তি': 'assets/images/emg_neutral.png',
+    'আনন্দ ': 'assets/images/emg_happy.png',
   };
 
   @override
@@ -48,74 +55,85 @@ class _FeelingsViewState extends State<FeelingsView>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: _appbar(),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
-            const Text(
-              'How do you Feel Now?',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20),
-            Image.asset(
-              currentFeeling,
-              height: 100,
-              width: 100,
-            ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              const Text(
+                'আপনার অনুভূতি',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
                 ),
-                itemCount: feelings.keys.length,
-                itemBuilder: (context, index) {
-                  String feeling = feelings.keys.elementAt(index);
-                  String imagePath = feelings[feeling]!;
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        currentFeeling = imagePath;
-                        selectedFeeling = feeling;
-                      });
-                    },
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      curve: Curves.easeInOut,
-                      height: selectedFeeling == feeling ? 70 : 60,
-                      width: selectedFeeling == feeling ? 70 : 60,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Image.asset(
-                            imagePath,
-                            height: selectedFeeling == feeling ? 70 : 60,
-                            width: selectedFeeling == feeling ? 70 : 60,
-                          ),
-                          const SizedBox(height: 5),
-                          Text(
-                            feeling,
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
+                textAlign: TextAlign.center,
               ),
-            ),
-            const SizedBox(height: 20),
-            applyButton(),
-          ],
+              const SizedBox(height: 10),
+              const Text(
+                'এই মুহূর্তে আপনার মনের অবস্থা প্রকাশ করুন। এখন আপনি কেমন অনুভব করছেন?',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 20),
+              Image.asset(
+                currentFeeling,
+                height: 100,
+                width: 100,
+              ),
+              const SizedBox(height: 20),
+              Expanded(
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                  ),
+                  itemCount: feelings.keys.length,
+                  itemBuilder: (context, index) {
+                    String feeling = feelings.keys.elementAt(index);
+                    String imagePath = feelings[feeling]!;
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          currentFeeling = imagePath;
+                          selectedFeeling = feeling;
+                        });
+                      },
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        curve: Curves.easeInOut,
+                        height: selectedFeeling == feeling ? 70 : 60,
+                        width: selectedFeeling == feeling ? 70 : 60,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image.asset(
+                              imagePath,
+                              height: selectedFeeling == feeling ? 70 : 60,
+                              width: selectedFeeling == feeling ? 70 : 60,
+                            ),
+                            const SizedBox(height: 5),
+                            Text(
+                              feeling,
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 20),
+              applyButton(),
+            ],
+          ),
         ),
       ),
     );
@@ -129,11 +147,11 @@ class _FeelingsViewState extends State<FeelingsView>
       child: InkWell(
         onTap: () {
           NavigationService.getCurrentState()
-              ?.pushReplacementNamed('/home', arguments: 1);
+              ?.pushReplacementNamed('/home', arguments: 0);
         },
         child: const Center(
           child: Text(
-            "Submit",
+            "সাবমিট",
             style: TextStyle(
               color: Colors.white,
               fontSize: DimenValuesUtil.title,

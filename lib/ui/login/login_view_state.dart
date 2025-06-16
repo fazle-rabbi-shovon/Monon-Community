@@ -20,7 +20,6 @@ class LoginViewFinal extends StatefulWidget {
 }
 
 class _LoginViewFinalState extends State<LoginViewFinal> {
-
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   bool _keyboardOpen = false;
@@ -35,17 +34,23 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
 
   void afterBuild() async {
     // Check if user is logged in
-    bool isLoggedIn =  await SharedPrefUtil().getIsLoggedIn();
+    bool isLoggedIn = await SharedPrefUtil().getIsLoggedIn();
 
-    if (isLoggedIn == true){
+    if (isLoggedIn == true) {
       isLoading = false;
       _setInnerState(() {});
-      navigateToHome();
-    } else{
+      SharedPrefUtil().getIsTntro().then((value) async {
+        if (value == false) {
+          navigateToWelcome();
+        }else{
+          NavigationService.getCurrentState()
+              ?.pushReplacementNamed('/emotions_first_submit',);
+        }
+      });
+    } else {
       isLoading = false;
       _setInnerState(() {});
     }
-
   }
 
   @override
@@ -98,14 +103,22 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
         }
 
         SharedPrefUtil().setLoggedIn();
-        navigateToHome();
+
+
 
       } else {
-        if(userCredential.user != null){
+        if (userCredential.user != null) {
           SharedPrefUtil().setLoggedIn();
-          navigateToHome();
-        }
-        else{
+          SharedPrefUtil().getIsTntro().then((value) async {
+            if (value == false) {
+              navigateToWelcome();
+            }else{
+              NavigationService.getCurrentState()
+                  ?.pushReplacementNamed('/emotions_first_submit',);
+            }
+          });
+
+        } else {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("❌ Error: Credentials did not found")),
           );
@@ -125,11 +138,6 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
     });
   }
 
-  Future<void> loginNew () async {
-    SharedPrefUtil().setLoggedIn();
-    navigateToHome();
-  }
-
   void showSnackBar(String msg) {
     if (msg != 'Error') {
       final snackBar = SnackBar(
@@ -147,6 +155,11 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
   void navigateToHome() {
     NavigationService.getCurrentState()
         ?.pushReplacementNamed('/home', arguments: 0);
+  }
+
+  void navigateToWelcome() {
+    NavigationService.getCurrentState()
+        ?.pushReplacementNamed('/welcome', arguments: 0);
   }
 
   @override
@@ -180,20 +193,19 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
           return Stack(
             children: [
               Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white
-                  // gradient: LinearGradient(
-                  //   colors: <Color>[
-                  //     ColorUtil.primarySwatch[700]!,
-                  //     ColorUtil.primarySwatch[400]!,
-                  //     ColorUtil.primarySwatch[300]!,
-                  //     ColorUtil.primarySwatch[200]!,
-                  //   ],
-                  //   begin: Alignment.topCenter,
-                  //   end: Alignment.bottomCenter,
-                  // ),
+                decoration: const BoxDecoration(color: Colors.white
+                    // gradient: LinearGradient(
+                    //   colors: <Color>[
+                    //     ColorUtil.primarySwatch[700]!,
+                    //     ColorUtil.primarySwatch[400]!,
+                    //     ColorUtil.primarySwatch[300]!,
+                    //     ColorUtil.primarySwatch[200]!,
+                    //   ],
+                    //   begin: Alignment.topCenter,
+                    //   end: Alignment.bottomCenter,
+                    // ),
 
-                ),
+                    ),
               ),
               _backgroundLayout(loginIcon),
               _foregroundLayout1(),
@@ -307,12 +319,11 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
           children: [
             const Spacer(),
             isLoading
-                ? CircularProgressIndicator()
-                // : ElevatedButton(
-                //     onPressed: login,
-                //     child: Text('Login'),
-                //   ),
-            : LoginButton(isLoading, onTap: login,),
+                ? const CircularProgressIndicator()
+                : LoginButton(
+                    isLoading,
+                    onTap: login,
+                  ),
             const Spacer(),
           ],
         ),
@@ -320,8 +331,7 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
     );
   }
 
-  void onPressDonePassword() {
-  }
+  void onPressDonePassword() {}
 
   Widget _emailWidget() {
     return Autocomplete<String>(
@@ -473,10 +483,10 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
     return const Center(
       child: Padding(
         padding: EdgeInsets.all(16),
-        child: LinearProgressIndicator(color: Colors.green,),
+        child: LinearProgressIndicator(
+          color: Colors.green,
+        ),
       ),
     );
   }
-
-
 }
