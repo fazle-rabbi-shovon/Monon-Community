@@ -40,7 +40,7 @@ class _Activity11State extends State<Activity11> {
     "সোমবার",
     "মঙ্গলবার",
     "বুধবার",
-    "বৃহস্পতিবার",
+    "বৃহস্পতি",
     "শুক্রবার",
   ];
 
@@ -96,7 +96,7 @@ class _Activity11State extends State<Activity11> {
         ),
         child: Icon(
           checked ? Icons.check_circle : Icons.radio_button_unchecked,
-          color: checked ? Colors.green : Colors.transparent,
+          color: checked ? Colors.green : Colors.grey,
         ),
       ),
     );

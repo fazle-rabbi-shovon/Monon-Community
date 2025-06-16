@@ -202,7 +202,7 @@ class _SubmitViewState extends State<SubmitView>
       ),
       title: const Text(
         // getTranslated(context, "LEAVE_APPLY"),
-        "Submit",
+        "সেটিংস",
         style: TextStyle(
           color: Colors.white,
           fontSize: 18.0,

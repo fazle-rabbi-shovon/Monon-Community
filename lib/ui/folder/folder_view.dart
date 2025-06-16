@@ -214,7 +214,7 @@ class _FolderViewState extends State<FolderView>
       ),
       title: const Text(
         // getTranslated(context, "LEAVE_APPLY"),
-        "Folder",
+        "আবেগ ও অনুভূতি",
         style: TextStyle(
           color: Colors.white,
           fontSize: 18.0,

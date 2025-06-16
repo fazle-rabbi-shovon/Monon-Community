@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:monon/app_starting/welcome_page.dart';
 import 'package:monon/ui/feelings/feelings_main_view.dart';
 import 'package:monon/ui/feelings/feelings_view.dart';
 import 'package:monon/ui/folder/folder_view.dart';
@@ -11,6 +12,9 @@ import 'package:monon/ui/submit/language_setting.dart';
 import 'package:monon/ui/submit/submit_view.dart';
 import 'package:monon/ui/video/vide_main.dart';
 
+import '../app_starting/intro_emotion_setup.dart';
+import '../app_starting/intro_page.dart';
+import '../app_starting/personal_info.dart';
 import '../ui/activities/activities_main.dart';
 import '../ui/audio/audio_sub.dart';
 import '../ui/audio/main_audio.dart';
@@ -44,6 +48,26 @@ class RouteGenerator {
         }
 
         return _underConstructionRoute('Error');
+
+      case '/welcome':
+        return navigateToRoute(
+          builder: (_) => const WelcomePage(),
+        );
+
+      case '/personal_info':
+        return navigateToRoute(
+          builder: (_) => const PersonalInfoForm(),
+        );
+
+      case '/intro_page':
+        return navigateToRoute(
+          builder: (_) => const IntroPage(),
+        );
+
+      case '/intro_emotion_setup':
+        return navigateToRoute(
+          builder: (_) => const IntroEmotionSetup(),
+        );
 
       case '/feelings_main':
         return navigateToRoute(

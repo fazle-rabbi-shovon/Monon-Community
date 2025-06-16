@@ -24,15 +24,13 @@ class NavPage extends StatelessWidget {
 
     switch (currentIndex) {
       case 0:
-        return const FeelingsMainView();
-      case 1:
         return const FolderView();
-      case 2:
-        return const InfoView();
-      case 3:
+      // case 1:
+      //   return const InfoView();
+      case 1:
         return const SubmitView();
       default:
-        return const FeelingsMainView();
+        return const FolderView();
     }
   }
 
