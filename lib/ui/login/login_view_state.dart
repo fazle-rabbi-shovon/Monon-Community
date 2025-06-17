@@ -35,18 +35,18 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
   void afterBuild() async {
     // Check if user is logged in
     bool isLoggedIn = await SharedPrefUtil().getIsLoggedIn();
+    bool isIntroCompleted = await SharedPrefUtil().getIsTntro();
 
     if (isLoggedIn == true) {
-      isLoading = false;
-      _setInnerState(() {});
-      SharedPrefUtil().getIsTntro().then((value) async {
-        if (value == false) {
-          navigateToWelcome();
-        }else{
-          NavigationService.getCurrentState()
-              ?.pushReplacementNamed('/emotions_first_submit',);
-        }
-      });
+      if (isIntroCompleted == true) {
+        isLoading = false;
+        _setInnerState(() {});
+        navigateToEmotionPage();
+      } else {
+        isLoading = false;
+        _setInnerState(() {});
+        navigateToWelcome();
+      }
     } else {
       isLoading = false;
       _setInnerState(() {});
@@ -83,6 +83,7 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
           .doc(userCredential.user!.uid)
           .get();
 
+
       if (userDoc.exists) {
         setState(() {
           userRole = userDoc['role'];
@@ -101,23 +102,12 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
             print("Unauthorized role");
           }
         }
-
         SharedPrefUtil().setLoggedIn();
-
-
-
+        navigateToWelcome();
       } else {
         if (userCredential.user != null) {
           SharedPrefUtil().setLoggedIn();
-          SharedPrefUtil().getIsTntro().then((value) async {
-            if (value == false) {
-              navigateToWelcome();
-            }else{
-              NavigationService.getCurrentState()
-                  ?.pushReplacementNamed('/emotions_first_submit',);
-            }
-          });
-
+          navigateToWelcome();
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("❌ Error: Credentials did not found")),
@@ -160,6 +150,11 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
   void navigateToWelcome() {
     NavigationService.getCurrentState()
         ?.pushReplacementNamed('/welcome', arguments: 0);
+  }
+
+  void navigateToEmotionPage() {
+    NavigationService.getCurrentState()
+        ?.pushReplacementNamed('/emotions_first_submit');
   }
 
   @override
@@ -281,6 +276,7 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
                 fontWeight: FontWeight.w600,
               ),
             ),
+
             const Spacer(),
             // if (_session) _progressBar(),
             _emailWidget(),

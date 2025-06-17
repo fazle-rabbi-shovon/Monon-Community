@@ -15,6 +15,7 @@ import 'package:monon/ui/video/vide_main.dart';
 import '../app_starting/intro_emotion_setup.dart';
 import '../app_starting/intro_page.dart';
 import '../app_starting/personal_info.dart';
+import '../splashscreen.dart';
 import '../ui/activities/activities_main.dart';
 import '../ui/audio/audio_sub.dart';
 import '../ui/audio/main_audio.dart';
@@ -28,15 +29,21 @@ class RouteGenerator {
     final args = settings.arguments;
 
     switch (settings.name) {
+      // case '/':
+      //   return navigateToRoute(
+      //     builder: (_) => LoginViewFinal(),
+      //   );
+
       case '/':
         return navigateToRoute(
-          builder: (_) => LoginViewFinal(),
+          builder: (_) => const SplashScreen(),
         );
 
-      // case '/home':
-      //   return navigateToRoute(
-      //     builder: (_) => HomeView(),
-      //   );
+      case '/login':
+        return navigateToRoute(
+          builder: (_) => const LoginViewFinal(),
+        );
+
 
       case '/home':
         if (args is int) {

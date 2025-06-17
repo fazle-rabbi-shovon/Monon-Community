@@ -20,6 +20,8 @@ class BottomNav extends StatelessWidget {
       currentIndex: currentIndex,
       showSelectedLabels: true,
       showUnselectedLabels: true,
+      elevation: 5.0,
+
       backgroundColor: Colors.grey.shade100,
       selectedItemColor: ColorUtil.navSelected,
       unselectedItemColor: ColorUtil.navDeselected,
