@@ -1,13 +1,13 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:monon/Common/login_gradient_button_decoration.dart';
 import 'package:monon/Common/normal_gradient_button_decoration.dart';
-
+import 'package:monon/ui/feelings/user_emotion_enum.dart';
+import '../../Common/login_gradient_button_decoration.dart';
 import '../../route/navigation_service.dart';
 import '../../util/color_util.dart';
 import '../../util/dimen_values_util.dart';
+import 'emotion_storage.dart';
 
 class FeelingsView extends StatefulWidget {
   const FeelingsView({super.key});
@@ -16,40 +16,80 @@ class FeelingsView extends StatefulWidget {
   State<FeelingsView> createState() => _FeelingsViewState();
 }
 
-class _FeelingsViewState extends State<FeelingsView>
-    with SingleTickerProviderStateMixin {
+class _FeelingsViewState extends State<FeelingsView> with TickerProviderStateMixin {
+  // String selectedFeeling = '';
+  // final Map<String, String> feelings = {
+  //   'দুশ্চিন্তা': 'assets/images/emg_anxious.png',
+  //   'ভয়': 'assets/images/emg_shock.png',
+  //   'রাগ': 'assets/images/emg_angry.png',
+  //   'দুঃখ': 'assets/images/emg_sad.png',
+  //   'বিরক্তি': 'assets/images/emg_neutral.png',
+  //   'আনন্দ ': 'assets/images/emg_happy.png',
+  // };
+
+  UserEmotion? selectedEmotion;
+  final Map<UserEmotion, String> feelings = {
+    UserEmotion.anxious: 'assets/images/emg_anxious.png',
+    UserEmotion.scared: 'assets/images/emg_shock.png',
+    UserEmotion.angry: 'assets/images/emg_angry.png',
+    UserEmotion.sad: 'assets/images/emg_sad.png',
+    UserEmotion.annoyed: 'assets/images/emg_neutral.png',
+    UserEmotion.happy: 'assets/images/emg_happy.png',
+  };
+
+  late Map<UserEmotion, AnimationController> _controllers;
+  late Map<UserEmotion, Animation<double>> _animations;
+
   @override
   void initState() {
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+
+    _controllers = {};
+    _animations = {};
+
+    for (var feeling in feelings.keys) {
+      final controller = AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 1400),
+      );
+
+      final animation = TweenSequence([
+        TweenSequenceItem(tween: Tween(begin: 1.0, end: 1.6), weight: 50),
+        TweenSequenceItem(tween: Tween(begin: 1.6, end: 1.0), weight: 30),
+        // TweenSequenceItem(tween: Tween(begin: 0.8, end: 1.0), weight: 20),
+      ]).animate(CurvedAnimation(parent: controller, curve: Curves.easeInOut));
+
+      _controllers[feeling] = controller;
+      _animations[feeling] = animation;
+    }
   }
-
-  String currentFeeling =
-      'assets/images/emg_sad.png'; // Default top emoji image path
-  String selectedFeeling = ''; // Tracks which emoji is selected for animation
-
-  final Map<String, String> feelings = {
-    // 'Happy': 'assets/images/emg_happy.png',
-    // 'Sad': 'assets/images/emg_sad.png',
-    // 'Neutral': 'assets/images/emg_neutral.png',
-    // 'Angry': 'assets/images/emg_angry.png',
-    // 'Surprised': 'assets/images/emg_shock.png',
-    // 'Anxious': 'assets/images/emg_anxious.png',
-
-    'দুশ্চিন্তা': 'assets/images/emg_anxious.png',
-    'ভয়': 'assets/images/emg_shock.png',
-    'রাগ': 'assets/images/emg_angry.png',
-    'দুঃখ': 'assets/images/emg_sad.png',
-    'বিরক্তি': 'assets/images/emg_neutral.png',
-    'আনন্দ ': 'assets/images/emg_happy.png',
-  };
 
   @override
   void dispose() {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: SystemUiOverlay.values);
+    for (var controller in _controllers.values) {
+      controller.dispose();
+    }
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
     super.dispose();
   }
+
+  // void _onFeelingTap(String feeling) {
+  //   if (selectedFeeling.isNotEmpty) {
+  //     _controllers[selectedFeeling]?.stop();
+  //   }
+  //   setState(() => selectedFeeling = feeling);
+  //   _controllers[feeling]?.repeat(reverse: true);
+  // }
+
+  void _onFeelingTap(UserEmotion emotion) {
+    if (selectedEmotion != null) {
+      _controllers[selectedEmotion!]?.stop();
+    }
+    setState(() => selectedEmotion = emotion);
+    _controllers[emotion]?.repeat(reverse: true);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -61,77 +101,54 @@ class _FeelingsViewState extends State<FeelingsView>
           child: Column(
             children: [
               const SizedBox(height: 20),
-              const Text(
-                'আপনার অনুভূতি',
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-                textAlign: TextAlign.center,
-              ),
+              const Text('আপনার অনুভূতি',
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
               const SizedBox(height: 10),
               const Text(
                 'এই মুহূর্তে আপনার মনের অবস্থা প্রকাশ করুন। এখন আপনি কেমন অনুভব করছেন?',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black,
-                ),
+                style: TextStyle(fontSize: 16),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 20),
-              Image.asset(
-                currentFeeling,
-                height: 100,
-                width: 100,
-              ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 60),
               Expanded(
                 child: GridView.builder(
+                  itemCount: feelings.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                  ),
-                  itemCount: feelings.keys.length,
+                      crossAxisCount: 3, crossAxisSpacing: 10, mainAxisSpacing: 10),
                   itemBuilder: (context, index) {
-                    String feeling = feelings.keys.elementAt(index);
-                    String imagePath = feelings[feeling]!;
+                    // final feeling = feelings.keys.elementAt(index);
+                    // final imagePath = feelings[feeling]!;
+
+                    final emotion = feelings.keys.elementAt(index);
+                    final imagePath = feelings[emotion]!;
+
                     return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          currentFeeling = imagePath;
-                          selectedFeeling = feeling;
-                        });
-                      },
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 200),
-                        curve: Curves.easeInOut,
-                        height: selectedFeeling == feeling ? 70 : 60,
-                        width: selectedFeeling == feeling ? 70 : 60,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Image.asset(
-                              imagePath,
-                              height: selectedFeeling == feeling ? 70 : 60,
-                              width: selectedFeeling == feeling ? 70 : 60,
+                      onTap: () => _onFeelingTap(emotion),
+                      child: AnimatedBuilder(
+                        animation: _animations[emotion]!,
+                        builder: (context, child) {
+                          return Transform.scale(
+                            scale: selectedEmotion == emotion
+                                ? _animations[emotion]?.value ?? 1.0
+                                : 1.0,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Image.asset(imagePath, height: 60, width: 60),
+                                const SizedBox(height: 5),
+                                Text(emotion.label, style: const TextStyle(fontSize: 16)),
+                              ],
                             ),
-                            const SizedBox(height: 5),
-                            Text(
-                              feeling,
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                          ],
-                        ),
+                          );
+                        },
                       ),
                     );
                   },
                 ),
               ),
-              const SizedBox(height: 20),
+              // const SizedBox(height: 20),
               applyButton(),
+              const SizedBox(height: 20),
             ],
           ),
         ),
@@ -145,50 +162,45 @@ class _FeelingsViewState extends State<FeelingsView>
       height: DimenValuesUtil.buttonHeight,
       decoration: GradientButtonDecoration(),
       child: InkWell(
-        onTap: () {
-          NavigationService.getCurrentState()
-              ?.pushReplacementNamed('/home', arguments: 0);
+        onTap: () async {
+          // if (selectedFeeling.isEmpty) return;
+          if (selectedEmotion == null) return;
+          await EmotionStorage.saveEmotion(selectedEmotion!);
+
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (_) => AlertDialog(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              backgroundColor: Colors.white,
+              title: const Text(
+                "ধন্যবাদ",
+                style: TextStyle(color: ColorUtil.mainColor, fontWeight: FontWeight.bold),
+              ),
+              content: const Text(
+                "আপনার অনুভূতি প্রকাশ করার জন্য ধন্যবাদ",
+                style: TextStyle(color: Colors.black87),
+              ),
+            ),
+          );
+          Future.delayed(const Duration(milliseconds: 1000), () {
+            Navigator.of(context, rootNavigator: true).pop();
+            NavigationService.getCurrentState()
+                ?.pushReplacementNamed('/home', arguments: 0);
+          });
+
         },
         child: const Center(
-          child: Text(
-            "সাবমিট",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: DimenValuesUtil.title,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          child: Text("সাবমিট",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: DimenValuesUtil.title,
+                fontWeight: FontWeight.bold,
+              )),
         ),
       ),
-    );
-  }
-
-  _appbar() {
-    return AppBar(
-      actions: [
-        IconButton(
-          icon: const Icon(
-            Icons.close,
-            color: Colors.white,
-          ),
-          onPressed: () {},
-        ),
-      ],
-      leading: Container(
-        child: const Center(),
-      ),
-      title: const Text(
-        // getTranslated(context, "LEAVE_APPLY"),
-        "Emotions",
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 18.0,
-        ),
-      ),
-      backgroundColor: ColorUtil.primary,
-      iconTheme: const IconThemeData(color: Colors.white),
-      elevation: 0,
-      centerTitle: true,
     );
   }
 }
+
+
