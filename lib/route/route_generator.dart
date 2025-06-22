@@ -21,6 +21,7 @@ import '../ui/audio/audio_sub.dart';
 import '../ui/audio/main_audio.dart';
 import '../ui/home/home_view.dart';
 import '../ui/login/login_view_state.dart';
+import '../ui/submit/info_update.dart';
 import '../ui/submit/settings_submit.dart';
 import '../ui/written_documents/written_documents_main.dart';
 
@@ -144,6 +145,11 @@ class RouteGenerator {
       case '/settings_submit':
         return navigateToRoute(
           builder: (_) => const SettingsSubmitView(),
+        );
+
+      case '/personal_info_update':
+        return navigateToRoute(
+          builder: (_) => const PersonalInfoUpdatePage(),
         );
 
       case '/language_setting':

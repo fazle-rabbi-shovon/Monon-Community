@@ -183,7 +183,7 @@ class _FeelingsViewState extends State<FeelingsView> with TickerProviderStateMix
               ),
             ),
           );
-          Future.delayed(const Duration(milliseconds: 1000), () {
+          Future.delayed(const Duration(seconds: 3), () {
             Navigator.of(context, rootNavigator: true).pop();
             NavigationService.getCurrentState()
                 ?.pushReplacementNamed('/home', arguments: 0);

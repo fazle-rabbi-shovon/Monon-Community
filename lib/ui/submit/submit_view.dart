@@ -48,7 +48,8 @@ class _SubmitViewState extends State<SubmitView>
           children: [
             GestureDetector(
               onTap: ()  {
-                NavigationService.getCurrentState()?.pushNamed('/settings_submit');
+                // NavigationService.getCurrentState()?.pushNamed('/settings_submit');
+                NavigationService.getCurrentState()?.pushNamed('/Password_changer');
               },
               child: Container(
                 height: 50.0,
@@ -59,7 +60,7 @@ class _SubmitViewState extends State<SubmitView>
                     children: [
                       Text(
                         // getTranslated(context, "LOGIN_TITLE"),
-                        "Settings",
+                        "পাসওয়ার্ড পরিবর্তন",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,
@@ -74,7 +75,7 @@ class _SubmitViewState extends State<SubmitView>
             const SizedBox(height: 30),
             GestureDetector(
               onTap: ()  {
-                // Call the help phone number
+                NavigationService.getCurrentState()?.pushNamed('/personal_info_update');
               },
               child: Container(
                 height: 50.0,
@@ -85,7 +86,7 @@ class _SubmitViewState extends State<SubmitView>
                     children: [
                       Text(
                         // getTranslated(context, "LOGIN_TITLE"),
-                        "Edit Profile",
+                        "প্রোফাইল আপডেট",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,
@@ -98,59 +99,6 @@ class _SubmitViewState extends State<SubmitView>
               ),
             ),
             const SizedBox(height: 30),
-            GestureDetector(
-              onTap: () async {
-                // Call the help phone number
-                final Uri phoneUri = Uri(scheme: 'tel', path: helpPhoneNumber);
-                if (await canLaunchUrl(phoneUri)) {
-                  await launchUrl(phoneUri);
-                } else {
-                  // Show an error message if the call fails
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Unable to make a call'),
-                    ),
-                  );
-                }
-              },
-              child: Container(
-                height: 50.0,
-                decoration: GradientButtonDecoration(),
-                child: const Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        // getTranslated(context, "LOGIN_TITLE"),
-                        "Call for help",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Icon(
-                        Icons.call,
-                        color: Colors.white,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              "We’d love to hear how you’re feeling after using our app. Click \"Next\" to share your thoughts with us.",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 20),
-            nextButton(),
-            const Text(
-              "at least perform one activity or watch one document to unlock",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 12, color: Colors.grey),
-            ),
           ],
         ),
       ),

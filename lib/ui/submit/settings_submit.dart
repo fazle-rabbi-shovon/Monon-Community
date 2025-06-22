@@ -46,32 +46,32 @@ class _SettingsSubmitViewState extends State<SettingsSubmitView>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            GestureDetector(
-              onTap: ()  {
-                NavigationService.getCurrentState()?.pushNamed('/language_setting');
-              },
-              child: Container(
-                height: 50.0,
-                decoration: GradientButtonDecoration(),
-                child: const Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        // getTranslated(context, "LOGIN_TITLE"),
-                        "Language Setting",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 30),
+            // GestureDetector(
+            //   onTap: ()  {
+            //     NavigationService.getCurrentState()?.pushNamed('/language_setting');
+            //   },
+            //   child: Container(
+            //     height: 50.0,
+            //     decoration: GradientButtonDecoration(),
+            //     child: const Center(
+            //       child: Row(
+            //         mainAxisAlignment: MainAxisAlignment.center,
+            //         children: [
+            //           Text(
+            //             // getTranslated(context, "LOGIN_TITLE"),
+            //             "Language Setting",
+            //             style: TextStyle(
+            //               color: Colors.white,
+            //               fontSize: 20.0,
+            //               fontWeight: FontWeight.bold,
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            // const SizedBox(height: 30),
             GestureDetector(
               onTap: ()  {
                 NavigationService.getCurrentState()?.pushNamed('/Password_changer');
@@ -149,7 +149,7 @@ class _SettingsSubmitViewState extends State<SettingsSubmitView>
       ),
       title: const Text(
         // getTranslated(context, "LEAVE_APPLY"),
-        "Submit",
+        "সেটিংস",
         style: TextStyle(
           color: Colors.white,
           fontSize: 18.0,

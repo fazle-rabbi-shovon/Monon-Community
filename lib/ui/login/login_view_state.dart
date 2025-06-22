@@ -32,30 +32,30 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
   TextEditingController userNameCon = TextEditingController();
   TextEditingController passwordCon = TextEditingController();
 
-  void afterBuild() async {
-    // Check if user is logged in
-    bool isLoggedIn = await SharedPrefUtil().getIsLoggedIn();
-    bool isIntroCompleted = await SharedPrefUtil().getIsTntro();
-
-    if (isLoggedIn == true) {
-      if (isIntroCompleted == true) {
-        isLoading = false;
-        _setInnerState(() {});
-        navigateToEmotionPage();
-      } else {
-        isLoading = false;
-        _setInnerState(() {});
-        navigateToWelcome();
-      }
-    } else {
-      isLoading = false;
-      _setInnerState(() {});
-    }
-  }
+  // void afterBuild() async {
+  //   // Check if user is logged in
+  //   bool isLoggedIn = await SharedPrefUtil().getIsLoggedIn();
+  //   bool isIntroCompleted = await SharedPrefUtil().getIsTntro();
+  //
+  //   if (isLoggedIn == true) {
+  //     if (isIntroCompleted == true) {
+  //       isLoading = false;
+  //       _setInnerState(() {});
+  //       navigateToEmotionPage();
+  //     } else {
+  //       isLoading = false;
+  //       _setInnerState(() {});
+  //       navigateToWelcome();
+  //     }
+  //   } else {
+  //     isLoading = false;
+  //     _setInnerState(() {});
+  //   }
+  // }
 
   @override
   void initState() {
-    isLoading = true;
+    isLoading = false;
     super.initState();
   }
 
@@ -83,37 +83,71 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
           .doc(userCredential.user!.uid)
           .get();
 
+      if (userCredential.user != null) {
+        SharedPrefUtil().setLoggedIn();
+        if (userDoc.exists) {
+          setState(() {
+            userRole = userDoc['role'];
+          });
 
-      if (userDoc.exists) {
-        setState(() {
-          userRole = userDoc['role'];
-        });
-
-        if (userRole == 'super_admin') {
-          if (kDebugMode) {
-            print(userRole);
-          }
-        } else if (userRole == 'admin') {
-          if (kDebugMode) {
-            print(userRole);
-          }
-        } else {
-          if (kDebugMode) {
-            print("Unauthorized role");
+          if (userRole == 'super_admin') {
+            if (kDebugMode) {
+              print(userRole);
+            }
+          } else if (userRole == 'admin') {
+            if (kDebugMode) {
+              print(userRole);
+            }
+          } else if (userRole == 'volunteer') {
+            if (kDebugMode) {
+              print(userRole);
+            }
+          } else {
+            if (kDebugMode) {
+              print("Unauthorized role");
+            }
           }
         }
-        SharedPrefUtil().setLoggedIn();
         navigateToWelcome();
       } else {
-        if (userCredential.user != null) {
-          SharedPrefUtil().setLoggedIn();
-          navigateToWelcome();
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("❌ Error: Credentials did not found")),
-          );
-        }
+        setState(() {
+          isLoading = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("❌ Error: Credentials did not found")),
+        );
       }
+
+      // if (userDoc.exists) {
+      //   setState(() {
+      //     userRole = userDoc['role'];
+      //   });
+      //
+      //   if (userRole == 'super_admin') {
+      //     if (kDebugMode) {
+      //       print(userRole);
+      //     }
+      //   } else if (userRole == 'admin') {
+      //     if (kDebugMode) {
+      //       print(userRole);
+      //     }
+      //   } else {
+      //     if (kDebugMode) {
+      //       print("Unauthorized role");
+      //     }
+      //   }
+      //   SharedPrefUtil().setLoggedIn();
+      //   navigateToWelcome();
+      // } else {
+      //   if (userCredential.user != null) {
+      //     SharedPrefUtil().setLoggedIn();
+      //     navigateToWelcome();
+      //   } else {
+      //     ScaffoldMessenger.of(context).showSnackBar(
+      //       const SnackBar(content: Text("❌ Error: Credentials did not found")),
+      //     );
+      //   }
+      // }
     } catch (e) {
       if (kDebugMode) {
         print('Login failed: $e'); // this already exists
@@ -169,7 +203,7 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
     Color backgroundColor = const Color(0xFFFFB300);
     String loginIcon = "Monon";
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => afterBuild());
+    // WidgetsBinding.instance.addPostFrameCallback((_) => afterBuild());
 
     return _loginPage(backgroundColor, loginIcon);
   }
@@ -314,12 +348,16 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Spacer(),
-            isLoading
-                ? const CircularProgressIndicator()
-                : LoginButton(
-                    isLoading,
-                    onTap: login,
-                  ),
+            // isLoading
+            //     ? const CircularProgressIndicator()
+            //     : LoginButton(
+            //         isLoading,
+            //         onTap: login,
+            //       ),
+            LoginButton(
+              isLoading,
+              onTap: login,
+            ),
             const Spacer(),
           ],
         ),

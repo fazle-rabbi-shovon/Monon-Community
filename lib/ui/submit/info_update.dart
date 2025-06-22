@@ -3,21 +3,21 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:monon/util/color_util.dart';
 
-import '../Common/login_gradient_button_decoration.dart';
-import '../route/navigation_service.dart';
-import '../util/dimen_values_util.dart';
+import '../../Common/login_gradient_button_decoration.dart';
+import '../../route/navigation_service.dart';
+import '../../util/dimen_values_util.dart';
 
-class PersonalInfoForm extends StatefulWidget {
-  const PersonalInfoForm({super.key});
+
+class PersonalInfoUpdatePage extends StatefulWidget {
+  const PersonalInfoUpdatePage({super.key});
 
   @override
-  PersonalInfoFormState createState() => PersonalInfoFormState();
+  State<PersonalInfoUpdatePage> createState() => _PersonalInfoUpdatePageState();
 }
 
-class PersonalInfoFormState extends State<PersonalInfoForm> {
+class _PersonalInfoUpdatePageState extends State<PersonalInfoUpdatePage> {
   final _formKey = GlobalKey<FormState>();
 
-  // Controllers
   final uniqueIdController = TextEditingController();
   final nameController = TextEditingController();
   final dobController = TextEditingController();
@@ -29,6 +29,35 @@ class PersonalInfoFormState extends State<PersonalInfoForm> {
   final participant2Controller = TextEditingController();
 
   String participantType = 'volunteer';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadPersonalInfo();
+  }
+
+  Future<void> _loadPersonalInfo() async {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null) return;
+
+    final doc = await FirebaseFirestore.instance.collection('personal_info').doc(uid).get();
+
+    if (doc.exists) {
+      final data = doc.data()!;
+      setState(() {
+        uniqueIdController.text = data['unique_id'] ?? '';
+        nameController.text = data['name'] ?? '';
+        dobController.text = data['dob'] ?? '';
+        genderController.text = data['gender'] ?? '';
+        districtController.text = data['district'] ?? '';
+        upazillaController.text = data['upazilla'] ?? '';
+        participantType = data['participant_type'] ?? 'volunteer';
+        relationshipController.text = data['relationship'] ?? '';
+        participant1Controller.text = data['participant_1'] ?? '';
+        participant2Controller.text = data['participant_2'] ?? '';
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -59,27 +88,23 @@ class PersonalInfoFormState extends State<PersonalInfoForm> {
                 children: [
                   const SizedBox(height: 20),
                   const Text(
-                    'ব্যক্তিগত তথ্য',
+                    'ব্যক্তিগত তথ্য আপডেট',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 10),
                   _buildInput('আইডি', uniqueIdController),
                   _buildInput('নাম', nameController),
                   _buildInput('জন্মসাল (দিন/মাস/বছর)', dobController),
-                  _buildInput(
-                      'জেন্ডার (পুরুষ/নারী/তৃতীয় লিঙ্গ)', genderController),
+                  _buildInput('জেন্ডার (পুরুষ/নারী/তৃতীয় লিঙ্গ)', genderController),
                   _buildInput('জেলা', districtController),
                   _buildInput('উপজেলা', upazillaController),
                   _buildParticipantType(),
-                  _buildInput(
-                      'পার্টিসিপেন্টের সাথে সম্পর্ক', relationshipController),
+                  _buildInput('পার্টিসিপেন্টের সাথে সম্পর্ক', relationshipController),
                   _buildInput('পার্টিসিপেন্ট ১', participant1Controller),
                   _buildInput('পার্টিসিপেন্ট ২', participant2Controller),
                   const SizedBox(height: 10),
                   nextButton(),
-                  const SizedBox(
-                    height: 20,
-                  )
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
@@ -95,15 +120,10 @@ class PersonalInfoFormState extends State<PersonalInfoForm> {
       height: DimenValuesUtil.buttonHeight,
       decoration: GradientButtonDecoration(),
       child: InkWell(
-        // onTap: () {
-        //   NavigationService.getCurrentState()?.pushReplacementNamed(
-        //     '/intro_page',
-        //   );
-        // },
         onTap: update,
         child: const Center(
           child: Text(
-            "সাবমিট",
+            "আপডেট করুন",
             style: TextStyle(
               color: Colors.white,
               fontSize: DimenValuesUtil.title,
@@ -115,7 +135,7 @@ class PersonalInfoFormState extends State<PersonalInfoForm> {
     );
   }
 
-  update () async{
+  Future<void> update() async {
     if (_formKey.currentState!.validate()) {
       final uid = FirebaseAuth.instance.currentUser?.uid;
 
@@ -126,7 +146,7 @@ class PersonalInfoFormState extends State<PersonalInfoForm> {
         return;
       }
 
-      final Map<String, dynamic> data = {
+      final data = {
         'unique_id': uniqueIdController.text.trim(),
         'name': nameController.text.trim(),
         'dob': dobController.text.trim(),
@@ -140,13 +160,19 @@ class PersonalInfoFormState extends State<PersonalInfoForm> {
       };
 
       try {
-        await FirebaseFirestore.instance
-            .collection('personal_info')
-            .doc(uid)
-            .set(data);
+        await FirebaseFirestore.instance.collection('personal_info').doc(uid).set(data);
+        showDialog(
+          context: context,
+          builder: (context) => const AlertDialog(
+            title: Text('সফল'),
+            content: Text('আপনার তথ্য সফলভাবে আপডেট হয়েছে।'),
+          ),
+        );
 
-        NavigationService.getCurrentState()
-            ?.pushReplacementNamed('/intro_page');
+        Future.delayed(const Duration(seconds: 2), () {
+          Navigator.of(context).pop(); // Close the dialog
+          Navigator.of(context).pop(); // Go back to previous screen
+        });
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error saving data: $e')),
@@ -173,7 +199,7 @@ class PersonalInfoFormState extends State<PersonalInfoForm> {
           ),
         ),
         validator: (value) =>
-            value == null || value.isEmpty ? 'Required' : null,
+        value == null || value.isEmpty ? 'Required' : null,
       ),
     );
   }
@@ -187,15 +213,14 @@ class PersonalInfoFormState extends State<PersonalInfoForm> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text("পার্টিসিপেন্ট টাইপ:",
-                  style: TextStyle(color: Colors.black)),
+              const Text("পার্টিসিপেন্ট টাইপ:", style: TextStyle(color: Colors.black)),
               const SizedBox(width: 10),
               ChoiceChip(
                 label: const Text('ভলান্টিয়ার'),
                 padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
                 selected: participantType == 'volunteer',
                 selectedColor: ColorUtil.mainColor,
-                onSelected: (val) {
+                onSelected: (_) {
                   setState(() => participantType = 'volunteer');
                 },
               ),
@@ -205,7 +230,7 @@ class PersonalInfoFormState extends State<PersonalInfoForm> {
                 padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
                 selected: participantType == 'participant',
                 selectedColor: ColorUtil.mainColor,
-                onSelected: (val) {
+                onSelected: (_) {
                   setState(() => participantType = 'participant');
                 },
               ),

@@ -25,7 +25,9 @@ class LoginButton extends Container {
         // ),
         child: Center(
           child: isLoading
-              ? const CircularProgressIndicator()
+              ? const CircularProgressIndicator(
+            color: Colors.white,
+          )
               : const Text(
                   // getTranslated(context, "LOGIN_TITLE"),
                   "Login",

@@ -94,7 +94,7 @@ class _PasswordChangerState extends State<PasswordChanger> {
                 //     onPressed: _changePassword,
                 //     child: Text("Change Password"),
                 //   ),
-                : NormalButton(false, "Change Password", onTap: _changePassword)
+                : NormalButton(false, "পরিবর্তন করুন", onTap: _changePassword)
           ],
         ),
       ),
@@ -117,7 +117,7 @@ class _PasswordChangerState extends State<PasswordChanger> {
       ),
       title: const Text(
         // getTranslated(context, "LEAVE_APPLY"),
-        "Password Change",
+        "পাসওয়ার্ড পরিবর্তন",
         style: TextStyle(
           color: Colors.white,
           fontSize: 18.0,
