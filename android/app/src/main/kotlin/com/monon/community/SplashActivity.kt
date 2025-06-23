@@ -1,4 +1,4 @@
-package com.monon.health
+package com.monon.community
 
 import android.app.Activity
 import android.content.Intent

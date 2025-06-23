@@ -3,8 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../Common/after_activity_dialogue.dart';
 import '../../../Common/normal_button.dart';
 import '../../../Common/text_input_field.dart';
+import '../../../firebase_call/save_activity.dart';
 import '../../../route/navigation_service.dart';
 import '../../../util/color_util.dart';
 
@@ -33,16 +35,50 @@ class _Activity10State extends State<Activity10> {
   final TextEditingController commentControllerOne = TextEditingController();
   final TextEditingController commentControllerTwo = TextEditingController();
 
-  void _submit() {
-    debugPrint('Additional Comment: ${commentControllerOne.text}');
-    debugPrint('Additional Comment: ${commentControllerTwo.text}');
+  void _submit() async {
+    final controlList = commentControllerOne.text.trim();
+    final notControlList = commentControllerTwo.text.trim();
 
-    // Add Firestore or DB saving logic here
+    Map<String, dynamic> activityData = {
+      "1": "নিয়ন্ত্রণে থাকা বিষয় : ${controlList.isEmpty ? "Not provided" : controlList}",
+      "2": "নিয়ন্ত্রণে নেই এমন বিষয় : ${notControlList.isEmpty ? "Not provided" : notControlList}",
+    };
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Your responses have been saved.")),
-    );
+    final hasInput = activityData.values.any((value) => value != "Not provided");
+
+    if (!hasInput) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text("সতর্কতা"),
+          content: const Text("অনুগ্রহ করে অন্তত একটি ঘর পূরণ করুন।"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text("ঠিক আছে", style: TextStyle(color: ColorUtil.button)),
+            )
+          ],
+        ),
+      );
+      return;
+    }
+
+    try {
+      await saveActivityOnFirebase(
+        activityName: 'Activity10',
+        activityData: activityData,
+      );
+
+      if (mounted) {
+        showActivityDialog(success: true, context: context);
+      }
+    } catch (e) {
+      if(mounted){
+        showActivityDialog(success: false, context: context, message: e.toString());
+      }
+    }
   }
+
 
 
   @override

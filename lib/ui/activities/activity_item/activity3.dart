@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:monon/Common/normal_button.dart';
 
+import '../../../Common/after_activity_dialogue.dart';
 import '../../../Common/text_input_field.dart';
+import '../../../firebase_call/save_activity.dart';
 import '../../../route/navigation_service.dart';
 import '../../../util/color_util.dart';
 
@@ -16,16 +18,48 @@ class _Activity3State extends State<Activity3> {
   final TextEditingController strengthController = TextEditingController();
   final TextEditingController weaknessController = TextEditingController();
 
-  void _submitComment() {
-    final firstAnswer = strengthController.text.trim();
-    final secondAnswer = weaknessController.text.trim();
-    debugPrint('Response 1: $firstAnswer');
-    debugPrint('Response 2: $secondAnswer');
-    // Save to Firestore or local DB here
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Your responses have been saved.')),
-    );
+  void _submitComment() async {
+    final strengthAnswer = strengthController.text.trim();
+    final weaknessAnswer = weaknessController.text.trim();
+
+    if (strengthAnswer.isEmpty && weaknessAnswer.isEmpty) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text("সতর্কতা"),
+          content: const Text("অনুগ্রহ করে অন্তত একটি ঘর পূরণ করুন।"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text("ঠিক আছে", style: TextStyle(color: ColorUtil.button)),
+            )
+          ],
+        ),
+      );
+      return;
+    }
+
+    Map<String, dynamic> activityData = {
+      "1": "নিজের গুণাবলী : $strengthAnswer",
+      "2": "নিজের দুর্বলতা : $weaknessAnswer",
+    };
+
+    try {
+      await saveActivityOnFirebase(
+        activityName: 'Activity3',
+        activityData: activityData,
+      );
+
+      if (mounted) {
+        showActivityDialog(success: true, context: context);
+      }
+    } catch (e) {
+      if(mounted){
+        showActivityDialog(success: false, context: context, message: e.toString());
+      }
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {

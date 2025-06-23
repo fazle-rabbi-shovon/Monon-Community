@@ -1,9 +1,9 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:monon/Common/normal_button.dart';
-import '../../../Common/normal_gradient_button_decoration.dart';
+
+import '../../../Common/after_activity_dialogue.dart';
 import '../../../Common/text_input_field.dart';
+import '../../../firebase_call/save_activity.dart';
 import '../../../route/navigation_service.dart';
 import '../../../util/color_util.dart';
 import '../../../util/dimen_values_util.dart';
@@ -28,15 +28,48 @@ class _Activity2State extends State<Activity2> {
     super.dispose();
   }
 
-  void _submitComment() {
+  void _submitComment() async {
     final firstAnswer = firstCommentController.text.trim();
     final secondAnswer = secondCommentController.text.trim();
-    debugPrint('Response 1: $firstAnswer');
-    debugPrint('Response 2: $secondAnswer');
-    // Save to Firestore or local DB here
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Your responses have been saved.')),
-    );
+
+    if (firstAnswer.isEmpty && secondAnswer.isEmpty) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text("সতর্কতা"),
+          content: const Text("অনুগ্রহ করে অন্তত একটি উত্তর দিন।"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text("ঠিক আছে",
+                  style: TextStyle(color: ColorUtil.button)),
+            )
+          ],
+        ),
+      );
+      return;
+    }
+
+    Map<String, dynamic> activityData = {
+      "1": "এই অনুভূতির কারণ ও ব্যবস্থাপনা : $firstAnswer",
+      "2": "শরীর ও মনের উপর প্রভাব : $secondAnswer",
+    };
+
+    try {
+      await saveActivityOnFirebase(
+        activityName: 'Activity2',
+        activityData: activityData,
+      );
+
+      if (mounted) {
+        showActivityDialog(success: true, context: context);
+      }
+    } catch (e) {
+      if (mounted) {
+        showActivityDialog(
+            success: false, context: context, message: e.toString());
+      }
+    }
   }
 
   @override
@@ -83,14 +116,16 @@ class _Activity2State extends State<Activity2> {
                   style: TextStyle(fontSize: DimenValuesUtil.normalFontSize),
                 ),
                 const SizedBox(height: 8),
-                TextInputFieldComment(firstCommentController, "Add comment", 3, 6),
+                TextInputFieldComment(
+                    firstCommentController, "Add comment", 3, 6),
                 const SizedBox(height: 16),
                 const Text(
                   "এই অনুভূতিটি আপনার শরীর ও মনে কোন প্রভাব ফেলেছে (যেমন: বুক ভারী লাগা, মাথাব্যথা, হাত কাঁপা, অস্থির লাগা, মনোযোগের অভাব, নেতিবাচক চিন্তা-ভাবনা, ইত্যাদি যে কোন কিছু হতে পারে)? কোন প্রভাব না ফেললে উত্তরটি “না” লিখুন।",
                   style: TextStyle(fontSize: DimenValuesUtil.normalFontSize),
                 ),
                 const SizedBox(height: 8),
-                TextInputFieldComment(secondCommentController, "Add comment", 3, 6),
+                TextInputFieldComment(
+                    secondCommentController, "Add comment", 3, 6),
                 const SizedBox(height: 20),
                 NormalButton(false, "সাবমিট", onTap: _submitComment),
               ],

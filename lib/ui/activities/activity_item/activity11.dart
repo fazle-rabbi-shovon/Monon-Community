@@ -4,7 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../Common/after_activity_dialogue.dart';
 import '../../../Common/normal_button.dart';
+import '../../../firebase_call/save_activity.dart';
 import '../../../route/navigation_service.dart';
 import '../../../util/color_util.dart';
 
@@ -56,7 +58,7 @@ class _Activity11State extends State<Activity11> {
 
   Future<void> loadData() async {
     // Example Firestore fetch logic; replace with your actual path
-    final doc = await FirebaseFirestore.instance.collection('activity7').doc('user123').get();
+    final doc = await FirebaseFirestore.instance.collection('activity11').doc('user123').get();
     if (doc.exists) {
       final data = doc.data() as Map<String, dynamic>;
       setState(() {
@@ -68,20 +70,62 @@ class _Activity11State extends State<Activity11> {
     }
   }
 
-  // Future<void> saveData() async {
-  //   await FirebaseFirestore.instance.collection('activity7').doc('user123').set(tableData);
-  //   ScaffoldMessenger.of(context).showSnackBar(
-  //     const SnackBar(content: Text("Saved successfully!")),
-  //   );
-  // }
-
   Future<void> saveData() async {
+    final today = getTodayInBangla();
+
+    final todayData = tableData[today];
+
+    if (todayData == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("আজকের দিনের তথ্য পাওয়া যায়নি।")),
+      );
+      return;
+    }
+
+    final formattedDate = DateTime.now().toIso8601String().split("T")[0]; // e.g. 2025-06-23
+
+    // Convert boolean to Bangla string
+    final activityData = todayData.map((key, value) =>
+        MapEntry(key, value ? "করেছে" : "করেনি"));
+
+    try {
+      await saveActivityOnFirebase(
+        activityName: 'Activity11',
+        activityData: activityData,
+      );
+      if (mounted) {
+        showActivityDialog(success: true, context: context);
+      }
+    } catch (e) {
+      if(mounted){
+        showActivityDialog(success: false, context: context, message: e.toString());
+      }
+    }
   }
 
   Widget buildCell(String day, String header) {
     final checked = tableData[day]?[header] ?? false;
+    final today = getTodayInBangla();
+
     return GestureDetector(
       onTap: () {
+        if (day != today) {
+          showDialog(
+            context: context,
+            builder: (_) => AlertDialog(
+              title: const Text("সতর্কতা"),
+              content: const Text("শুধুমাত্র আজকের দিনের ঘরে টিক দিন।"),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text("ঠিক আছে", style: TextStyle(color: ColorUtil.button)),
+                )
+              ],
+            ),
+          );
+          return;
+        }
+
         setState(() {
           tableData[day]![header] = !checked;
         });
@@ -187,6 +231,20 @@ class _Activity11State extends State<Activity11> {
         ),
       ),
     );
+  }
+
+  String getTodayInBangla() {
+    final weekday = DateTime.now().weekday; // 1 = Monday, 7 = Sunday
+    const banglaDays = [
+      "রবিবার",
+      "সোমবার",
+      "মঙ্গলবার",
+      "বুধবার",
+      "বৃহস্পতি",
+      "শুক্রবার",
+      "শনিবার",
+    ];
+    return banglaDays[weekday % 7]; // ensures Sunday is last
   }
 
   _appbar() {
