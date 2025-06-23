@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../Common/after_activity_dialogue.dart';
+import '../../../firebase_call/save_activity.dart';
 import '../../../route/navigation_service.dart';
 import '../../../util/color_util.dart';
 import '../../../Common/normal_button.dart';
@@ -37,10 +39,43 @@ class _Activity12State extends State<Activity12> {
     };
   }
 
+  String getTodayInBangla() {
+    final weekday = DateTime.now().weekday;
+    const banglaDays = [
+      "রবিবার",
+      "সোমবার",
+      "মঙ্গলবার",
+      "বুধবার",
+      "বৃহস্পতি",
+      "শুক্রবার",
+      "শনিবার",
+    ];
+    return banglaDays[weekday % 7];
+  }
+
   Widget buildCell(String day, String action) {
     final checked = tableData[day]?[action] ?? false;
+    final today = getTodayInBangla();
+
     return GestureDetector(
       onTap: () {
+        if (day != today) {
+          showDialog(
+            context: context,
+            builder: (_) => AlertDialog(
+              title: const Text("সতর্কতা"),
+              content: const Text("শুধুমাত্র আজকের দিনের ঘরে টিক দিন।"),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text("ঠিক আছে", style: TextStyle(color: ColorUtil.button)),
+                )
+              ],
+            ),
+          );
+          return;
+        }
+
         setState(() {
           tableData[day]![action] = !checked;
         });
@@ -139,17 +174,43 @@ class _Activity12State extends State<Activity12> {
               ],
             ),
             const SizedBox(height: 20),
-            NormalButton(false, "সাবমিট", onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("ডেটা সেভ হয়েছে")),
-              );
-            }),
+            NormalButton(false, "সাবমিট", onTap: saveData),
             const SizedBox(height: 20),
           ],
         ),
       ),
     );
   }
+
+  Future<void> saveData() async {
+    final today = getTodayInBangla();
+    final todayData = tableData[today];
+
+    if (todayData == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("আজকের দিনের তথ্য পাওয়া যায়নি।")),
+      );
+      return;
+    }
+
+    final activityData = todayData.map((key, value) => MapEntry(key, value ? "করেছে" : "করেনি"));
+
+    try {
+      await saveActivityOnFirebase(
+        activityName: "Activity12",
+        activityData: activityData,
+      );
+
+      if (mounted) {
+        showActivityDialog(success: true, context: context);
+      }
+    } catch (e) {
+      if(mounted){
+        showActivityDialog(success: false, context: context, message: e.toString());
+      }
+    }
+  }
+
 
   _appbar() {
     return AppBar(

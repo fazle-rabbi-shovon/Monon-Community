@@ -3,8 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../Common/after_activity_dialogue.dart';
 import '../../../Common/normal_button.dart';
 import '../../../Common/text_input_field.dart';
+import '../../../firebase_call/save_activity.dart';
 import '../../../route/navigation_service.dart';
 import '../../../util/color_util.dart';
 
@@ -50,20 +52,59 @@ class _Activity9State extends State<Activity9> {
   final TextEditingController commentControllerOne = TextEditingController();
   final TextEditingController commentControllerTwo = TextEditingController();
 
-  void _submit() {
-    for (int i = 0; i < 4; i++) {
-      debugPrint(
-          'Row ${i + 1}: Negative: ${negativeControllers[i].text} | Positive: ${positiveControllers[i].text}');
+  void _submit() async {
+    final extraCommentOne = commentControllerOne.text.trim();
+    final extraCommentTwo = commentControllerTwo.text.trim();
+
+    Map<String, dynamic> activityData = {};
+
+    // Collect positive phrases for editable rows (i = 2 and 3)
+    for (int i = 2; i < 4; i++) {
+      final value = positiveControllers[i].text.trim();
+      activityData["ইতিবাচক বাক্য ${i + 1}"] = value.isEmpty ? "Not provided" : value;
     }
-    debugPrint('Additional Comment: ${commentControllerOne.text}');
-    debugPrint('Additional Comment: ${commentControllerTwo.text}');
 
-    // Add Firestore or DB saving logic here
+    // Add the two free comments
+    activityData["আজ আমি যেভাবে বলেছি"] =
+    extraCommentOne.isEmpty ? "Not provided" : extraCommentOne;
+    activityData["আমি যেভাবে ইতিবাচকভাবে বলতাম"] =
+    extraCommentTwo.isEmpty ? "Not provided" : extraCommentTwo;
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Your responses have been saved.")),
-    );
+    // Check if anything was actually filled
+    final hasInput = activityData.values.any((value) => value != "Not provided");
+    if (!hasInput) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text("সতর্কতা"),
+          content: const Text("অনুগ্রহ করে অন্তত একটি ঘর পূরণ করুন।"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text("ঠিক আছে", style: TextStyle(color: ColorUtil.button)),
+            )
+          ],
+        ),
+      );
+      return;
+    }
+
+    try {
+      await saveActivityOnFirebase(
+        activityName: 'Activity9',
+        activityData: activityData,
+      );
+
+      if (mounted) {
+        showActivityDialog(success: true, context: context);
+      }
+    } catch (e) {
+      if(mounted){
+        showActivityDialog(success: false, context: context, message: e.toString());
+      }
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {

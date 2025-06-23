@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:monon/Common/normal_button.dart';
+import '../../../Common/after_activity_dialogue.dart';
 import '../../../Common/text_input_field.dart';
+import '../../../firebase_call/save_activity.dart';
 import '../../../route/navigation_service.dart';
 import '../../../util/color_util.dart';
 
@@ -34,19 +36,70 @@ class _Activity4State extends State<Activity4> {
 
   final TextEditingController commentController = TextEditingController();
 
-  void _submit() {
-    for (int i = 0; i < 6; i++) {
-      debugPrint(
-          'Row ${i + 1}: Negative: ${negativeControllers[i].text} | Positive: ${positiveControllers[i].text}');
+  // void _submit() {
+  //   for (int i = 0; i < 6; i++) {
+  //     debugPrint(
+  //         'Row ${i + 1}: Negative: ${negativeControllers[i].text} | Positive: ${positiveControllers[i].text}');
+  //   }
+  //   debugPrint('Additional Comment: ${commentController.text}');
+  //
+  //   // Add Firestore or DB saving logic here
+  //
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     const SnackBar(content: Text("Your responses have been saved.")),
+  //   );
+  // }
+
+  void _submit() async {
+    final additionalComment = commentController.text.trim();
+
+    // Build activity data map
+    Map<String, dynamic> activityData = {};
+
+    // Collect 4 editable fields (positive thoughts for rows 3–6)
+    for (int i = 2; i < 6; i++) {
+      final positiveText = positiveControllers[i].text.trim();
+      activityData["Positive Thought ${i + 1}"] = positiveText.isEmpty ? "Not provided" : positiveText;
     }
-    debugPrint('Additional Comment: ${commentController.text}');
 
-    // Add Firestore or DB saving logic here
+    // Add final comment
+    activityData["Extra Comment"] = additionalComment.isEmpty ? "Not provided" : additionalComment;
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Your responses have been saved.")),
-    );
+    // Check if at least one field is filled
+    final hasInput = activityData.values.any((value) => value != "Not provided");
+    if (!hasInput) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text("সতর্কতা"),
+          content: const Text("অনুগ্রহ করে অন্তত একটি ঘর পূরণ করুন।"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text("ঠিক আছে", style: TextStyle(color: ColorUtil.button)),
+            )
+          ],
+        ),
+      );
+      return;
+    }
+
+    try {
+      await saveActivityOnFirebase(
+        activityName: 'Activity4',
+        activityData: activityData,
+      );
+
+      if (mounted) {
+        showActivityDialog(success: true, context: context);
+      }
+    } catch (e) {
+      if(mounted){
+        showActivityDialog(success: false, context: context, message: e.toString());
+      }
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {

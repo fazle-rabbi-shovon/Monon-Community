@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:monon/Common/normal_button.dart';
+import '../../../Common/after_activity_dialogue.dart';
+import '../../../firebase_call/save_activity.dart';
 import '../../../route/navigation_service.dart';
 import '../../../util/color_util.dart';
 
@@ -41,32 +43,6 @@ class _Activity1State extends State<Activity1> {
 
   bool _anyFieldFilled() {
     return controllers.any((controller) => controller.text.trim().isNotEmpty);
-  }
-
-  void _submitAnswers() {
-    if (!_anyFieldFilled()) {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text("সতর্কতা"),
-          content: const Text("অনুগ্রহ করে সবগুলো ঘর পূরণ করুন"),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text("ঠিক আছে", style: TextStyle(color: ColorUtil.button),),
-            )
-          ],
-        ),
-      );
-      return;
-    }
-
-    for (int i = 0; i < questions.length; i++) {
-      debugPrint("${questions[i]} => ${controllers[i].text.trim()}");
-    }
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('All responses have been saved.')),
-    );
   }
 
   @override
@@ -153,4 +129,44 @@ class _Activity1State extends State<Activity1> {
       ],
     );
   }
+
+  void _submitAnswers() async {
+    if (!_anyFieldFilled()) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text("সতর্কতা"),
+          content: const Text("অনুগ্রহ করে সবগুলো ঘর পূরণ করুন"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text("ঠিক আছে", style: TextStyle(color: ColorUtil.button)),
+            )
+          ],
+        ),
+      );
+      return;
+    }
+
+    Map<String, dynamic> activityData = {};
+    for (int i = 0; i < questions.length; i++) {
+      activityData["${i + 1}"] = "${questions[i].trim()} :  ${controllers[i].text.trim()}";
+    }
+
+    try {
+      await saveActivityOnFirebase(
+        activityName: 'Activity1',
+        activityData: activityData,
+      );
+
+      if (mounted) {
+        showActivityDialog(success: true, context: context);
+      }
+    } catch (e) {
+      if(mounted){
+        showActivityDialog(success: false, context: context, message: e.toString());
+      }
+    }
+  }
+
 }

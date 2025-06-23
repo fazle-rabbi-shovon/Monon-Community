@@ -103,19 +103,7 @@ class _PasswordChangerState extends State<PasswordChanger> {
 
   _appbar() {
     return AppBar(
-      actions: [
-        IconButton(
-          icon: const Icon(
-            Icons.close,
-            color: Colors.transparent,
-          ),
-          onPressed: () {},
-        ),
-      ],
-      leading: Container(
-        child: const Center(),
-      ),
-      title: const Text(
+      title:  const Text(
         // getTranslated(context, "LEAVE_APPLY"),
         "পাসওয়ার্ড পরিবর্তন",
         style: TextStyle(
@@ -123,10 +111,22 @@ class _PasswordChangerState extends State<PasswordChanger> {
           fontSize: 18.0,
         ),
       ),
-      backgroundColor: ColorUtil.primary,
-      iconTheme: IconThemeData(color: ColorUtil.primary),
-      elevation: 0,
       centerTitle: true,
+      backgroundColor: ColorUtil.primary,
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back, color: Colors.white),
+        onPressed: () {
+          NavigationService.getCurrentState()?.pop();
+        },
+      ),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.close, color: Colors.white),
+          onPressed: () {
+            NavigationService.getCurrentState()?.pop();
+          },
+        ),
+      ],
     );
   }
 }

@@ -76,6 +76,7 @@ class _PersonalInfoUpdatePageState extends State<PersonalInfoUpdatePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: _appbar(),
       backgroundColor: Colors.white,
       body: Center(
         child: Container(
@@ -87,11 +88,11 @@ class _PersonalInfoUpdatePageState extends State<PersonalInfoUpdatePage> {
               child: Column(
                 children: [
                   const SizedBox(height: 20),
-                  const Text(
-                    'ব্যক্তিগত তথ্য আপডেট',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 10),
+                  // const Text(
+                  //   'ব্যক্তিগত তথ্য আপডেট',
+                  //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  // ),
+                  // const SizedBox(height: 10),
                   _buildInput('আইডি', uniqueIdController),
                   _buildInput('নাম', nameController),
                   _buildInput('জন্মসাল (দিন/মাস/বছর)', dobController),
@@ -238,6 +239,35 @@ class _PersonalInfoUpdatePageState extends State<PersonalInfoUpdatePage> {
           ),
         ],
       ),
+    );
+  }
+
+  _appbar() {
+    return AppBar(
+      title:  const Text(
+        // getTranslated(context, "LEAVE_APPLY"),
+        "প্রোফাইল আপডেট",
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 18.0,
+        ),
+      ),
+      centerTitle: true,
+      backgroundColor: ColorUtil.primary,
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back, color: Colors.white),
+        onPressed: () {
+          NavigationService.getCurrentState()?.pop();
+        },
+      ),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.close, color: Colors.white),
+          onPressed: () {
+            NavigationService.getCurrentState()?.pop();
+          },
+        ),
+      ],
     );
   }
 }

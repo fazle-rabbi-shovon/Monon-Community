@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:monon/Common/normal_button.dart';
+import '../../../Common/after_activity_dialogue.dart';
 import '../../../Common/text_input_field.dart';
+import '../../../firebase_call/save_activity.dart';
 import '../../../route/navigation_service.dart';
 import '../../../util/color_util.dart';
 import '../../../util/image_util.dart';
@@ -15,13 +17,46 @@ class Activity5 extends StatefulWidget {
 class _Activity5State extends State<Activity5> {
   final TextEditingController relationshipController = TextEditingController();
 
-  void _submitComment() {
+  void _submitComment() async {
     final relationData = relationshipController.text.trim();
-    debugPrint('Relationship Reflection: $relationData');
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Your response has been saved.')),
-    );
+
+    if (relationData.isEmpty) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text("সতর্কতা"),
+          content: const Text("অনুগ্রহ করে মন্তব্যের ঘরটি পূরণ করুন।"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text("ঠিক আছে", style: TextStyle(color: ColorUtil.button)),
+            )
+          ],
+        ),
+      );
+      return;
+    }
+
+    Map<String, dynamic> activityData = {
+      "1": "সম্পর্কের গাছ অনুশীলন : $relationData",
+    };
+
+    try {
+      await saveActivityOnFirebase(
+        activityName: 'Activity5',
+        activityData: activityData,
+      );
+
+      if (mounted) {
+        showActivityDialog(success: true, context: context);
+      }
+    } catch (e) {
+      if(mounted){
+        showActivityDialog(success: false, context: context, message: e.toString());
+      }
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
