@@ -7,9 +7,9 @@ import 'package:monon/ui/feelings/feelings_main_view.dart';
 import 'package:monon/ui/feelings/feelings_view.dart';
 import 'package:monon/ui/folder/folder_view.dart';
 import 'package:monon/ui/info/info_view.dart';
-import 'package:monon/ui/password_changer/password_changer.dart';
-import 'package:monon/ui/submit/language_setting.dart';
-import 'package:monon/ui/submit/submit_view.dart';
+import 'package:monon/ui/settings/language_setting.dart';
+import 'package:monon/ui/settings/password_changer.dart';
+import 'package:monon/ui/settings/settings_view.dart';
 import 'package:monon/ui/video/vide_main.dart';
 
 import '../app_starting/intro_emotion_setup.dart';
@@ -20,9 +20,12 @@ import '../ui/activities/activities_main.dart';
 import '../ui/audio/audio_sub.dart';
 import '../ui/audio/main_audio.dart';
 import '../ui/home/home_view.dart';
-import '../ui/login/login_view_state.dart';
-import '../ui/submit/info_update.dart';
-import '../ui/submit/settings_submit.dart';
+import '../ui/login/login_with_email.dart';
+import '../ui/login/login_with_phone.dart';
+import '../ui/settings/info_update.dart';
+import '../ui/settings/settings_submit.dart';
+import '../ui/settings/user_generate/participants_creation_page.dart';
+import '../ui/settings/user_generate/volunteer_creation_page.dart';
 import '../ui/written_documents/written_documents_main.dart';
 
 class RouteGenerator {
@@ -45,6 +48,10 @@ class RouteGenerator {
           builder: (_) => const LoginViewFinal(),
         );
 
+      case '/loginPhone':
+        return navigateToRoute(
+          builder: (_) => const PhoneLoginView(),
+        );
 
       case '/home':
         if (args is int) {
@@ -67,10 +74,21 @@ class RouteGenerator {
           builder: (_) => const PersonalInfoForm(),
         );
 
+      // case '/intro_page':
+      //   return navigateToRoute(
+      //     builder: (_) => const IntroPage(),
+      //   );
+
       case '/intro_page':
-        return navigateToRoute(
-          builder: (_) => const IntroPage(),
-        );
+        if (args is String) {
+          String role = args;
+
+          return navigateToRoute(
+            builder: (_) => IntroPage(role),
+          );
+        }
+
+        return _underConstructionRoute('Error');
 
       case '/intro_emotion_setup':
         return navigateToRoute(
@@ -84,7 +102,7 @@ class RouteGenerator {
 
       case '/emotions_first_submit':
         return navigateToRoute(
-          builder: (_) => const FeelingsView(),
+          builder: (_) => FeelingsView(),
         );
 
       case '/folder':
@@ -102,10 +120,21 @@ class RouteGenerator {
           builder: (_) => const PasswordChanger(),
         );
 
+      // case '/submit':
+      //   return navigateToRoute(
+      //     builder: (_) => const SettingsView(),
+      //   );
+
       case '/submit':
-        return navigateToRoute(
-          builder: (_) => const SubmitView(),
-        );
+        if (args is String) {
+          String role = args;
+
+          return navigateToRoute(
+            builder: (_) => SettingsView(),
+          );
+        }
+
+        return _underConstructionRoute('Error');
 
       case '/video':
         return navigateToRoute(
@@ -114,7 +143,7 @@ class RouteGenerator {
 
       case '/written_documents':
         return navigateToRoute(
-          builder: (_) =>  WrittenDocumentsPage(),
+          builder: (_) => WrittenDocumentsPage(),
         );
 
       case '/main_audio':
@@ -127,15 +156,17 @@ class RouteGenerator {
           int pageNumber = args;
 
           return navigateToRoute(
-            builder: (_) => AudioSub(pageNumber: pageNumber,),
+            builder: (_) => AudioSub(
+              pageNumber: pageNumber,
+            ),
           );
         }
 
         return _underConstructionRoute('Error');
-        // return navigateToRoute(
-        //   builder: (_) => const AudioSub(),
-        // );
-        //
+      // return navigateToRoute(
+      //   builder: (_) => const AudioSub(),
+      // );
+      //
 
       case '/activities_main':
         return navigateToRoute(
@@ -150,6 +181,16 @@ class RouteGenerator {
       case '/personal_info_update':
         return navigateToRoute(
           builder: (_) => const PersonalInfoUpdatePage(),
+        );
+
+      case '/volunteer_creation':
+        return navigateToRoute(
+          builder: (_) => const VolunteerCreationPage(),
+        );
+
+      case '/participant_creation':
+        return navigateToRoute(
+          builder: (_) => const ParticipantCreationPage(),
         );
 
       case '/language_setting':

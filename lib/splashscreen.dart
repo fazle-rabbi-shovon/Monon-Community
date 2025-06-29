@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:monon/route/navigation_service.dart';
 import 'package:monon/shared_pref/shared_pref_util.dart';
+import 'package:monon/ui/home/pathArgumentHome.dart';
 import 'package:monon/util/color_util.dart';
 import 'package:monon/util/image_util.dart';
 
@@ -26,13 +27,14 @@ class _SplashScreenState extends State<SplashScreen> {
     final isLoggedIn = await SharedPrefUtil().getIsLoggedIn();
     final isIntroCompleted = await SharedPrefUtil().getIsTntro();
 
+
     if (!mounted) return;
 
     if (isLoggedIn && isIntroCompleted) {
       // Navigator.pushReplacementNamed(context, '/emotions_first_submit');
       Timer(const Duration(seconds: 3), () {
         NavigationService.getCurrentState()
-            ?.pushReplacementNamed('/emotions_first_submit',);
+            ?.pushReplacementNamed('/emotions_first_submit');
       });
     } else if (isLoggedIn && !isIntroCompleted) {
       Navigator.pushReplacementNamed(context, '/welcome');

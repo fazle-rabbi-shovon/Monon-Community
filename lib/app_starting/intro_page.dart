@@ -9,8 +9,12 @@ import '../shared_pref/shared_pref_util.dart';
 import '../util/dimen_values_util.dart';
 import '../util/image_util.dart';
 
+// ignore: must_be_immutable
 class IntroPage extends StatefulWidget {
-  const IntroPage({super.key});
+   IntroPage(this.roleLabel, {super.key});
+
+
+  String roleLabel;
 
   @override
   State<IntroPage> createState() => IntroPageState();
@@ -84,7 +88,7 @@ class IntroPageState extends State<IntroPage> {
               onTap: () {
                 SharedPrefUtil().setIsTntro();
                 NavigationService.getCurrentState()
-                    ?.pushReplacementNamed('/emotions_first_submit',);
+                    ?.pushReplacementNamed('/emotions_first_submit', arguments: widget.roleLabel);
               },
               child: const Center(
                 child: Text(
