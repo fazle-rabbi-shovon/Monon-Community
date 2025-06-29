@@ -263,6 +263,17 @@ class SharedPrefUtil {
     return isLoggedIn;
   }
 
+  Future<void> setUserRole(String role) async {
+    final SharedPreferences pref = await _pref;
+    await pref.setString(SharedPrefConstants.USER_ROLE, role);
+  }
+
+  Future<String?> getUserRole() async {
+    final SharedPreferences pref = await _pref;
+    String? userRole = pref.getString(SharedPrefConstants.USER_ROLE);
+    return userRole;
+  }
+
   Future<void> setIsTntro() async {
     final SharedPreferences pref = await _pref;
     await pref.setBool(SharedPrefConstants.IS_INTRO, true);
@@ -274,6 +285,44 @@ class SharedPrefUtil {
     return isLoggedIn;
   }
 
+  Future<void> initParticipantList() async {
+    final SharedPreferences pref = await _pref;
+    await pref.setStringList(SharedPrefConstants.CREATED_PARTICIPANT, ['-1', '-1']);
+  }
 
+   Future<List<int>> getParticipantList() async {
+    final SharedPreferences pref = await _pref;
+    List<String>? createdParticipant = pref.getStringList(SharedPrefConstants.CREATED_PARTICIPANT);
+    return createdParticipant?.map(int.parse).toList() ?? [-1, -1];
+  }
+
+   Future<void> setParticipantList(List<int> list) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(SharedPrefConstants.CREATED_PARTICIPANT, list.map((e) => e.toString()).toList());
+  }
+
+   Future<int?> insertParticipantList(int number) async {
+    List<int> currentList = await getParticipantList();
+
+    int index = currentList.indexOf(-1);
+    if (index != -1) {
+      currentList[index] = number;
+      await setParticipantList(currentList);
+      return 0; // success
+    } else {
+      return 1;
+    }
+  }
+
+   Future<Map<String, bool>> checkParticipantList(int number) async {
+    List<int> currentList = await getParticipantList();
+
+    return {
+      'alreadyExists': currentList.contains(number),
+      'isFull': !currentList.contains(-1),
+    };
+  }
 
 }
+
+

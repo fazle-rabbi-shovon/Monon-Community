@@ -1,32 +1,28 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:monon/Common/normal_gradient_button_decoration.dart';
 import 'package:monon/ui/feelings/user_emotion_enum.dart';
+import 'package:monon/ui/home/pathArgumentHome.dart';
+
 import '../../Common/login_gradient_button_decoration.dart';
 import '../../route/navigation_service.dart';
 import '../../util/color_util.dart';
 import '../../util/dimen_values_util.dart';
 import 'emotion_storage.dart';
 
+// ignore: must_be_immutable
 class FeelingsView extends StatefulWidget {
-  const FeelingsView({super.key});
+  FeelingsView( {super.key});
+
+
 
   @override
   State<FeelingsView> createState() => _FeelingsViewState();
 }
 
-class _FeelingsViewState extends State<FeelingsView> with TickerProviderStateMixin {
-  // String selectedFeeling = '';
-  // final Map<String, String> feelings = {
-  //   'দুশ্চিন্তা': 'assets/images/emg_anxious.png',
-  //   'ভয়': 'assets/images/emg_shock.png',
-  //   'রাগ': 'assets/images/emg_angry.png',
-  //   'দুঃখ': 'assets/images/emg_sad.png',
-  //   'বিরক্তি': 'assets/images/emg_neutral.png',
-  //   'আনন্দ ': 'assets/images/emg_happy.png',
-  // };
-
+class _FeelingsViewState extends State<FeelingsView>
+    with TickerProviderStateMixin {
   UserEmotion? selectedEmotion;
   final Map<UserEmotion, String> feelings = {
     UserEmotion.anxious: 'assets/images/emg_anxious.png',
@@ -70,7 +66,8 @@ class _FeelingsViewState extends State<FeelingsView> with TickerProviderStateMix
     for (var controller in _controllers.values) {
       controller.dispose();
     }
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: SystemUiOverlay.values);
     super.dispose();
   }
 
@@ -89,7 +86,6 @@ class _FeelingsViewState extends State<FeelingsView> with TickerProviderStateMix
     setState(() => selectedEmotion = emotion);
     _controllers[emotion]?.repeat(reverse: true);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +110,9 @@ class _FeelingsViewState extends State<FeelingsView> with TickerProviderStateMix
                 child: GridView.builder(
                   itemCount: feelings.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3, crossAxisSpacing: 10, mainAxisSpacing: 10),
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10),
                   itemBuilder: (context, index) {
                     // final feeling = feelings.keys.elementAt(index);
                     // final imagePath = feelings[feeling]!;
@@ -136,7 +134,8 @@ class _FeelingsViewState extends State<FeelingsView> with TickerProviderStateMix
                               children: [
                                 Image.asset(imagePath, height: 60, width: 60),
                                 const SizedBox(height: 5),
-                                Text(emotion.label, style: const TextStyle(fontSize: 16)),
+                                Text(emotion.label,
+                                    style: const TextStyle(fontSize: 16)),
                               ],
                             ),
                           );
@@ -171,11 +170,13 @@ class _FeelingsViewState extends State<FeelingsView> with TickerProviderStateMix
             context: context,
             barrierDismissible: false,
             builder: (_) => AlertDialog(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
               backgroundColor: Colors.white,
               title: const Text(
                 "ধন্যবাদ",
-                style: TextStyle(color: ColorUtil.mainColor, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    color: ColorUtil.mainColor, fontWeight: FontWeight.bold),
               ),
               content: const Text(
                 "আপনার অনুভূতি প্রকাশ করার জন্য ধন্যবাদ",
@@ -188,7 +189,6 @@ class _FeelingsViewState extends State<FeelingsView> with TickerProviderStateMix
             NavigationService.getCurrentState()
                 ?.pushReplacementNamed('/home', arguments: 0);
           });
-
         },
         child: const Center(
           child: Text("সাবমিট",
@@ -202,5 +202,3 @@ class _FeelingsViewState extends State<FeelingsView> with TickerProviderStateMix
     );
   }
 }
-
-

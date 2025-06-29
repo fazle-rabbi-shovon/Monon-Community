@@ -4,8 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:monon/ui/info/info_view.dart';
-import 'package:monon/ui/password_changer/password_changer.dart';
-import 'package:monon/ui/submit/submit_view.dart';
+import 'package:monon/ui/settings/password_changer.dart';
+import 'package:monon/ui/settings/settings_view.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -14,6 +14,7 @@ import '../../../../base/base_view_state.dart';
 import '../../../../localization/localization_constants.dart';
 import '../../../../util/color_util.dart';
 import '../../route/navigation_service.dart';
+import '../../shared_pref/shared_pref_util.dart';
 import '../../util/number_for_features.dart';
 import '../feelings/feelings_main_view.dart';
 import '../folder/folder_view.dart';
@@ -23,17 +24,22 @@ import 'bottom_nav.dart';
 import 'nav_data.dart';
 import 'nav_page.dart';
 
+
 class HomeView extends StatefulWidget {
+
   HomeView(this.index);
 
   int index;
 
   @override
   State<HomeView> createState() => _HomeViewState(index);
+
 }
 
 class _HomeViewState extends BaseViewState<HomeView>
     with SingleTickerProviderStateMixin {
+
+
   _HomeViewState(this._currentIndex);
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -42,6 +48,7 @@ class _HomeViewState extends BaseViewState<HomeView>
 
   Nav _navState = Nav.feelings;
   int _currentIndex;
+
 
   var config;
 
@@ -57,9 +64,13 @@ class _HomeViewState extends BaseViewState<HomeView>
     super.dispose();
   }
 
-  void afterBuild() {
+  Future<void> afterBuild() async {
     // SystemChrome.restoreSystemUIOverlays();
-    NumberUtil.deviceHeight = MediaQuery.of(context).size.height;
+    NumberUtil.deviceHeight = MediaQuery
+        .of(context)
+        .size
+        .height;
+
   }
 
   // int _currentIndex = 0;
@@ -69,7 +80,7 @@ class _HomeViewState extends BaseViewState<HomeView>
     // const FeelingsMainView(),
     const FolderView(),
     const InfoView(),
-    const SubmitView(),
+     SettingsView(),
   ];
 
   @override
@@ -83,7 +94,6 @@ class _HomeViewState extends BaseViewState<HomeView>
           statusBarIconBrightness: Brightness.light),
     );
     return _homeBody();
-
   }
 
   Widget _homeBody() {
@@ -109,21 +119,21 @@ class _HomeViewState extends BaseViewState<HomeView>
 
   Future _logoutDialogue(BuildContext context) async {
     return await showDialog(
-          context: context,
-          builder: (context) {
-            return CommonDialog(
-                title: getTranslated(context, "ARE_YOU_SURE"),
-                titleColor: ColorUtil.primary,
-                titleWeight: null,
-                description: getTranslated(context, "CONFIRMATION_LOGOUT"),
-                button2: getTranslated(context, "NO_TITLE"),
-                button2Flag: false,
-                button2Color: ColorUtil.red,
-                button1: getTranslated(context, "YES_TITLE"),
-                button1Flag: true,
-                button1Color: ColorUtil.button);
-          },
-        ) ??
+      context: context,
+      builder: (context) {
+        return CommonDialog(
+            title: getTranslated(context, "ARE_YOU_SURE"),
+            titleColor: ColorUtil.primary,
+            titleWeight: null,
+            description: getTranslated(context, "CONFIRMATION_LOGOUT"),
+            button2: getTranslated(context, "NO_TITLE"),
+            button2Flag: false,
+            button2Color: ColorUtil.red,
+            button1: getTranslated(context, "YES_TITLE"),
+            button1Flag: true,
+            button1Color: ColorUtil.button);
+      },
+    ) ??
         false;
   }
 
@@ -133,8 +143,9 @@ class _HomeViewState extends BaseViewState<HomeView>
     willPop = _navState == Nav.feelings;
     if (willPop) {
       willPop = await showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
+        context: context,
+        builder: (context) =>
+            AlertDialog(
               // title: Text(getTranslated(context, "EXIT_APP_TITLE")),
               title: const Text("Exit"),
               // content: Text(getTranslated(context, "EXIT_APP_MSG")),
@@ -154,7 +165,7 @@ class _HomeViewState extends BaseViewState<HomeView>
                 ),
               ],
             ),
-          ) ??
+      ) ??
           false;
     } else {}
 
@@ -190,11 +201,11 @@ class _HomeViewState extends BaseViewState<HomeView>
         _navState = Nav.submit;
         setState(() {});
         break;
-      // case 2:
-      //   _currentIndex = 2;
-      //   _navState = Nav.info;
-      //   setState(() {});
-      //   break;
+    // case 2:
+    //   _currentIndex = 2;
+    //   _navState = Nav.info;
+    //   setState(() {});
+    //   break;
       default:
         _currentIndex = 0;
         _navState = Nav.folder;
@@ -218,13 +229,15 @@ class _HomeViewState extends BaseViewState<HomeView>
       final packageInfo = await PackageInfo.fromPlatform();
       final currentVersion = packageInfo.version;
 
-      final doc = await FirebaseFirestore.instance.collection('config').doc('app_version').get();
+      final doc = await FirebaseFirestore.instance.collection('config').doc(
+          'app_version').get();
       if (doc.exists) {
         final latestVersion = doc['latest_version'];
         final isUpdateRequired = doc['update_required'] ?? false;
         final playStoreUrl = doc['play_store_url'];
 
-        if (_isVersionLower(currentVersion, latestVersion) && isUpdateRequired) {
+        if (_isVersionLower(currentVersion, latestVersion) &&
+            isUpdateRequired) {
           _showUpdateDialog(playStoreUrl);
         }
       }
@@ -238,7 +251,8 @@ class _HomeViewState extends BaseViewState<HomeView>
     final latestParts = latest.split('.').map(int.parse).toList();
 
     for (int i = 0; i < latestParts.length; i++) {
-      if (i >= currentParts.length || currentParts[i] < latestParts[i]) return true;
+      if (i >= currentParts.length || currentParts[i] < latestParts[i])
+        return true;
       if (currentParts[i] > latestParts[i]) return false;
     }
     return false;
@@ -248,28 +262,33 @@ class _HomeViewState extends BaseViewState<HomeView>
     showDialog(
       context: context,
       barrierDismissible: true,
-      builder: (_) => AlertDialog(
-        title: const Text("Update Available", style: TextStyle(color: ColorUtil.mainColor),),
-        content: const Text("A new version of the app is available. Please update to continue."),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              NavigationService.getCurrentState()
-                  ?.pop();
-            },
-            child: const Text("Later", style: TextStyle(color: Colors.red),),
+      builder: (_) =>
+          AlertDialog(
+            title: const Text("Update Available",
+              style: TextStyle(color: ColorUtil.mainColor),),
+            content: const Text(
+                "A new version of the app is available. Please update to continue."),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  NavigationService.getCurrentState()
+                      ?.pop();
+                },
+                child: const Text(
+                  "Later", style: TextStyle(color: Colors.red),),
+              ),
+              TextButton(
+                onPressed: () async {
+                  final uri = Uri.parse(playStoreUrl);
+                  if (await canLaunchUrl(uri)) {
+                    await launchUrl(uri, mode: LaunchMode.externalApplication);
+                  }
+                },
+                child: const Text(
+                  "Update", style: TextStyle(color: ColorUtil.mainColor),),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () async {
-              final uri = Uri.parse(playStoreUrl);
-              if (await canLaunchUrl(uri)) {
-                await launchUrl(uri, mode: LaunchMode.externalApplication);
-              }
-            },
-            child: const Text("Update", style: TextStyle(color: ColorUtil.mainColor),),
-          ),
-        ],
-      ),
     ) ??
         NavigationService.getCurrentState()
             ?.pop()

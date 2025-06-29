@@ -54,6 +54,10 @@ class SharedPrefConstants {
 
   static final String IS_LOGGED_IN = 'is_logged_in';
 
+  static final String USER_ROLE = 'user_role';
+
   static final String IS_INTRO = 'is_intro';
+
+  static final String CREATED_PARTICIPANT = 'created_participant';
 
 }
