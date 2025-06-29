@@ -137,11 +137,18 @@ class _VolunteerCreationPageState extends State<VolunteerCreationPage> {
             .add(data);
 
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('সফলভাবে সাবমিট হয়েছে')),
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: const Text("✅ সফল হয়েছে"),
+            content: const Text('আপনি সফলভাবে একটি ভলান্টিয়ার একাউন্ট তৈরি করেছেন'),
+            actions: [
+              TextButton(onPressed: () => Navigator.pop(context), child: const Text("ওকে"))
+            ],
+          ),
         );
 
-        NavigationService.getCurrentState()?.pop();
+        // NavigationService.getCurrentState()?.pop();
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('ত্রুটি হয়েছে: $e')),

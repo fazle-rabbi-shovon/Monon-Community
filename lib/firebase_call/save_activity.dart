@@ -17,20 +17,23 @@ Future<void> saveActivityOnFirebase({
   final firestore = FirebaseFirestore.instance;
 
   // Fixed document ID per activity per day
-  final docRef = firestore
-      .collection(formattedDate)
+  final collectionRef  = firestore
+      .collection('Activity')
       .doc(uid)
-      .collection(activityName)
-      .doc('entry'); // always overwrite or check this
+      .collection(formattedDate)
+      .doc(activityName) // always overwrite or check this
+      .collection('entries');
 
-  final docSnapshot = await docRef.get();
+  // final docSnapshot = await docRef.get();
+  //
+  // if (docSnapshot.exists) {
+  //   throw Exception('আজকের জন্য এই অ্যাক্টিভিটি আপনি ইতিমধ্যেই জমা দিয়েছেন।');
+  // }
 
-  if (docSnapshot.exists) {
-    throw Exception('আজকের জন্য এই অ্যাক্টিভিটি আপনি ইতিমধ্যেই জমা দিয়েছেন।');
-  }
-
-  await docRef.set({
+  await collectionRef.add({
     ...activityData,
     'savedAt': FieldValue.serverTimestamp(),
   });
 }
+
+

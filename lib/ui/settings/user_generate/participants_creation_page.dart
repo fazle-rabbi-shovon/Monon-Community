@@ -25,6 +25,7 @@ class _ParticipantCreationPageState extends State<ParticipantCreationPage> {
 
   String? selectedParticipantName;
   List<Map<String, String>> participantOptions = [];
+  int participantCheck = -1;
 
   @override
   void initState() {
@@ -146,36 +147,34 @@ class _ParticipantCreationPageState extends State<ParticipantCreationPage> {
       decoration: GradientButtonDecoration(),
       child: InkWell(
         onTap: () async {
-          final status = await SharedPrefUtil().checkParticipantList(int.parse(idController.text));
-          final alreadyExists = status['alreadyExists']!;
-          final isFull = status['isFull']!;
-
-          if (alreadyExists) {
+          participantCheck = await SharedPrefUtil().checkParticipantList(int.parse(idController.text));
+          if (participantCheck==0) {
             showDialog(
               context: context,
               builder: (_) => AlertDialog(
-                title: const Text("সফল হয়নি"),
-                content: const Text('⛔ এই পার্টিসিপেন্ট তৈরি করা হয়েছে'),
+                title: const Text("⛔ সফল হয়নি"),
+                content: const Text('এই পার্টিসিপেন্ট একাউন্টটি ইতোমধ্যেই তৈরি করা হয়েছে'),
                 actions: [
                   TextButton(onPressed: () => Navigator.pop(context), child: const Text("ওকে"))
                 ],
               ),
             );
-          } else if (isFull) {
+          } else if (participantCheck==1) {
             showDialog(
               context: context,
               builder: (_) => AlertDialog(
-                title: const Text("সফল হয়নি"),
-                content: const Text('⛔ এই ভলান্টিয়ার ইতোমধ্যে দুইজন পার্টিসিপেন্ট একাউন্ট তৈরি করেছেন'),
+                title: const Text("⛔ সফল হয়নি"),
+                content: const Text('আপনি ইতোমধ্যেই দুইজন পার্টিসিপেন্ট একাউন্ট তৈরি করেছেন'),
                 actions: [
                   TextButton(onPressed: () => Navigator.pop(context), child: const Text("ওকে"))
                 ],
               ),
             );
-          } else {
-            submitParticipant;
+          } else if(participantCheck == 2){
+            submitParticipant();
           }
         },
+        // onTap: submitParticipant,
         child: const Center(
           child: Text(
             "সাবমিট",
@@ -228,15 +227,22 @@ class _ParticipantCreationPageState extends State<ParticipantCreationPage> {
             .collection('participant_by_volunteer')
             .add(data);
 
-        await SharedPrefUtil().insertParticipantList(int.parse(idController.text));
+        await SharedPrefUtil().insertParticipantList(int.parse(idController.text.trim()));
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('সফলভাবে সাবমিট হয়েছে')),
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: const Text("✅ সফল হয়েছে"),
+            content: const Text('আপনি সফলভাবে একটি ভলান্টিয়ার একাউন্ট তৈরি করেছেন'),
+            actions: [
+              TextButton(onPressed: () => Navigator.pop(context), child: const Text("ওকে"))
+            ],
+          ),
         );
 
         //
         // Go back after delay
-        Future.delayed(const Duration(seconds: 2), () {
+        Future.delayed(const Duration(seconds: 1), () {
           NavigationService.getCurrentState()?.pop();
         });
       } catch (e) {
