@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import '../../route/navigation_service.dart';
 import '../../util/color_util.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 class WrittenDocumentsPlayer extends StatefulWidget {
   final String title;
@@ -21,6 +24,8 @@ class _WrittenDocumentsPlayerState extends State<WrittenDocumentsPlayer> {
   late VideoPlayerController _controller;
   bool _isControlsVisible = true;
   bool _isInitialized = false;
+  Duration watchedDuration = Duration.zero;
+  bool hasSavedToFirebase = false;
 
   @override
   void initState() {
@@ -34,7 +39,42 @@ class _WrittenDocumentsPlayerState extends State<WrittenDocumentsPlayer> {
     _controller.addListener(() {
       setState(() {});
     });
+
+    _controller.addListener(() {
+      if (_controller.value.isPlaying && _isInitialized) {
+        watchedDuration = _controller.value.position;
+
+        if (!hasSavedToFirebase && watchedDuration >= const Duration(minutes: 2)) {
+          hasSavedToFirebase = true;
+          _saveVideoWatchedToFirebase();
+        }
+      }
+
+      setState(() {});
+    });
+
   }
+
+  Future<void> _saveVideoWatchedToFirebase() async {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null) return;
+
+    final now = DateTime.now();
+    final formattedDate =
+        "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
+
+    final docRef = FirebaseFirestore.instance
+        .collection('kisu_kotha')
+        .doc(uid)
+        .collection(formattedDate)
+        .doc(widget.title); // Using video title as unique doc
+
+    await docRef.set({
+      "দেখা হয়েছে": "হ্যাঁ",
+      "watchedAt": FieldValue.serverTimestamp(),
+    });
+  }
+
 
   @override
   void dispose() {

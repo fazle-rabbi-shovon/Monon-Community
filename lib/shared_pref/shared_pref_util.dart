@@ -290,10 +290,10 @@ class SharedPrefUtil {
     await pref.setStringList(SharedPrefConstants.CREATED_PARTICIPANT, ['-1', '-1']);
   }
 
-   Future<List<int>> getParticipantList() async {
+   Future<List<int>?> getParticipantList() async {
     final SharedPreferences pref = await _pref;
     List<String>? createdParticipant = pref.getStringList(SharedPrefConstants.CREATED_PARTICIPANT);
-    return createdParticipant?.map(int.parse).toList() ?? [-1, -1];
+    return createdParticipant?.map(int.parse).toList() ;
   }
 
    Future<void> setParticipantList(List<int> list) async {
@@ -302,25 +302,28 @@ class SharedPrefUtil {
   }
 
    Future<int?> insertParticipantList(int number) async {
-    List<int> currentList = await getParticipantList();
+    List<int>? currentList = await getParticipantList();
 
-    int index = currentList.indexOf(-1);
+    int? index = currentList?.indexOf(-1);
     if (index != -1) {
-      currentList[index] = number;
-      await setParticipantList(currentList);
+      currentList?[index!] = number;
+      await setParticipantList(currentList!);
       return 0; // success
     } else {
       return 1;
     }
   }
 
-   Future<Map<String, bool>> checkParticipantList(int number) async {
-    List<int> currentList = await getParticipantList();
+   Future<int> checkParticipantList(int number) async {
+    List<int>? currentList = await getParticipantList();
 
-    return {
-      'alreadyExists': currentList.contains(number),
-      'isFull': !currentList.contains(-1),
-    };
+    if(currentList!.contains(number)){
+      return 0;
+    }else if(!currentList.contains(-1)){
+      return 1;
+    }else{
+      return 2;
+    }
   }
 
 }

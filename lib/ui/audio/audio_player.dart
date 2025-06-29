@@ -3,6 +3,9 @@ import 'package:just_audio/just_audio.dart';
 
 import '../../route/navigation_service.dart';
 import '../../util/color_util.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 class AudioPlayerScreen extends StatefulWidget {
   const AudioPlayerScreen(
@@ -23,6 +26,8 @@ class AudioPlayerScreen extends StatefulWidget {
 
 class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
   bool isLoading = true;
+  Duration listenedDuration = Duration.zero;
+  bool hasSavedToFirebase = false;
 
   late AudioPlayer _audioPlayer;
   Duration _duration = Duration.zero;
@@ -42,7 +47,40 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
     _audioPlayer.positionStream.listen((pos) {
       setState(() => _position = pos);
     });
+
+    _audioPlayer.positionStream.listen((pos) {
+      setState(() => _position = pos);
+
+      listenedDuration = pos;
+
+      if (!hasSavedToFirebase && listenedDuration >= const Duration(minutes: 2)) {
+        hasSavedToFirebase = true;
+        _saveAudioListenedToFirebase();
+      }
+    });
+
   }
+
+  Future<void> _saveAudioListenedToFirebase() async {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null) return;
+
+    final now = DateTime.now();
+    final formattedDate =
+        "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
+
+    final docRef = FirebaseFirestore.instance
+        .collection('buddhimotta_o_abeg')
+        .doc(uid)
+        .collection(formattedDate)
+        .doc(widget.title);
+
+    await docRef.set({
+      "শুনেছে": "হ্যাঁ",
+      "listenedAt": FieldValue.serverTimestamp(),
+    });
+  }
+
 
   @override
   void dispose() {
