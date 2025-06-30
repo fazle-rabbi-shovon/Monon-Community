@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import '../../route/navigation_service.dart';
+import '../../services/activity_service.dart';
 import '../../util/color_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,11 +10,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 class WrittenDocumentsPlayer extends StatefulWidget {
   final String title;
   final String url;
+  final int index;
 
   const WrittenDocumentsPlayer({
     Key? key,
     required this.title,
     required this.url,
+    required this.index
   }) : super(key: key);
 
   @override
@@ -44,7 +47,7 @@ class _WrittenDocumentsPlayerState extends State<WrittenDocumentsPlayer> {
       if (_controller.value.isPlaying && _isInitialized) {
         watchedDuration = _controller.value.position;
 
-        if (!hasSavedToFirebase && watchedDuration >= const Duration(seconds: 2)) {
+        if (!hasSavedToFirebase && watchedDuration >= const Duration(seconds: 30)) {
           hasSavedToFirebase = true;
           _saveVideoWatchedToFirebase();
         }
@@ -73,6 +76,9 @@ class _WrittenDocumentsPlayerState extends State<WrittenDocumentsPlayer> {
       "দেখা হয়েছে": "হ্যাঁ",
       "watchedAt": FieldValue.serverTimestamp(),
     });
+
+    /// ✅ Mark kisu_kotha activity complete locally in Hive
+    await ActivityService().markCompleted('kisu_kotha', widget.index);
   }
 
 

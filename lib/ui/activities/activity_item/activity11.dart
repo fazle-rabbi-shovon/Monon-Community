@@ -92,6 +92,7 @@ class _Activity11State extends State<Activity11> {
       await saveActivityOnFirebase(
         activityName: 'Activity11',
         activityData: activityData,
+        activityIndex: 10,
       );
       if (mounted) {
         showActivityDialog(success: true, context: context);

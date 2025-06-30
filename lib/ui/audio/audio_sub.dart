@@ -48,10 +48,14 @@ class AudioSubState extends State<AudioSub> {
             mainAxisSpacing: 12,
             childAspectRatio: 0.8,
           ),
-          itemBuilder: (_, index) {
+          itemBuilder: (pageNumber == 1) ? (_, index) {
             final track = tracks[index];
             return _buildAudioTile(track["title"]!, track["duration"]!,
-                track["image"]!, track["url"]!);
+                track["image"]!, track["url"]!,  "buddhimotta1", index);
+          } : (_, index) {
+            final track = tracks[index];
+            return _buildAudioTile(track["title"]!, track["duration"]!,
+                track["image"]!, track["url"]!, "buddhimotta2", index);
           },
         ),
       ),
@@ -88,7 +92,7 @@ class AudioSubState extends State<AudioSub> {
   }
 
   Widget _buildAudioTile(
-      String title, String duration, String imagePath, String url) {
+      String title, String duration, String imagePath, String url, String type, int index) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -99,6 +103,8 @@ class AudioSubState extends State<AudioSub> {
               url: url,
               imagePath: imagePath,
               duration: duration,
+              type : type,
+              index : index,
             ),
           ),
         );

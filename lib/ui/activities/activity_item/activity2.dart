@@ -32,12 +32,12 @@ class _Activity2State extends State<Activity2> {
     final firstAnswer = firstCommentController.text.trim();
     final secondAnswer = secondCommentController.text.trim();
 
-    if (firstAnswer.isEmpty && secondAnswer.isEmpty) {
+    if (firstAnswer.isEmpty || secondAnswer.isEmpty) {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
           title: const Text("সতর্কতা"),
-          content: const Text("অনুগ্রহ করে অন্তত একটি উত্তর দিন।"),
+          content: const Text("অনুগ্রহ করে সবগুলো উত্তর দিন।"),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
@@ -59,6 +59,7 @@ class _Activity2State extends State<Activity2> {
       await saveActivityOnFirebase(
         activityName: 'Activity2',
         activityData: activityData,
+        activityIndex: 1,
       );
 
       if (mounted) {

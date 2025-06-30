@@ -22,12 +22,12 @@ class _Activity3State extends State<Activity3> {
     final strengthAnswer = strengthController.text.trim();
     final weaknessAnswer = weaknessController.text.trim();
 
-    if (strengthAnswer.isEmpty && weaknessAnswer.isEmpty) {
+    if (strengthAnswer.isEmpty || weaknessAnswer.isEmpty) {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
           title: const Text("সতর্কতা"),
-          content: const Text("অনুগ্রহ করে অন্তত একটি ঘর পূরণ করুন।"),
+          content: const Text("অনুগ্রহ করে সবগুলো ঘর পূরণ করুন।"),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
@@ -48,6 +48,7 @@ class _Activity3State extends State<Activity3> {
       await saveActivityOnFirebase(
         activityName: 'Activity3',
         activityData: activityData,
+        activityIndex: 2,
       );
 
       if (mounted) {

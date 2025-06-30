@@ -19,6 +19,7 @@ import '../splashscreen.dart';
 import '../ui/activities/activities_main.dart';
 import '../ui/audio/audio_sub.dart';
 import '../ui/audio/main_audio.dart';
+import '../ui/folder/final_task.dart';
 import '../ui/home/home_view.dart';
 import '../ui/login/login_with_email.dart';
 import '../ui/login/login_with_phone.dart';
@@ -171,6 +172,11 @@ class RouteGenerator {
       case '/activities_main':
         return navigateToRoute(
           builder: (_) => const ActivitiesMain(),
+        );
+
+      case '/final_task':
+        return navigateToRoute(
+          builder: (_) => const FinalTask(),
         );
 
       case '/settings_submit':
