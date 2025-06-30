@@ -33,6 +33,12 @@ class ImageUtil {
   static const String VID_NON_VIOLENT_COMMUNICATION = 'assets/images/vid_non_violent_communication.png';
   static const String VID_HOW_TAKE_CARE = 'assets/images/video_how_take_care_yourself.png';
 
+  static const String MED_AUTOSUGGESTION = 'assets/images/med_auto_suggestion.png';
+  static const String MED_BREATHING = 'assets/images/med_breathing.png';
+  static const String MED_FORGIVENESS = 'assets/images/med_forgiveness.png';
+  static const String MED_GRATITUDE = 'assets/images/med_gratitude.png';
+  static const String MED_MINDFULNESS = 'assets/images/med_mindfulness.png';
+
   static const String ACT_SELF_AWARENESS = 'assets/images/act_self_awareness.png';
   static const String UNDERSTANDING_EMOTIONS = 'assets/images/act_understanding_emotions.png';
   static const String STRENGth_AND_WEAKNESS = 'assets/images/act_strength_and_weakness.png';

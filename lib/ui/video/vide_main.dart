@@ -5,7 +5,6 @@ import '../../route/navigation_service.dart';
 import '../../util/color_util.dart';
 import '../../util/image_util.dart';
 
-
 // ignore: must_be_immutable
 class VideoMain extends StatefulWidget {
   const VideoMain({super.key});
@@ -15,8 +14,6 @@ class VideoMain extends StatefulWidget {
 }
 
 class VideoMainState extends State<VideoMain> {
-
-
   @override
   void initState() {
     super.initState();
@@ -45,7 +42,7 @@ class VideoMainState extends State<VideoMain> {
           ),
           itemBuilder: (_, index) {
             final track = tracks[index];
-            return _buildAudioTile(track["title"]!, track["duration"]!,
+            return _buildAudioTile(track["title"]!,
                 track["image"]!, track["url"]!);
           },
         ),
@@ -70,7 +67,7 @@ class VideoMainState extends State<VideoMain> {
         child: const Center(),
       ),
       title: const Text(
-        "Video",
+        "অনুভূতি ও স্থিতিশীলতা",
         style: TextStyle(
           color: Colors.white,
           fontSize: 18.0,
@@ -84,7 +81,7 @@ class VideoMainState extends State<VideoMain> {
   }
 
   Widget _buildAudioTile(
-      String title, String duration, String imagePath, String url) {
+      String title, String imagePath, String url) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -94,7 +91,6 @@ class VideoMainState extends State<VideoMain> {
               title: title,
               url: url,
               imagePath: imagePath,
-              duration: duration,
             ),
           ),
         );
@@ -120,19 +116,19 @@ class VideoMainState extends State<VideoMain> {
                         size: 40, color: ColorUtil.mainColor),
                   ),
                 ),
-                Positioned(
-                  bottom: 5,
-                  right: 5,
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                    color: Colors.black54,
-                    child: Text(
-                      duration,
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
+                // Positioned(
+                //   bottom: 5,
+                //   right: 5,
+                //   child: Container(
+                //     padding:
+                //         const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                //     color: Colors.black54,
+                //     child: Text(
+                //       duration,
+                //       style: const TextStyle(color: Colors.white),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
             const SizedBox(height: 8),
@@ -144,49 +140,37 @@ class VideoMainState extends State<VideoMain> {
   }
 
   List<Map<String, String>> _getTracks() {
-      return [
-        {
-          "title": "Mental health",
-          "duration": "02:45",
-          "image": ImageUtil.VID_MENTAL,
-          "url":
-          "https://f003.backblazeb2.com/file/monon-audio/video/WD1_FINALUPDATED.mp4"        },
-        {
-          "title": "Know Yourself",
-          "duration": "00:33",
-          "image": ImageUtil.VID_KNOW_YOURSELF,
-          "url":
-          "https://f003.backblazeb2.com/file/monon-audio/video/WD2.mp4"},
-        {
-          "title": "Empathy",
-          "duration": "00:43",
-          "image": ImageUtil.VID_EMPATHY,
-          "url":
-          "https://f003.backblazeb2.com/file/monon-audio/video/WD5.mp4"},
-        {
-          "title": "Hurt No One",
-          "duration": "00:39",
-          "image": ImageUtil.VID_HURT_NO_ONE,
-          "url":
-          "https://f003.backblazeb2.com/file/monon-audio/video/WD7.mp4"},
-        {
-          "title": "Non Violent Communication",
-          "duration": "02:15",
-          "image": ImageUtil.VID_NON_VIOLENT_COMMUNICATION,
-          "url":
-          "https://f003.backblazeb2.com/file/monon-audio/video/WD8.mp4"},
-        {
-          "title": "How to take care yourself",
-          "duration": "02:40",
-          "image": ImageUtil.VID_HOW_TAKE_CARE,
-          "url":
-          "https://f003.backblazeb2.com/file/monon-audio/video/WD12.mp4"},
-        {
-          "title": "Emotional Bank Account",
-          "duration": "02:56",
-          "image": ImageUtil.VID_EMOTIONAL_BANK_ACCOUNT,
-          "url":
-          "https://f003.backblazeb2.com/file/monon-audio/video/WD17+-+Made+with+Clipchamp.mp4"},
-      ];
+    return [
+      {
+        "title": "শ্বাস-প্রশ্বাসের অনুশীলন",
+        "image": ImageUtil.MED_BREATHING,
+        "url":
+            "https://f003.backblazeb2.com/file/monon-audio/video/Breathing+Exercise.mp4"
+      },
+      {
+        "title": "মাইন্ডফুলনেস অনুশীলন",
+        "image": ImageUtil.MED_MINDFULNESS,
+        "url":
+            "https://f003.backblazeb2.com/file/monon-audio/video/Mindfulness+Meditation.mp4"
+      },
+      {
+        "title": "অটোসাজেশন অনুশীলন",
+        "image": ImageUtil.MED_AUTOSUGGESTION,
+        "url":
+            "https://f003.backblazeb2.com/file/monon-audio/video/Autosuggestion+Exercise+.mp4"
+      },
+      {
+        "title": "কৃতজ্ঞতা প্রকাশের অনুশীলন",
+        "image": ImageUtil.MED_GRATITUDE,
+        "url":
+            "https://f003.backblazeb2.com/file/monon-audio/video/gratitude.mp4"
+      },
+      {
+        "title": "ক্ষমা করার অনুশীলন",
+        "image": ImageUtil.MED_FORGIVENESS,
+        "url":
+            "https://f003.backblazeb2.com/file/monon-audio/video/forgiveness.mp4"
+      },
+    ];
   }
 }

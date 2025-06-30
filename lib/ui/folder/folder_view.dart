@@ -45,19 +45,18 @@ class _FolderViewState extends State<FolderView>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Expanded(
-              //   flex: 1,
-              //   child: buildOptionCard(
-              //     context,
-              //     "অনুভূতি ও স্থিতিশীলতা",
-              //     Icons.play_circle_fill,
-              //     ColorUtil.primary.shade700,
-              //     ColorUtil.primary.shade300,
-              //     videoPush,
-              //     // VideoPage(),
-              //   ),
-              // ),
-              // const SizedBox(height: 16.0),
+              Container(
+                // flex: 1,
+                child: buildOptionCard(
+                  context,
+                  "অনুভূতি ও স্থিতিশীলতা",
+                  Icons.play_circle_fill,
+                  ColorUtil.primary.shade700,
+                  ColorUtil.primary.shade300,
+                  videoPush,
+                ),
+              ),
+              const SizedBox(height: 16.0),
               Container(
                 // flex: 1,
                 child: buildOptionCard(
@@ -125,18 +124,6 @@ class _FolderViewState extends State<FolderView>
         ?.pushNamed('/video');
   }
 
-  // void videoPush() {
-  //   final context = NavigationService.getCurrentContext();
-  //   if (context != null) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(
-  //         content: Text('This feature will be available in the next version of the app.'),
-  //         duration: Duration(seconds: 3),
-  //       ),
-  //     );
-  //   }
-  // }
-
   void documentPush() {
     NavigationService.getCurrentState()
         ?.pushNamed('/written_documents');
@@ -170,7 +157,7 @@ class _FolderViewState extends State<FolderView>
     return GestureDetector(
       onTap: nextPage,
       child: Container(
-        height: 150,
+        height: 120,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.0),
           gradient: LinearGradient(

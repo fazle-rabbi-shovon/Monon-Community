@@ -32,7 +32,7 @@ class BottomNav extends StatelessWidget {
         // ),
         NavItem(
           "আবেগ",
-          ImageUtil.NAV_FOLDER,
+          ImageUtil.NAV_FEELINGS,
         ),
         // NavItem(
         //   "Info",
