@@ -19,16 +19,14 @@ class LoginButton extends Container {
         width: 200,
         height: 50.0,
         decoration: GradientButtonDecoration(),
-        // decoration: const BoxDecoration(
-        //     borderRadius: BorderRadius.all(Radius.circular(5.0)),
-        //   color: Colors.white,
-        // ),
-        child: Center(
-          child: isLoading
-              ? const CircularProgressIndicator(
-            color: Colors.white,
-          )
-              : const Text(
+        child: const Center(
+          child:
+          // isLoading
+          //     ? const CircularProgressIndicator(
+          //   color: Colors.white,
+          // )
+          //     :
+          Text(
                   // getTranslated(context, "LOGIN_TITLE"),
                   "Login",
                   style: TextStyle(

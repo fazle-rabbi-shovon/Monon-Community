@@ -53,7 +53,7 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
 
       listenedDuration = pos;
 
-      if (!hasSavedToFirebase && listenedDuration >= const Duration(minutes: 2)) {
+      if (!hasSavedToFirebase && listenedDuration >= const Duration(seconds: 2)) {
         hasSavedToFirebase = true;
         _saveAudioListenedToFirebase();
       }

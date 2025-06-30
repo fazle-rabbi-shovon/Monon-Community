@@ -10,7 +10,6 @@ import "../../../util/image_util.dart";
 import '../../Common/login_button.dart';
 import '../../route/navigation_service.dart';
 import '../../shared_pref/shared_pref_util.dart';
-import 'common_dialog.dart';
 
 class LoginViewFinal extends StatefulWidget {
   const LoginViewFinal({super.key});
@@ -100,14 +99,12 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
               print(userRole);
             }
           } else if (userRole == 'volunteer') {
-
             SharedPrefUtil().initParticipantList();
-
           } else if (userRole == 'participant') {
             if (kDebugMode) {
               print(userRole);
             }
-          }else {
+          } else {
             if (kDebugMode) {
               print("Unauthorized role");
             }
@@ -274,15 +271,24 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Spacer(),
-            const Text(
-              "LOGIN TO CONTINUE",
-              style: TextStyle(
-                // color: ColorUtil.button,
-                color: Colors.white,
-                fontSize: 25.0,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            isLoading
+                ? const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.0),
+                    child: LinearProgressIndicator(
+                      color: ColorUtil.mainColor,
+                      minHeight: 20.0,
+                      backgroundColor: Colors.white,
+                    ),
+                  )
+                : const Text(
+                    "LOGIN TO CONTINUE",
+                    style: TextStyle(
+                      // color: ColorUtil.button,
+                      color: Colors.white,
+                      fontSize: 25.0,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
 
             const Spacer(),
             // if (_session) _progressBar(),
@@ -321,12 +327,6 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Spacer(),
-            // isLoading
-            //     ? const CircularProgressIndicator()
-            //     : LoginButton(
-            //         isLoading,
-            //         onTap: login,
-            //       ),
             LoginButton(
               isLoading,
               onTap: login,
@@ -346,12 +346,8 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
   }
 
   void navigateToPhoneLogin() {
-    // NavigationService.getCurrentState()
-    //     ?.pushReplacementNamed('/login_email'); // update route if needed
     Navigator.pushReplacementNamed(context, '/loginPhone');
   }
-
-  void onPressDonePassword() {}
 
   Widget _emailWidget() {
     return Autocomplete<String>(
@@ -370,16 +366,16 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
           TextEditingController fieldTextEditingController,
           FocusNode fieldFocusNode,
           VoidCallback onFieldSubmitted) {
-        fieldTextEditingController.text = userNameCon.text;
-        fieldTextEditingController.selection = TextSelection.fromPosition(
-            TextPosition(offset: fieldTextEditingController.text.length));
-        userNameCon = fieldTextEditingController;
+        // fieldTextEditingController.text = userNameCon.text;
+        // fieldTextEditingController.selection = TextSelection.fromPosition(
+        //     TextPosition(offset: fieldTextEditingController.text.length));
+        // userNameCon = fieldTextEditingController;
 
         return TextField(
           key: Key('email-input-field'),
           textInputAction: TextInputAction.next,
           keyboardType: TextInputType.emailAddress,
-          controller: fieldTextEditingController,
+          controller: userNameCon,
           focusNode: fieldFocusNode,
           autofocus: false,
           decoration: InputDecoration(
@@ -421,6 +417,7 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
                     return GestureDetector(
                       onTap: () {
                         onSelected(option);
+                        userNameCon.text = option.trim();
                       },
                       child: ListTile(
                         title: Text(option),
@@ -444,21 +441,7 @@ class _LoginViewFinalState extends State<LoginViewFinal> {
       controller: passwordCon,
       autofocus: false,
       obscureText: _passVisibility,
-      onEditingComplete: (userNameCon.text.isEmpty)
-          ? () {
-              showDialog(
-                context: context,
-                builder: (context) => CommonDialog(
-                  title: getTranslated(context, "NO_EMAIL_ADDRESS"),
-                  description:
-                      getTranslated(context, "PLEASE_ENTER_YOUR_EMAIL"),
-                  button1: getTranslated(context, "OK"),
-                  button1Flag: true,
-                  button1Color: ColorUtil.button,
-                ),
-              );
-            }
-          : login,
+      onEditingComplete: login,
       decoration: InputDecoration(
         labelText: "Enter Password",
         labelStyle: TextStyle(color: Colors.grey.shade500),
