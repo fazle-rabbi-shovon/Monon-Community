@@ -44,7 +44,7 @@ class _WrittenDocumentsPlayerState extends State<WrittenDocumentsPlayer> {
       if (_controller.value.isPlaying && _isInitialized) {
         watchedDuration = _controller.value.position;
 
-        if (!hasSavedToFirebase && watchedDuration >= const Duration(minutes: 2)) {
+        if (!hasSavedToFirebase && watchedDuration >= const Duration(seconds: 2)) {
           hasSavedToFirebase = true;
           _saveVideoWatchedToFirebase();
         }

@@ -24,7 +24,7 @@ import 'bottom_nav.dart';
 import 'nav_data.dart';
 import 'nav_page.dart';
 
-
+// ignore: must_be_immutable
 class HomeView extends StatefulWidget {
 
   HomeView(this.index);
@@ -44,7 +44,6 @@ class _HomeViewState extends BaseViewState<HomeView>
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  late String currentDeviceId;
 
   Nav _navState = Nav.feelings;
   int _currentIndex;
@@ -264,10 +263,10 @@ class _HomeViewState extends BaseViewState<HomeView>
       barrierDismissible: true,
       builder: (_) =>
           AlertDialog(
-            title: const Text("Update Available",
+            title: const Text("আপডেট করুন",
               style: TextStyle(color: ColorUtil.mainColor),),
             content: const Text(
-                "A new version of the app is available. Please update to continue."),
+                "মনন অ্যাপটির নতুন ভার্সন এসেছে, অনুগ্রহ করে আপডেট করুন।"),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
@@ -275,7 +274,7 @@ class _HomeViewState extends BaseViewState<HomeView>
                       ?.pop();
                 },
                 child: const Text(
-                  "Later", style: TextStyle(color: Colors.red),),
+                  "পরে", style: TextStyle(color: Colors.red),),
               ),
               TextButton(
                 onPressed: () async {
@@ -285,7 +284,7 @@ class _HomeViewState extends BaseViewState<HomeView>
                   }
                 },
                 child: const Text(
-                  "Update", style: TextStyle(color: ColorUtil.mainColor),),
+                  "আপডেট", style: TextStyle(color: ColorUtil.mainColor),),
               ),
             ],
           ),
