@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../route/navigation_service.dart';
+import '../../services/activity_service.dart';
 import '../../util/color_util.dart';
 
 class FolderView extends StatefulWidget {
@@ -35,30 +36,21 @@ class _FolderViewState extends State<FolderView>
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(16.0),
-          // decoration: const BoxDecoration(
-          //   gradient: LinearGradient(
-          //     colors: [Colors.blue, Colors.purple],
-          //     begin: Alignment.topCenter,
-          //     end: Alignment.bottomCenter,
-          //   ),
-          // ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // Container(
+              //   child: buildOptionCard(
+              //     context,
+              //     "অনুভূতি ও স্থিতিশীলতা",
+              //     Icons.play_circle_fill,
+              //     ColorUtil.primary.shade700,
+              //     ColorUtil.primary.shade300,
+              //     videoPush,
+              //   ),
+              // ),
+              // const SizedBox(height: 16.0),
               Container(
-                // flex: 1,
-                child: buildOptionCard(
-                  context,
-                  "অনুভূতি ও স্থিতিশীলতা",
-                  Icons.play_circle_fill,
-                  ColorUtil.primary.shade700,
-                  ColorUtil.primary.shade300,
-                  videoPush,
-                ),
-              ),
-              const SizedBox(height: 16.0),
-              Container(
-                // flex: 1,
                 child: buildOptionCard(
                   context,
                   "বুদ্ধিমত্তা ও আবেগ",
@@ -68,11 +60,11 @@ class _FolderViewState extends State<FolderView>
                   Colors.grey.shade300,
                   Colors.grey.shade200,
                   audioPush,
+                  progressFuture: ActivityService().getBuddhimottaCompletionPercentage(),
                 ),
               ),
               const SizedBox(height: 16.0),
               Container(
-                // flex: 1,
                 child: buildOptionCard(
                   context,
                   "কিছু কথা",
@@ -80,11 +72,11 @@ class _FolderViewState extends State<FolderView>
                   ColorUtil.primary.shade700,
                   ColorUtil.primary.shade300,
                   documentPush,
+                  progressFuture: ActivityService().getTypeCompletionPercentage('kisu_kotha'),
                 ),
               ),
               const SizedBox(height: 16.0),
               Container(
-                // flex: 1,
                 child: buildOptionCard(
                   context,
                   "আমার কাজ",
@@ -92,21 +84,55 @@ class _FolderViewState extends State<FolderView>
                   Colors.grey.shade300,
                   Colors.grey.shade200,
                   activityPush,
+                  progressFuture: ActivityService().getTypeCompletionPercentage('amar_kaaj'),
                 ),
               ),
               const SizedBox(height: 16.0),
-              // Expanded(
-              //   flex: 1,
-              //   child: buildOptionCard(
-              //     context,
-              //     "নিজ পরিকল্পনা\n(উপরের সবগুলো কাজ সম্পন্ন করুন এবং এটি অনুশীলন করুন)",
-              //     Icons.lock,
-              //     ColorUtil.primary.shade700,
-              //     ColorUtil.primary.shade300,
-              //     finalTaskPush,
-              //   ),
-              // ),
-              // const SizedBox(height: 16.0),
+              FutureBuilder<bool>(
+                future: ActivityService().isFifthActivityUnlocked(),
+                builder: (context, snapshot) {
+                  final unlocked = snapshot.data ?? false;
+                  return buildOptionCard(
+                    context,
+                    "নিজ পরিকল্পনা\n(উপরের সবগুলো কাজ সম্পন্ন করুন এবং এটি অনুশীলন করুন)",
+                    unlocked ? Icons.check_circle : Icons.lock,
+                    ColorUtil.primary.shade700,
+                    ColorUtil.primary.shade300,
+                    unlocked ? finalTaskPush : () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("অনুগ্রহ করে সবগুলো কাজ শেষ করুন")),
+                      );
+                    }, // disable tap if not unlocked
+                  );
+                },
+              ),
+              const SizedBox(height: 24.0),
+              FutureBuilder<double>(
+                future: ActivityService().getTotalCompletionPercentage(),
+                builder: (context, snapshot) {
+                  double progress = snapshot.data ?? 0.0;
+
+                  return Column(
+                    children: [
+                      Text(
+                        'সর্বমোট অগ্রগতি: ${(progress * 100).toStringAsFixed(1)}%',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      LinearProgressIndicator(
+                        value: progress,
+                        minHeight: 10,
+                        backgroundColor: Colors.grey.shade300,
+                        valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
+                      ),
+                    ],
+                  );
+                },
+              ),
+
             ],
           ),
         ),
@@ -116,34 +142,37 @@ class _FolderViewState extends State<FolderView>
 
   void audioPush() {
     NavigationService.getCurrentState()
-        ?.pushNamed('/main_audio');
+        ?.pushNamed('/main_audio').then((_) {
+      if (mounted) setState(() {});
+    });
   }
 
   void videoPush() {
     NavigationService.getCurrentState()
-        ?.pushNamed('/video');
+        ?.pushNamed('/video').then((_) {
+      if (mounted) setState(() {});
+    });
   }
 
   void documentPush() {
     NavigationService.getCurrentState()
-        ?.pushNamed('/written_documents');
+        ?.pushNamed('/written_documents').then((_) {
+      if (mounted) setState(() {});
+    });
   }
 
   void finalTaskPush() {
-    final context = NavigationService.getCurrentContext();
-    if (context != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('This feature will be available in the next version of the app.'),
-          duration: Duration(seconds: 3),
-        ),
-      );
-    }
+    NavigationService.getCurrentState()
+        ?.pushNamed('/final_task').then((_) {
+      if (mounted) setState(() {});
+    });
   }
 
   void activityPush() {
     NavigationService.getCurrentState()
-        ?.pushNamed('/activities_main');
+        ?.pushNamed('/activities_main').then((_) {
+      if (mounted) setState(() {});
+    });
   }
 
   Widget buildOptionCard(
@@ -152,8 +181,9 @@ class _FolderViewState extends State<FolderView>
       IconData icon,
       Color startColor,
       Color endColor,
-      VoidCallback nextPage,
-      ) {
+      VoidCallback nextPage, {
+        Future<double>? progressFuture,
+      }) {
     return GestureDetector(
       onTap: nextPage,
       child: Container(
@@ -162,8 +192,8 @@ class _FolderViewState extends State<FolderView>
           borderRadius: BorderRadius.circular(12.0),
           gradient: LinearGradient(
             colors: [startColor, endColor],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
           ),
         ),
         child: Center(
@@ -177,16 +207,41 @@ class _FolderViewState extends State<FolderView>
               ),
               textAlign: TextAlign.center,
             ),
-            trailing: Icon(
-              icon,
-              color: Colors.grey,
-              size: 30.0,
+            trailing: progressFuture == null
+                ? Icon(icon, color: Colors.grey, size: 30)
+                : FutureBuilder<double>(
+              future: progressFuture,
+              builder: (context, snapshot) {
+                double value = snapshot.data ?? 0.0;
+                return Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    SizedBox(
+                      height: 30,
+                      width: 30,
+                      child: CircularProgressIndicator(
+                        value: value,
+                        strokeWidth: 4,
+                        // backgroundColor: Colors.grey.shade300,
+                        backgroundColor: Colors.white,
+                        valueColor:
+                        AlwaysStoppedAnimation<Color>(Colors.green),
+                      ),
+                    ),
+                    Text(
+                      '${(value * 100).toInt()}%',
+                      style: const TextStyle(fontSize: 10),
+                    ),
+                  ],
+                );
+              },
             ),
           ),
         ),
       ),
     );
   }
+
 
   _appbar() {
     return AppBar(

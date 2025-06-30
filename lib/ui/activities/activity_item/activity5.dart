@@ -45,6 +45,7 @@ class _Activity5State extends State<Activity5> {
       await saveActivityOnFirebase(
         activityName: 'Activity5',
         activityData: activityData,
+        activityIndex: 4,
       );
 
       if (mounted) {

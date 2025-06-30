@@ -4,14 +4,29 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:monon/route/navigation_service.dart';
 import 'package:monon/route/route_generator.dart';
+import 'package:monon/services/version_control.dart';
 import 'package:monon/util/color_util.dart';
+
+import 'model/activity_progress.dart';
 
 Future<void> main() async {
   // setupLocator();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await Hive.initFlutter();
+
+  // Register the adapter
+  Hive.registerAdapter(ActivityProgressAdapter());
+
+  // Open the box
+  await Hive.openBox<ActivityProgress>('activity_progress');
+
+  // Run version control to add activity types
+  await VersionControl.checkAndUpdateHive(currentVersion: 1);
   HttpOverrides.global = new MyHttpOverrides();
   runApp(MyApp());
 }

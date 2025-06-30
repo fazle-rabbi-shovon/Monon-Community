@@ -1,24 +1,29 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
 import '../../route/navigation_service.dart';
+import '../../services/activity_service.dart';
 import '../../util/color_util.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
 
 class AudioPlayerScreen extends StatefulWidget {
-  const AudioPlayerScreen(
-      {super.key,
-      required this.title,
-      required this.url,
-      required this.imagePath,
-      required this.duration});
+  const AudioPlayerScreen({
+    super.key,
+    required this.title,
+    required this.url,
+    required this.imagePath,
+    required this.duration,
+    required this.type,
+    required this.index,
+  });
 
   final String title;
   final String url;
   final String imagePath;
   final String duration;
+  final String type;
+  final int index;
 
   @override
   State<AudioPlayerScreen> createState() => _AudioPlayerScreenState();
@@ -53,12 +58,12 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
 
       listenedDuration = pos;
 
-      if (!hasSavedToFirebase && listenedDuration >= const Duration(seconds: 2)) {
+      if (!hasSavedToFirebase &&
+          listenedDuration >= const Duration(seconds: 70)) {
         hasSavedToFirebase = true;
         _saveAudioListenedToFirebase();
       }
     });
-
   }
 
   Future<void> _saveAudioListenedToFirebase() async {
@@ -79,8 +84,10 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
       "শুনেছে": "হ্যাঁ",
       "listenedAt": FieldValue.serverTimestamp(),
     });
-  }
 
+    /// ✅ Mark buddhimotta1/buddhimotta2 activity complete locally in Hive
+    await ActivityService().markCompleted(widget.type, widget.index);
+  }
 
   @override
   void dispose() {
@@ -132,7 +139,8 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const Icon(Icons.fast_rewind, size: 36, color: ColorUtil.mainColor),
+                const Icon(Icons.fast_rewind,
+                    size: 36, color: ColorUtil.mainColor),
                 IconButton(
                   iconSize: 48,
                   color: ColorUtil.mainColor,
@@ -160,7 +168,8 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
                     }
                   },
                 ),
-                const Icon(Icons.fast_forward, size: 36, color: ColorUtil.mainColor),
+                const Icon(Icons.fast_forward,
+                    size: 36, color: ColorUtil.mainColor),
               ],
             ),
           ],
@@ -171,7 +180,7 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
 
   _appbar() {
     return AppBar(
-      title:  Text(
+      title: Text(
         // getTranslated(context, "LEAVE_APPLY"),
         widget.title,
         style: const TextStyle(

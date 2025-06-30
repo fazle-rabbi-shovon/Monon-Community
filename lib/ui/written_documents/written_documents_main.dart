@@ -83,6 +83,7 @@ class WrittenDocumentsPage extends StatelessWidget {
                     builder: (context) => WrittenDocumentsPlayer(
                       title: titles[index],
                       url: videoUrls[index],
+                      index: index,
                     ),
                   ),
                 );

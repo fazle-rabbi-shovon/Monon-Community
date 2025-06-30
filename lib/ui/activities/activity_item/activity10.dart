@@ -44,14 +44,14 @@ class _Activity10State extends State<Activity10> {
       "2": "নিয়ন্ত্রণে নেই এমন বিষয় : ${notControlList.isEmpty ? "Not provided" : notControlList}",
     };
 
-    final hasInput = activityData.values.any((value) => value != "Not provided");
+    final hasInput = activityData.values.every((value) => value != "Not provided");
 
     if (!hasInput) {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
           title: const Text("সতর্কতা"),
-          content: const Text("অনুগ্রহ করে অন্তত একটি ঘর পূরণ করুন।"),
+          content: const Text("অনুগ্রহ করে সবগুলো ঘর পূরণ করুন।"),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
@@ -67,6 +67,7 @@ class _Activity10State extends State<Activity10> {
       await saveActivityOnFirebase(
         activityName: 'Activity10',
         activityData: activityData,
+        activityIndex: 9,
       );
 
       if (mounted) {
