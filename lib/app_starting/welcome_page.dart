@@ -28,43 +28,48 @@ class _WelcomePageState extends State<WelcomePage> {
     return Scaffold(
       backgroundColor: Colors.white, // Optional
       body: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(height: 80),
-            const Center(
-              child: Text(
-                "মনন অ্যাপে আপনাকে স্বাগতম",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              const Center(
+                child: Text(
+                  "মনন অ্যাপে আপনাকে স্বাগতম",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "OpenSans",
+                  ),
                 ),
               ),
-            ),
-            const Spacer(),
-            Center(
-              child: Image.asset(
-                ImageUtil.LOGIN_MONON_ICON,
-                key: const Key('logo-image'),
-                width: 250,
-                fit: BoxFit.contain,
-              ),
-            ),
-            const Spacer(),
-            const Padding(
-              padding: EdgeInsets.only(bottom: 16.0),
-              child: Text(
-                "Powered by \nDepartment of Public Health and Informatics "
-                    "\nBangladesh Medical University \nShahbag, Dhaka-1000,Bangladesh",
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
+              const Spacer(),
+              Center(
+                child: Image.asset(
+                  ImageUtil.LOGIN_MONON_ICON,
+                  key: const Key('logo-image'),
+                  width: 280,
+                  fit: BoxFit.contain,
                 ),
-                textAlign: TextAlign.center,
               ),
-            ),
-          ],
+              const Spacer(),
+              const Padding(
+                padding: EdgeInsets.only(bottom: 16.0),
+                child: Text(
+                  "Powered by \nDepartment of Public Health and Informatics "
+                      "\nBangladesh Medical University \nShahbag, Dhaka-1000, Bangladesh",
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: "OpenSans",
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

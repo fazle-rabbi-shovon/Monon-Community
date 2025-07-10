@@ -2,7 +2,6 @@ import 'package:hive/hive.dart';
 
 import '../model/activity_progress.dart';
 
-
 class ActivityService {
   final String boxName = 'activity_progress';
 
@@ -24,11 +23,13 @@ class ActivityService {
       for (final entry in activityCounts.entries) {
         for (int i = 0; i < entry.value; i++) {
           final key = '${entry.key}-$i';
-          await box.put(key, ActivityProgress(
-            type: entry.key,
-            activityId: key,
-            completed: false,
-          ));
+          await box.put(
+              key,
+              ActivityProgress(
+                type: entry.key,
+                activityId: key,
+                completed: false,
+              ));
         }
       }
     }
@@ -36,12 +37,33 @@ class ActivityService {
 
   /// Mark one item as complete
   Future<void> markCompleted(String type, int index) async {
-    final box = await _getBox();
-    final key = '$type-$index';
-    final item = box.get(key);
-    if (item != null) {
-      item.completed = true;
-      await item.save();
+    if (type == "kisu_kotha" && index == 17) {
+      final box = await _getBox();
+
+      final key = '$type-$index';
+
+      int index1 = 18;
+      final key1 = '$type-$index1';
+
+      final item = box.get(key);
+      final item1 = box.get(key1);
+
+      if (item != null) {
+        item.completed = true;
+        await item.save();
+        if (item1 != null) {
+          item1.completed = true;
+          await item1.save();
+        }
+      }
+    } else {
+      final box = await _getBox();
+      final key = '$type-$index';
+      final item = box.get(key);
+      if (item != null) {
+        item.completed = true;
+        await item.save();
+      }
     }
   }
 
@@ -63,7 +85,7 @@ class ActivityService {
 
   /// Check if the 5th activity should be unlocked
   Future<bool> isFifthActivityUnlocked() async {
-    final types = ['buddhimotta1', 'buddhimotta2','kisu_kotha', 'amar_kaaj'];
+    final types = ['meditation', 'buddhimotta1', 'buddhimotta2', 'kisu_kotha', 'kisu_kotha_1', 'amar_kaaj'];
     for (final type in types) {
       if (!await isTypeCompleted(type)) return false;
     }
@@ -84,9 +106,22 @@ class ActivityService {
   Future<double> getBuddhimottaCompletionPercentage() async {
     final box = await _getBox();
 
-    final items = box.values.where((e) =>
-    e.type == 'buddhimotta1' || e.type == 'buddhimotta2'
-    ).toList();
+    final items = box.values
+        .where((e) => e.type == 'buddhimotta1' || e.type == 'buddhimotta2')
+        .toList();
+
+    if (items.isEmpty) return 0.0;
+
+    final completed = items.where((e) => e.completed).length;
+    return completed / items.length;
+  }
+
+  Future<double> getKisukothaCompletionPercentage() async {
+    final box = await _getBox();
+
+    final items = box.values
+        .where((e) => e.type == 'kisu_kotha' || e.type == 'kisu_kotha_1')
+        .toList();
 
     if (items.isEmpty) return 0.0;
 
@@ -110,11 +145,13 @@ class ActivityService {
     for (int i = 0; i < count; i++) {
       final key = '$type-$i';
       if (!box.containsKey(key)) {
-        await box.put(key, ActivityProgress(
-          type: type,
-          activityId: key,
-          completed: false,
-        ));
+        await box.put(
+            key,
+            ActivityProgress(
+              type: type,
+              activityId: key,
+              completed: false,
+            ));
       }
     }
   }

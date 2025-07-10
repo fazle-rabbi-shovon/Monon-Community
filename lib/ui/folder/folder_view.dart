@@ -8,8 +8,8 @@ import '../../services/activity_service.dart';
 import '../../util/color_util.dart';
 
 class FolderView extends StatefulWidget {
-
   const FolderView({super.key});
+
   @override
   State<FolderView> createState() => _FolderViewState();
 }
@@ -39,17 +39,19 @@ class _FolderViewState extends State<FolderView>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Container(
-              //   child: buildOptionCard(
-              //     context,
-              //     "অনুভূতি ও স্থিতিশীলতা",
-              //     Icons.play_circle_fill,
-              //     ColorUtil.primary.shade700,
-              //     ColorUtil.primary.shade300,
-              //     videoPush,
-              //   ),
-              // ),
-              // const SizedBox(height: 16.0),
+              Container(
+                child: buildOptionCard(
+                  context,
+                  "অনুভূতি ও স্থিতিশীলতা",
+                  Icons.play_circle_fill,
+                  ColorUtil.primary.shade700,
+                  ColorUtil.primary.shade300,
+                  videoPush,
+                  progressFuture:
+                      ActivityService().getTypeCompletionPercentage("meditation"),
+                ),
+              ),
+              const SizedBox(height: 16.0),
               Container(
                 child: buildOptionCard(
                   context,
@@ -60,7 +62,8 @@ class _FolderViewState extends State<FolderView>
                   Colors.grey.shade300,
                   Colors.grey.shade200,
                   audioPush,
-                  progressFuture: ActivityService().getBuddhimottaCompletionPercentage(),
+                  progressFuture:
+                      ActivityService().getBuddhimottaCompletionPercentage(),
                 ),
               ),
               const SizedBox(height: 16.0),
@@ -72,7 +75,8 @@ class _FolderViewState extends State<FolderView>
                   ColorUtil.primary.shade700,
                   ColorUtil.primary.shade300,
                   documentPush,
-                  progressFuture: ActivityService().getTypeCompletionPercentage('kisu_kotha'),
+                  progressFuture:
+                      ActivityService().getKisukothaCompletionPercentage(),
                 ),
               ),
               const SizedBox(height: 16.0),
@@ -84,7 +88,8 @@ class _FolderViewState extends State<FolderView>
                   Colors.grey.shade300,
                   Colors.grey.shade200,
                   activityPush,
-                  progressFuture: ActivityService().getTypeCompletionPercentage('amar_kaaj'),
+                  progressFuture: ActivityService()
+                      .getTypeCompletionPercentage('amar_kaaj'),
                 ),
               ),
               const SizedBox(height: 16.0),
@@ -98,11 +103,15 @@ class _FolderViewState extends State<FolderView>
                     unlocked ? Icons.check_circle : Icons.lock,
                     ColorUtil.primary.shade700,
                     ColorUtil.primary.shade300,
-                    unlocked ? finalTaskPush : () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("অনুগ্রহ করে সবগুলো কাজ শেষ করুন")),
-                      );
-                    }, // disable tap if not unlocked
+                    unlocked
+                        ? finalTaskPush
+                        : () {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content:
+                                      Text("অনুগ্রহ করে সবগুলো কাজ শেষ করুন")),
+                            );
+                          }, // disable tap if not unlocked
                   );
                 },
               ),
@@ -126,13 +135,13 @@ class _FolderViewState extends State<FolderView>
                         value: progress,
                         minHeight: 10,
                         backgroundColor: Colors.grey.shade300,
-                        valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
+                        valueColor:
+                            const AlwaysStoppedAnimation<Color>(Colors.green),
                       ),
                     ],
                   );
                 },
               ),
-
             ],
           ),
         ),
@@ -141,49 +150,48 @@ class _FolderViewState extends State<FolderView>
   }
 
   void audioPush() {
-    NavigationService.getCurrentState()
-        ?.pushNamed('/main_audio').then((_) {
+    NavigationService.getCurrentState()?.pushNamed('/main_audio').then((_) {
       if (mounted) setState(() {});
     });
   }
 
   void videoPush() {
-    NavigationService.getCurrentState()
-        ?.pushNamed('/video').then((_) {
+    NavigationService.getCurrentState()?.pushNamed('/video').then((_) {
       if (mounted) setState(() {});
     });
   }
 
   void documentPush() {
     NavigationService.getCurrentState()
-        ?.pushNamed('/written_documents').then((_) {
+        ?.pushNamed('/kisu_kotha')
+        .then((_) {
       if (mounted) setState(() {});
     });
   }
 
   void finalTaskPush() {
-    NavigationService.getCurrentState()
-        ?.pushNamed('/final_task').then((_) {
+    NavigationService.getCurrentState()?.pushNamed('/final_task').then((_) {
       if (mounted) setState(() {});
     });
   }
 
   void activityPush() {
     NavigationService.getCurrentState()
-        ?.pushNamed('/activities_main').then((_) {
+        ?.pushNamed('/activities_main')
+        .then((_) {
       if (mounted) setState(() {});
     });
   }
 
   Widget buildOptionCard(
-      BuildContext context,
-      String title,
-      IconData icon,
-      Color startColor,
-      Color endColor,
-      VoidCallback nextPage, {
-        Future<double>? progressFuture,
-      }) {
+    BuildContext context,
+    String title,
+    IconData icon,
+    Color startColor,
+    Color endColor,
+    VoidCallback nextPage, {
+    Future<double>? progressFuture,
+  }) {
     return GestureDetector(
       onTap: nextPage,
       child: Container(
@@ -210,38 +218,37 @@ class _FolderViewState extends State<FolderView>
             trailing: progressFuture == null
                 ? Icon(icon, color: Colors.grey, size: 30)
                 : FutureBuilder<double>(
-              future: progressFuture,
-              builder: (context, snapshot) {
-                double value = snapshot.data ?? 0.0;
-                return Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    SizedBox(
-                      height: 30,
-                      width: 30,
-                      child: CircularProgressIndicator(
-                        value: value,
-                        strokeWidth: 4,
-                        // backgroundColor: Colors.grey.shade300,
-                        backgroundColor: Colors.white,
-                        valueColor:
-                        AlwaysStoppedAnimation<Color>(Colors.green),
-                      ),
-                    ),
-                    Text(
-                      '${(value * 100).toInt()}%',
-                      style: const TextStyle(fontSize: 10),
-                    ),
-                  ],
-                );
-              },
-            ),
+                    future: progressFuture,
+                    builder: (context, snapshot) {
+                      double value = snapshot.data ?? 0.0;
+                      return Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          SizedBox(
+                            height: 30,
+                            width: 30,
+                            child: CircularProgressIndicator(
+                              value: value,
+                              strokeWidth: 4,
+                              // backgroundColor: Colors.grey.shade300,
+                              backgroundColor: Colors.white,
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.green),
+                            ),
+                          ),
+                          Text(
+                            '${(value * 100).toInt()}%',
+                            style: const TextStyle(fontSize: 10),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
           ),
         ),
       ),
     );
   }
-
 
   _appbar() {
     return AppBar(
@@ -272,4 +279,3 @@ class _FolderViewState extends State<FolderView>
     );
   }
 }
-

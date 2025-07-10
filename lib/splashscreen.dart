@@ -31,11 +31,12 @@ class _SplashScreenState extends State<SplashScreen> {
     if (!mounted) return;
 
     if (isLoggedIn && isIntroCompleted) {
-      // Navigator.pushReplacementNamed(context, '/emotions_first_submit');
       Timer(const Duration(seconds: 3), () {
         NavigationService.getCurrentState()
             ?.pushReplacementNamed('/emotions_first_submit');
+
       });
+
     } else if (isLoggedIn && !isIntroCompleted) {
       Navigator.pushReplacementNamed(context, '/welcome');
     } else {
@@ -50,17 +51,6 @@ class _SplashScreenState extends State<SplashScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            const SizedBox(height: 80),
-            const Center(
-              child: Text(
-                "মনন",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
             const Spacer(),
             Center(
               child: Column(
@@ -69,7 +59,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   Image.asset(
                     ImageUtil.LOGIN_MONON_ICON,
                     key: const Key('logo-image'),
-                    width: 250,
+                    width: 290,
                     fit: BoxFit.contain,
                   ),
                   const Padding(
@@ -81,12 +71,12 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
             const Spacer(),
             const Padding(
-              padding: EdgeInsets.only(bottom: 16.0),
+              padding: EdgeInsets.only(bottom: 25.0, left: 10, right: 10),
               child: Text(
                 "Powered by \nDepartment of Public Health and Informatics "
-                    "\nBangladesh Medical University \nShahbag, Dhaka-1000,Bangladesh",
+                    "\nBangladesh Medical University \nShahbag, Dhaka-1000, Bangladesh",
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: 24,
                   color: Colors.black,
                   fontWeight: FontWeight.w500,
                 ),

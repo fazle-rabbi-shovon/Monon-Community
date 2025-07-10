@@ -94,10 +94,10 @@ class PersonalInfoUpdatePageState extends State<PersonalInfoUpdatePage> {
                   const SizedBox(height: 10),
                   _buildRoleBox(roleLabel),
                   _buildInput('নাম', nameController),
-                  _buildInput('জন্মসাল (দিন/মাস/বছর)', dobController),
+                  // _buildInput('জন্মসাল (দিন/মাস/বছর)', dobController),
                   _buildInput('জেন্ডার (পুরুষ/নারী/তৃতীয় লিঙ্গ)', genderController),
                   _buildInput('জেলা', districtController),
-                  _buildInput('উপজেলা', upazillaController),
+                  // _buildInput('উপজেলা', upazillaController),
                   if (role == 'volunteer') ...[
                     _buildInput('পার্টিসিপেন্টের সাথে সম্পর্ক', relationshipController),
                     _buildInput('পার্টিসিপেন্ট ১', participant1Controller),
@@ -173,10 +173,10 @@ class PersonalInfoUpdatePageState extends State<PersonalInfoUpdatePage> {
 
       final Map<String, dynamic> updatedData = {
         'name': nameController.text.trim(),
-        'dob': dobController.text.trim(),
+        'dob': "nai",
         'gender': genderController.text.trim(),
         'district': districtController.text.trim(),
-        'upazilla': upazillaController.text.trim(),
+        'upazilla': "nai",
         'updatedAt': FieldValue.serverTimestamp(),
       };
 
