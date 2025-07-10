@@ -3,10 +3,13 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:monon/app_starting/welcome_page.dart';
+import 'package:monon/ui/bayam/bayam_main.dart';
 import 'package:monon/ui/feelings/feelings_main_view.dart';
 import 'package:monon/ui/feelings/feelings_view.dart';
 import 'package:monon/ui/folder/folder_view.dart';
 import 'package:monon/ui/info/info_view.dart';
+import 'package:monon/ui/jana_o_chorcha/jana_o_chorcha_main.dart';
+import 'package:monon/ui/kisu_kotha/kisu_koth.dart';
 import 'package:monon/ui/settings/language_setting.dart';
 import 'package:monon/ui/settings/password_changer.dart';
 import 'package:monon/ui/settings/settings_view.dart';
@@ -27,7 +30,6 @@ import '../ui/settings/info_update.dart';
 import '../ui/settings/settings_submit.dart';
 import '../ui/settings/user_generate/participants_creation_page.dart';
 import '../ui/settings/user_generate/volunteer_creation_page.dart';
-import '../ui/written_documents/written_documents_main.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -142,9 +144,19 @@ class RouteGenerator {
           builder: (_) => const VideoMain(),
         );
 
-      case '/written_documents':
+      case '/kisu_kotha':
         return navigateToRoute(
-          builder: (_) => WrittenDocumentsPage(),
+          builder: (_) => KisuKotha(),
+        );
+
+      case '/janbo':
+        return navigateToRoute(
+          builder: (_) => JanaOChorchaMainPage(),
+        );
+
+      case '/bayam':
+        return navigateToRoute(
+          builder: (_) => BayamMainPage(),
         );
 
       case '/main_audio':

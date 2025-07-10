@@ -6,24 +6,20 @@ import '../../util/color_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
-class WrittenDocumentsPlayer extends StatefulWidget {
+class BayamPlayer extends StatefulWidget {
   final String title;
   final String url;
   final int index;
 
-  const WrittenDocumentsPlayer({
-    Key? key,
-    required this.title,
-    required this.url,
-    required this.index
-  }) : super(key: key);
+  const BayamPlayer(
+      {Key? key, required this.title, required this.url, required this.index})
+      : super(key: key);
 
   @override
-  State<WrittenDocumentsPlayer> createState() => _WrittenDocumentsPlayerState();
+  State<BayamPlayer> createState() => _BayamPlayerState();
 }
 
-class _WrittenDocumentsPlayerState extends State<WrittenDocumentsPlayer> {
+class _BayamPlayerState extends State<BayamPlayer> {
   late VideoPlayerController _controller;
   bool _isControlsVisible = true;
   bool _isInitialized = false;
@@ -36,7 +32,7 @@ class _WrittenDocumentsPlayerState extends State<WrittenDocumentsPlayer> {
     _controller = VideoPlayerController.network(widget.url)
       ..initialize().then((_) {
         setState(() {
-           _isInitialized = true;
+          _isInitialized = true;
         });
       });
     _controller.addListener(() {
@@ -47,7 +43,8 @@ class _WrittenDocumentsPlayerState extends State<WrittenDocumentsPlayer> {
       if (_controller.value.isPlaying && _isInitialized) {
         watchedDuration = _controller.value.position;
 
-        if (!hasSavedToFirebase && watchedDuration >= const Duration(seconds: 30)) {
+        if (!hasSavedToFirebase &&
+            watchedDuration >= const Duration(seconds: 30)) {
           hasSavedToFirebase = true;
           _saveVideoWatchedToFirebase();
         }
@@ -55,7 +52,6 @@ class _WrittenDocumentsPlayerState extends State<WrittenDocumentsPlayer> {
 
       setState(() {});
     });
-
   }
 
   Future<void> _saveVideoWatchedToFirebase() async {
@@ -78,9 +74,8 @@ class _WrittenDocumentsPlayerState extends State<WrittenDocumentsPlayer> {
     });
 
     /// ✅ Mark kisu_kotha activity complete locally in Hive
-    await ActivityService().markCompleted('kisu_kotha', widget.index);
+    await ActivityService().markCompleted('kisu_kotha_1', widget.index);
   }
-
 
   @override
   void dispose() {
@@ -109,73 +104,40 @@ class _WrittenDocumentsPlayerState extends State<WrittenDocumentsPlayer> {
         child: Column(
           children: [
             const SizedBox(height: 24),
-              AspectRatio(
-                aspectRatio: _controller.value.aspectRatio,
-                child: _isInitialized
-                ? GestureDetector(
-                  onTap: _toggleControls,
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      VideoPlayer(_controller),
-                      if (_isControlsVisible)
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.fast_rewind, size: 36, color: ColorUtil.mainColor),
-                              onPressed: () {
-                                _controller.seekTo(_controller.value.position - const Duration(seconds: 10));
-                              },
-                            ),
-                            IconButton(
-                              iconSize: 48,
-                              icon: Icon(
-                                _controller.value.isPlaying
-                                    ? Icons.pause_circle_filled
-                                    : Icons.play_circle_filled,
-                                color: ColorUtil.mainColor,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  _controller.value.isPlaying
-                                      ? _controller.pause()
-                                      : _controller.play();
-                                });
-                              },
-                            ),
-                            IconButton(
-                              icon: const Icon(Icons.fast_forward, size: 36, color: ColorUtil.mainColor),
-                              onPressed: () {
-                                _controller.seekTo(_controller.value.position + const Duration(seconds: 10));
-                              },
-                            ),
-                          ],
+            AspectRatio(
+              aspectRatio: _controller.value.aspectRatio,
+              child: _isInitialized
+                  ? GestureDetector(
+                onTap: _toggleControls,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    VideoPlayer(_controller),
+                    if (_isControlsVisible)
+                      Positioned(
+                        bottom: 8,
+                        left: 12,
+                        child: Text(
+                          _formatTime(_controller.value.position),
+                          style: const TextStyle(
+                              color: ColorUtil.mainColor, fontSize: 12),
                         ),
-                      if (_isControlsVisible) ...[
-                        Positioned(
-                          bottom: 8,
-                          left: 12,
-                          child: Text(
-                            _formatTime(_controller.value.position),
-                            style: const TextStyle(color: ColorUtil.mainColor, fontSize: 12),
-                          ),
+                      ),
+                    if (_isControlsVisible)
+                      Positioned(
+                        bottom: 8,
+                        right: 12,
+                        child: Text(
+                          _formatTime(_controller.value.duration),
+                          style: const TextStyle(
+                              color: ColorUtil.mainColor, fontSize: 12),
                         ),
-                        Positioned(
-                          bottom: 8,
-                          right: 12,
-                          child: Text(
-                            _formatTime(_controller.value.duration),
-                            style: const TextStyle(color: ColorUtil.mainColor, fontSize: 12),
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                ) :
-                const Center(child: CircularProgressIndicator()),
-              ),
-            const SizedBox(height: 10),
+                      ),
+                  ],
+                ),
+              )
+                  : const Center(child: CircularProgressIndicator()),
+            ),
             Slider(
               value: _isInitialized
                   ? _controller.value.position.inSeconds.toDouble()
@@ -192,6 +154,46 @@ class _WrittenDocumentsPlayerState extends State<WrittenDocumentsPlayer> {
               activeColor: ColorUtil.mainColor,
               inactiveColor: Colors.grey,
             ),
+
+            // 👉 Playback controls shown below the video after loading
+            if (_isInitialized)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.fast_rewind,
+                        size: 36, color: ColorUtil.mainColor),
+                    onPressed: () {
+                      _controller.seekTo(_controller.value.position -
+                          const Duration(seconds: 10));
+                    },
+                  ),
+                  IconButton(
+                    iconSize: 48,
+                    icon: Icon(
+                      _controller.value.isPlaying
+                          ? Icons.pause_circle_filled
+                          : Icons.play_circle_filled,
+                      color: ColorUtil.mainColor,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _controller.value.isPlaying
+                            ? _controller.pause()
+                            : _controller.play();
+                      });
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.fast_forward,
+                        size: 36, color: ColorUtil.mainColor),
+                    onPressed: () {
+                      _controller.seekTo(_controller.value.position +
+                          const Duration(seconds: 10));
+                    },
+                  ),
+                ],
+              ),
           ],
         ),
       ),
@@ -200,7 +202,8 @@ class _WrittenDocumentsPlayerState extends State<WrittenDocumentsPlayer> {
 
   AppBar _appbar() {
     return AppBar(
-      title: Text(widget.title, style: const TextStyle(color: Colors.white, fontSize: 18)),
+      title: Text(widget.title,
+          style: const TextStyle(color: Colors.white, fontSize: 18)),
       centerTitle: true,
       backgroundColor: ColorUtil.primary,
       leading: IconButton(

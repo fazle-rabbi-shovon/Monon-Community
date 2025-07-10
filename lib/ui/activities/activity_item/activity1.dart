@@ -42,7 +42,7 @@ class _Activity1State extends State<Activity1> {
   }
 
   bool _anyFieldFilled() {
-    return controllers.any((controller) => controller.text.trim().isNotEmpty);
+    return controllers.every((controller) => controller.text.trim().isNotEmpty);
   }
 
   @override
@@ -71,7 +71,7 @@ class _Activity1State extends State<Activity1> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "• ${questions[index]}",
+                  questions[index],
                   style: const TextStyle(fontSize: 16),
                 ),
                 const SizedBox(height: 6),

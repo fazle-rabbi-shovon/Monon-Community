@@ -20,13 +20,17 @@ Future<void> main() async {
   await Hive.initFlutter();
 
   // Register the adapter
-  Hive.registerAdapter(ActivityProgressAdapter());
+  if (!Hive.isAdapterRegistered(0)) {
+    Hive.registerAdapter(ActivityProgressAdapter());
+  }
 
   // Open the box
-  await Hive.openBox<ActivityProgress>('activity_progress');
+  if (!Hive.isBoxOpen('activity_progress')) {
+    await Hive.openBox<ActivityProgress>('activity_progress');
+  }
 
   // Run version control to add activity types
-  await VersionControl.checkAndUpdateHive(currentVersion: 1);
+  await VersionControl.checkAndUpdateHive(currentVersion: 2);
   HttpOverrides.global = new MyHttpOverrides();
   runApp(MyApp());
 }

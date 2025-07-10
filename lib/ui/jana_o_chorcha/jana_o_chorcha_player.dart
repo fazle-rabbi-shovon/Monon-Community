@@ -1,27 +1,25 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import '../../route/navigation_service.dart';
+import '../../services/activity_service.dart';
 import '../../util/color_util.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class VideoPlayerScreen extends StatefulWidget {
+class JanaOChorchaPlayer extends StatefulWidget {
   final String title;
   final String url;
-  final String imagePath;
+  final int index;
 
-  const VideoPlayerScreen({
-    Key? key,
-    required this.title,
-    required this.url,
-    required this.imagePath,
-  }) : super(key: key);
+  const JanaOChorchaPlayer(
+      {Key? key, required this.title, required this.url, required this.index})
+      : super(key: key);
 
   @override
-  State<VideoPlayerScreen> createState() => _VideoPlayerScreenState();
+  State<JanaOChorchaPlayer> createState() => _JanaOChorchaPlayerState();
 }
 
-class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
+class _JanaOChorchaPlayerState extends State<JanaOChorchaPlayer> {
   late VideoPlayerController _controller;
   bool _isControlsVisible = true;
   bool _isInitialized = false;
@@ -46,9 +44,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         watchedDuration = _controller.value.position;
 
         if (!hasSavedToFirebase &&
-            watchedDuration >= const Duration(seconds: 2)) {
+            watchedDuration >= const Duration(seconds: 30)) {
           hasSavedToFirebase = true;
-          // _saveVideoWatchedToFirebase();
+          _saveVideoWatchedToFirebase();
         }
       }
 
@@ -74,6 +72,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       "দেখা হয়েছে": "হ্যাঁ",
       "watchedAt": FieldValue.serverTimestamp(),
     });
+
+    /// ✅ Mark kisu_kotha activity complete locally in Hive
+    await ActivityService().markCompleted('kisu_kotha', widget.index);
   }
 
   @override
@@ -137,7 +138,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                     )
                   : const Center(child: CircularProgressIndicator()),
             ),
-            // Progress bar
             Slider(
               value: _isInitialized
                   ? _controller.value.position.inSeconds.toDouble()

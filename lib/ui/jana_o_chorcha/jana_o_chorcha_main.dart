@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:monon/ui/written_documents/written_documents_player.dart';
+import 'package:monon/ui/jana_o_chorcha/jana_o_chorcha_player.dart';
 import 'package:monon/util/color_util.dart';
 import 'package:monon/util/image_util.dart';
 
 import '../../route/navigation_service.dart';
 
-class WrittenDocumentsPage extends StatelessWidget {
+class JanaOChorchaMainPage extends StatelessWidget {
   final List<String> titles = [
     "মানসিক স্বাস্থ্য সম্পর্কে জানি",
     "নিজের সম্পর্কে জানি",
@@ -15,8 +15,8 @@ class WrittenDocumentsPage extends StatelessWidget {
     "অপরের আবেগ-অনুভূতির দিকে লক্ষ্য রাখি",
     "আমার কথা বা আচরণে কেউ যেন কষ্ট না পায়",
     "ননভায়োলেন্ট কমিউনিকেশন (NVC) বা সমানুভূতিশীল যোগাযোগ",
-    "বিভিন্ন মানসিক চাপের লক্ষণসমূহ",
-    "মানসিক চাপগ্রস্ত অবস্থায় আমাদের পদক্ষেপসমূহ",
+    // "বিভিন্ন মানসিক চাপের লক্ষণসমূহ",
+    "মানসিক চাপের লক্ষণ ও আমাদের পদক্ষেপসমূহ",
     "মানসিক স্বাস্থ্য ভালো রাখতে আমাদের পদক্ষেপসমূহ",
     "নিজেকে ভাল রাখতে যা যা করতে পারেন",
     "মাল্টিটাস্কিং বা একসাথে একাধিক কাজ করা",
@@ -36,7 +36,7 @@ class WrittenDocumentsPage extends StatelessWidget {
     "https://f003.backblazeb2.com/file/monon-audio/Written+Documents/WD6_%E0%A6%85%E0%A6%AA%E0%A6%B0%E0%A7%87%E0%A6%B0+%E0%A6%86%E0%A6%AC%E0%A7%87%E0%A6%97-%E0%A6%85%E0%A6%A8%E0%A7%81%E0%A6%AD%E0%A7%82%E0%A6%A4%E0%A6%BF%E0%A6%B0+%E0%A6%A6%E0%A6%BF%E0%A6%95%E0%A7%87+%E0%A6%B2%E0%A6%95%E0%A7%8D%E0%A6%B7%E0%A7%8D%E0%A6%AF+%E0%A6%B0%E0%A6%BE%E0%A6%96%E0%A6%BF+.mp4",
     "https://f003.backblazeb2.com/file/monon-audio/Written+Documents/WD7_+%E0%A6%86%E0%A6%AE%E0%A6%BE%E0%A6%B0+%E0%A6%95%E0%A6%A5%E0%A6%BE+%E0%A6%AC%E0%A6%BE+%E0%A6%86%E0%A6%9A%E0%A6%B0%E0%A6%A3%E0%A7%87+%E0%A6%95%E0%A7%87%E0%A6%89+%E0%A6%AF%E0%A7%87%E0%A6%A8+%E0%A6%95%E0%A6%B7%E0%A7%8D%E0%A6%9F+%E0%A6%A8%E0%A6%BE+%E0%A6%AA%E0%A6%BE%E0%A7%9F+.mp4",
     "https://f003.backblazeb2.com/file/monon-audio/Written+Documents/WD8_%E0%A6%A8%E0%A6%A8%E0%A6%AD%E0%A6%BE%E0%A6%AF%E0%A6%BC%E0%A7%8B%E0%A6%B2%E0%A7%87%E0%A6%A8%E0%A7%8D%E0%A6%9F+%E0%A6%95%E0%A6%AE%E0%A6%BF%E0%A6%89%E0%A6%A8%E0%A6%BF%E0%A6%95%E0%A7%87%E0%A6%B6%E0%A6%A8+(NVC)+%E0%A6%AC%E0%A6%BE+%E0%A6%B8%E0%A6%AE%E0%A6%BE%E0%A6%A8%E0%A7%81%E0%A6%AD%E0%A7%82%E0%A6%A4%E0%A6%BF%E0%A6%B6%E0%A7%80%E0%A6%B2+%E0%A6%AF%E0%A7%8B%E0%A6%97%E0%A6%BE%E0%A6%AF%E0%A7%8B%E0%A6%97+.mp4",
-    "https://f003.backblazeb2.com/file/monon-audio/Written+Documents/WD9%2C10_%E0%A6%AC%E0%A6%BF%E0%A6%AD%E0%A6%BF%E0%A6%A8%E0%A7%8D%E0%A6%A8+%E0%A6%AE%E0%A6%BE%E0%A6%A8%E0%A6%B8%E0%A6%BF%E0%A6%95+%E0%A6%9A%E0%A6%BE%E0%A6%AA%E0%A7%87%E0%A6%B0+%E0%A6%B2%E0%A6%95%E0%A7%8D%E0%A6%B7%E0%A6%A3%E0%A6%B8%E0%A6%AE%E0%A7%82%E0%A6%B9_%E0%A6%AE%E0%A6%BE%E0%A6%A8%E0%A6%B8%E0%A6%BF%E0%A6%95+%E0%A6%9A%E0%A6%BE%E0%A6%AA%E0%A6%97%E0%A7%8D%E0%A6%B0%E0%A6%B8%E0%A7%8D%E0%A6%A4+%E0%A6%85%E0%A6%AC%E0%A6%B8%E0%A7%8D%E0%A6%A5%E0%A6%BE%E0%A7%9F+%E0%A6%86%E0%A6%AE%E0%A6%BE%E0%A6%A6%E0%A7%87%E0%A6%B0+%E0%A6%AA%E0%A6%A6%E0%A6%95%E0%A7%8D%E0%A6%B7%E0%A7%87%E0%A6%AA%E0%A6%B8%E0%A6%AE%E0%A7%82%E0%A6%B9++.mp4",
+    // "https://f003.backblazeb2.com/file/monon-audio/Written+Documents/WD9%2C10_%E0%A6%AC%E0%A6%BF%E0%A6%AD%E0%A6%BF%E0%A6%A8%E0%A7%8D%E0%A6%A8+%E0%A6%AE%E0%A6%BE%E0%A6%A8%E0%A6%B8%E0%A6%BF%E0%A6%95+%E0%A6%9A%E0%A6%BE%E0%A6%AA%E0%A7%87%E0%A6%B0+%E0%A6%B2%E0%A6%95%E0%A7%8D%E0%A6%B7%E0%A6%A3%E0%A6%B8%E0%A6%AE%E0%A7%82%E0%A6%B9_%E0%A6%AE%E0%A6%BE%E0%A6%A8%E0%A6%B8%E0%A6%BF%E0%A6%95+%E0%A6%9A%E0%A6%BE%E0%A6%AA%E0%A6%97%E0%A7%8D%E0%A6%B0%E0%A6%B8%E0%A7%8D%E0%A6%A4+%E0%A6%85%E0%A6%AC%E0%A6%B8%E0%A7%8D%E0%A6%A5%E0%A6%BE%E0%A7%9F+%E0%A6%86%E0%A6%AE%E0%A6%BE%E0%A6%A6%E0%A7%87%E0%A6%B0+%E0%A6%AA%E0%A6%A6%E0%A6%95%E0%A7%8D%E0%A6%B7%E0%A7%87%E0%A6%AA%E0%A6%B8%E0%A6%AE%E0%A7%82%E0%A6%B9++.mp4",
     "https://f003.backblazeb2.com/file/monon-audio/Written+Documents/WD9%2C10_%E0%A6%AC%E0%A6%BF%E0%A6%AD%E0%A6%BF%E0%A6%A8%E0%A7%8D%E0%A6%A8+%E0%A6%AE%E0%A6%BE%E0%A6%A8%E0%A6%B8%E0%A6%BF%E0%A6%95+%E0%A6%9A%E0%A6%BE%E0%A6%AA%E0%A7%87%E0%A6%B0+%E0%A6%B2%E0%A6%95%E0%A7%8D%E0%A6%B7%E0%A6%A3%E0%A6%B8%E0%A6%AE%E0%A7%82%E0%A6%B9_%E0%A6%AE%E0%A6%BE%E0%A6%A8%E0%A6%B8%E0%A6%BF%E0%A6%95+%E0%A6%9A%E0%A6%BE%E0%A6%AA%E0%A6%97%E0%A7%8D%E0%A6%B0%E0%A6%B8%E0%A7%8D%E0%A6%A4+%E0%A6%85%E0%A6%AC%E0%A6%B8%E0%A7%8D%E0%A6%A5%E0%A6%BE%E0%A7%9F+%E0%A6%86%E0%A6%AE%E0%A6%BE%E0%A6%A6%E0%A7%87%E0%A6%B0+%E0%A6%AA%E0%A6%A6%E0%A6%95%E0%A7%8D%E0%A6%B7%E0%A7%87%E0%A6%AA%E0%A6%B8%E0%A6%AE%E0%A7%82%E0%A6%B9++.mp4",
     "https://f003.backblazeb2.com/file/monon-audio/Written+Documents/WD11_%E0%A6%AE%E0%A6%BE%E0%A6%A8%E0%A6%B8%E0%A6%BF%E0%A6%95+%E0%A6%B8%E0%A7%8D%E0%A6%AC%E0%A6%BE%E0%A6%B8%E0%A7%8D%E0%A6%A5%E0%A7%8D%E0%A6%AF+%E0%A6%AD%E0%A6%BE%E0%A6%B2%E0%A7%8B+%E0%A6%B0%E0%A6%BE%E0%A6%96%E0%A6%A4%E0%A7%87+%E0%A6%86%E0%A6%AE%E0%A6%BE%E0%A6%A6%E0%A7%87%E0%A6%B0+%E0%A6%AA%E0%A6%A6%E0%A6%95%E0%A7%8D%E0%A6%B7%E0%A7%87%E0%A6%AA%E0%A6%B8%E0%A6%AE%E0%A7%82%E0%A6%B9+.mp4",
     "https://f003.backblazeb2.com/file/monon-audio/Written+Documents/WD12_%E0%A6%A8%E0%A6%BF%E0%A6%9C%E0%A7%87%E0%A6%95%E0%A7%87+%E0%A6%AD%E0%A6%BE%E0%A6%B2+%E0%A6%B0%E0%A6%BE%E0%A6%96%E0%A6%A4%E0%A7%87+%E0%A6%AF%E0%A6%BE+%E0%A6%AF%E0%A6%BE+%E0%A6%95%E0%A6%B0%E0%A6%A4%E0%A7%87+%E0%A6%AA%E0%A6%BE%E0%A6%B0%E0%A7%87%E0%A6%A8+.mp4",
@@ -54,7 +54,7 @@ class WrittenDocumentsPage extends StatelessWidget {
     ColorUtil.writtenDoc, // Light Yellow
   ];
 
-   WrittenDocumentsPage({super.key});
+  JanaOChorchaMainPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +80,7 @@ class WrittenDocumentsPage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => WrittenDocumentsPlayer(
+                    builder: (context) => JanaOChorchaPlayer(
                       title: titles[index],
                       url: videoUrls[index],
                       index: index,
@@ -97,7 +97,7 @@ class WrittenDocumentsPage extends StatelessWidget {
 
   AppBar _appbar() {
     return AppBar(
-      title: const Text("কিছু কথা", style: TextStyle(color: Colors.white, fontSize: 18)),
+      title: const Text("জানবো ও চর্চা করবো", style: TextStyle(color: Colors.white, fontSize: 18)),
       centerTitle: true,
       backgroundColor: ColorUtil.primary,
       leading: IconButton(

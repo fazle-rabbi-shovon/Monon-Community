@@ -14,10 +14,10 @@ class VersionControl {
         await ActivityService().initializeDefaults();
       }
 
-      // 🚀 Future additions go below
-      // if (lastVersion < 2) {
-      //   await ActivityService().addNewActivityType('quiz', 8);
-      // }
+      if (lastVersion < 2) {
+        await ActivityService().addNewActivityType('meditation', 5);
+        await ActivityService().addNewActivityType('kisu_kotha_1', 3);
+      }
 
       // Save new version
       await prefs.setInt(_keyLastVersion, currentVersion);

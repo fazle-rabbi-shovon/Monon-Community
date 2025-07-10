@@ -50,33 +50,25 @@ class VideoMainState extends State<VideoMain> {
     );
   }
 
-  _appbar() {
+  AppBar _appbar() {
     return AppBar(
+      title: const Text("অনুভূতি ও স্থিতিশীলতা", style: TextStyle(color: Colors.white, fontSize: 18)),
+      centerTitle: true,
+      backgroundColor: ColorUtil.primary,
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back, color: Colors.white),
+        onPressed: () {
+          NavigationService.getCurrentState()?.pop();
+        },
+      ),
       actions: [
         IconButton(
-          icon: const Icon(
-            Icons.close,
-            color: Colors.white,
-          ),
+          icon: const Icon(Icons.close, color: Colors.white),
           onPressed: () {
             NavigationService.getCurrentState()?.pop();
           },
         ),
       ],
-      leading: Container(
-        child: const Center(),
-      ),
-      title: const Text(
-        "অনুভূতি ও স্থিতিশীলতা",
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 18.0,
-        ),
-      ),
-      backgroundColor: ColorUtil.primary,
-      iconTheme: const IconThemeData(color: Colors.white),
-      elevation: 0,
-      centerTitle: true,
     );
   }
 
@@ -157,7 +149,7 @@ class VideoMainState extends State<VideoMain> {
         "title": "অটোসাজেশন অনুশীলন",
         "image": ImageUtil.MED_AUTOSUGGESTION,
         "url":
-            "https://f003.backblazeb2.com/file/monon-audio/video/Autosuggestion+Exercise+.mp4"
+            "https://f003.backblazeb2.com/file/monon-audio/video/Autosuggestion+Exercise.mp4"
       },
       {
         "title": "কৃতজ্ঞতা প্রকাশের অনুশীলন",
