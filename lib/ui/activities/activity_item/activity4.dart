@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:monon/Common/normal_button.dart';
 import '../../../Common/after_activity_dialogue.dart';
 import '../../../Common/text_input_field.dart';
@@ -36,43 +37,75 @@ class _Activity4State extends State<Activity4> {
 
   final TextEditingController commentController = TextEditingController();
 
-  // void _submit() {
-  //   for (int i = 0; i < 6; i++) {
-  //     debugPrint(
-  //         'Row ${i + 1}: Negative: ${negativeControllers[i].text} | Positive: ${positiveControllers[i].text}');
-  //   }
-  //   debugPrint('Additional Comment: ${commentController.text}');
-  //
-  //   // Add Firestore or DB saving logic here
-  //
-  //   ScaffoldMessenger.of(context).showSnackBar(
-  //     const SnackBar(content: Text("Your responses have been saved.")),
-  //   );
-  // }
+  bool _positiveInputsSaved = false;
 
-  void _submit() async {
-    final additionalComment = commentController.text.trim();
+  @override
+  void initState() {
+    super.initState();
+    _loadPositiveInputs();
+  }
 
-    // Build activity data map
-    Map<String, dynamic> activityData = {};
+  Future<void> _loadPositiveInputs() async {
+    final prefs = await SharedPreferences.getInstance();
+    _positiveInputsSaved = prefs.getBool('activity4_positive_saved') ?? false;
 
-    // Collect 4 editable fields (positive thoughts for rows 3–6)
-    for (int i = 2; i < 6; i++) {
-      final positiveText = positiveControllers[i].text.trim();
-      activityData["Positive Thought ${i + 1}"] = positiveText.isEmpty ? "Not provided" : positiveText;
+    if (_positiveInputsSaved) {
+      for (int i = 2; i < 6; i++) {
+        final value = prefs.getString('activity4_positive_$i') ?? '';
+        positiveControllers[i].text = value;
+      }
     }
 
-    // Add final comment
-    activityData["Extra Comment"] = additionalComment.isEmpty ? "Not provided" : additionalComment;
+    setState(() {});
+  }
 
-    // Check if at least one field is filled
-    final hasInput = activityData.values.any((value) => value != "Not provided");
-    if (!hasInput) {
+  void _submit() async {
+    final prefs = await SharedPreferences.getInstance();
+    final additionalComment = commentController.text.trim();
+
+    // FIRST-TIME VALIDATION: Require all 4 positive fields
+    if (!_positiveInputsSaved) {
+      bool allPositiveFilled = true;
+      for (int i = 2; i < 6; i++) {
+        if (positiveControllers[i].text.trim().isEmpty) {
+          allPositiveFilled = false;
+          break;
+        }
+      }
+
+      if (!allPositiveFilled) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text("সতর্কতা"),
+            content: const Text("অনুগ্রহ করে সবগুলো ইতিবাচক বাক্য পূরণ করুন।"),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text("ঠিক আছে", style: TextStyle(color: ColorUtil.button)),
+              )
+            ],
+          ),
+        );
+        return;
+      }
+
+      // Save positiveControllers in SharedPreferences
+      for (int i = 2; i < 6; i++) {
+        final positiveText = positiveControllers[i].text.trim();
+        prefs.setString('activity4_positive_$i', positiveText);
+      }
+      prefs.setBool('activity4_positive_saved', true);
+      _positiveInputsSaved = true;
+    }
+
+    // AFTER FIRST-TIME: Require comment
+    if (_positiveInputsSaved && additionalComment.isEmpty) {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
           title: const Text("সতর্কতা"),
-          content: const Text("অনুগ্রহ করে অন্তত একটি ঘর পূরণ করুন।"),
+          content: const Text("অনুগ্রহ করে মন্তব্যের ঘর পূরণ করুন।"),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
@@ -83,6 +116,16 @@ class _Activity4State extends State<Activity4> {
       );
       return;
     }
+
+    // Prepare data to send to Firebase
+    Map<String, dynamic> activityData = {};
+
+    for (int i = 2; i < 6; i++) {
+      final positiveText = positiveControllers[i].text.trim();
+      activityData["Positive Thought ${i + 1}"] = positiveText.isEmpty ? "Not provided" : positiveText;
+    }
+
+    activityData["Extra Comment"] = additionalComment.isEmpty ? "Not provided" : additionalComment;
 
     try {
       await saveActivityOnFirebase(
@@ -95,12 +138,11 @@ class _Activity4State extends State<Activity4> {
         showActivityDialog(success: true, context: context);
       }
     } catch (e) {
-      if(mounted){
+      if (mounted) {
         showActivityDialog(success: false, context: context, message: e.toString());
       }
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -258,6 +300,7 @@ class _Activity4State extends State<Activity4> {
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               controller: positiveControllers[i],
+              enabled: !_positiveInputsSaved,
               style: const TextStyle(
                 color: Colors.black
               ),

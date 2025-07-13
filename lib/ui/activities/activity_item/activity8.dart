@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:monon/Common/text_editingfield_comment_enabled.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:monon/Common/normal_button.dart';
 import '../../../Common/after_activity_dialogue.dart';
 import '../../../Common/text_input_field.dart';
@@ -16,29 +18,52 @@ class Activity8 extends StatefulWidget {
 
 class _Activity8State extends State<Activity8> {
   final TextEditingController commentController = TextEditingController();
+  final TextEditingController commentController2 = TextEditingController();
+  bool _firstCommentSaved = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadFirstComment();
+  }
+
+  Future<void> _loadFirstComment() async {
+    final prefs = await SharedPreferences.getInstance();
+    _firstCommentSaved = prefs.getBool('activity8_first_comment_saved') ?? false;
+
+    if (_firstCommentSaved) {
+      final saved = prefs.getString('activity8_first_comment') ?? '';
+      commentController.text = saved;
+    }
+
+    setState(() {});
+  }
 
   void _submitComment() async {
-    final response = commentController.text.trim();
+    final prefs = await SharedPreferences.getInstance();
+    final first = commentController.text.trim();
+    final second = commentController2.text.trim();
 
-    if (response.isEmpty) {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text("সতর্কতা"),
-          content: const Text("অনুগ্রহ করে মন্তব্যের ঘরটি পূরণ করুন।"),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text("ঠিক আছে", style: TextStyle(color: ColorUtil.button)),
-            )
-          ],
-        ),
-      );
+    if (!_firstCommentSaved) {
+      if (first.isEmpty) {
+        _showAlert("অনুগ্রহ করে প্রথম মন্তব্যটি পূরণ করুন।");
+        return;
+      }
+
+      // Save first comment
+      prefs.setString('activity8_first_comment', first);
+      prefs.setBool('activity8_first_comment_saved', true);
+      _firstCommentSaved = true;
+    }
+
+    if (second.isEmpty) {
+      _showAlert("অনুগ্রহ করে দ্বিতীয় মন্তব্যটি পূরণ করুন।");
       return;
     }
 
     Map<String, dynamic> activityData = {
-      "1": "সমমর্মিতা প্রকাশ : $response",
+      "1": "সমমর্মিতা প্রকাশ : $first",
+      "2": "সমমর্মিতা প্রকাশ : $second",
     };
 
     try {
@@ -50,18 +75,35 @@ class _Activity8State extends State<Activity8> {
 
       if (mounted) {
         showActivityDialog(success: true, context: context);
+        commentController2.clear(); // clear second comment for repeat use
       }
     } catch (e) {
-      if(mounted){
+      if (mounted) {
         showActivityDialog(success: false, context: context, message: e.toString());
       }
     }
   }
 
+  void _showAlert(String msg) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("সতর্কতা"),
+        content: Text(msg),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text("ঠিক আছে", style: TextStyle(color: ColorUtil.button)),
+          )
+        ],
+      ),
+    );
+  }
 
   @override
   void dispose() {
     commentController.dispose();
+    commentController2.dispose();
     super.dispose();
   }
 
@@ -98,8 +140,22 @@ class _Activity8State extends State<Activity8> {
                 ],
               ),
             ),
-            const SizedBox(height: 16),
-            TextInputFieldComment(commentController, "Add comment", 2, 3),
+            const SizedBox(height: 10),
+            TextInputFieldCommentEnabled(
+              commentController,
+              "আপনার মন্তব্য",
+              2,
+              3,
+              enabled: !_firstCommentSaved,
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              "সমানুভূতি বা সমমর্মিতা চর্চা করুন। "
+                  "\nআজ আপনি অন্যদের প্রতি কিভাবে আপনার সমানুভূতি বা সমমর্মিতা প্রকাশ করেছেন তা লিখুন।",
+              style: TextStyle(fontSize: DimenValuesUtil.normalFontSize),
+            ),
+            const SizedBox(height: 10),
+            TextInputFieldComment(commentController2, "আপনার মন্তব্য লিখুন", 2, 3),
             const SizedBox(height: 20),
             NormalButton(false, "সাবমিট", onTap: _submitComment),
           ],

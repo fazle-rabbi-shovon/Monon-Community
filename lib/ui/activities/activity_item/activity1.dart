@@ -78,7 +78,7 @@ class _Activity1State extends State<Activity1> {
                 TextField(
                   controller: controllers[index],
                   decoration: InputDecoration(
-                    hintText: "Add comment",
+                    hintText: "আপনার কমেন্ট লিখুন",
                     hintStyle: TextStyle(color: Colors.grey.shade500),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),

@@ -176,7 +176,7 @@ class _Activity7State extends State<Activity7> {
                 textAlign: TextAlign.start,
               ),
               const Text(
-                "নিজেকে সময় দিন এবং নিচের ঘরগুলোতে টিক চিহ্ন দিন।",
+                "নিজেকে সময় দিন এবং রাত এ ঘুমাতে যাওয়ার আগে যে কাজগুলো আপনি সম্পন্ন করেছেন সেই ঘরগুলোতে টিক চিহ্ন দিন।",
                 style: TextStyle(fontSize: 16),
                 textAlign: TextAlign.start,
               ),

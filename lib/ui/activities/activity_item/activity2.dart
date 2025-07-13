@@ -94,6 +94,15 @@ class _Activity2State extends State<Activity2> {
             UserEmotion.happy: 'assets/images/emg_happy.png',
           };
 
+          final emotionsString = {
+            UserEmotion.anxious: 'দুশ্চিন্তা',
+            UserEmotion.scared: 'ভয়',
+            UserEmotion.angry: 'রাগ',
+            UserEmotion.sad: 'দুঃখ',
+            UserEmotion.annoyed: 'বিরক্তি',
+            UserEmotion.happy: 'আনন্দ',
+          };
+
           return Padding(
             padding: const EdgeInsets.all(16.0),
             child: ListView(
@@ -112,13 +121,17 @@ class _Activity2State extends State<Activity2> {
                   ),
                 ),
                 const SizedBox(height: 16),
+                Text(
+                  "আপনি এখন ${emotionsString[emotion]!} অনুভব করছেন।",
+                  style: const TextStyle(fontSize: DimenValuesUtil.normalFontSize),
+                ),
                 const Text(
                   "এই অনুভূতির কারণ, এই পরিস্থিতিতে আপনি কি করেন, নিয়ন্ত্রণে রাখার জন্য কি করেন।",
                   style: TextStyle(fontSize: DimenValuesUtil.normalFontSize),
                 ),
                 const SizedBox(height: 8),
                 TextInputFieldComment(
-                    firstCommentController, "Add comment", 3, 6),
+                    firstCommentController, "আপনার কমেন্ট লিখুন", 3, 6),
                 const SizedBox(height: 16),
                 const Text(
                   "এই অনুভূতিটি আপনার শরীর ও মনে কোন প্রভাব ফেলেছে (যেমন: বুক ভারী লাগা, মাথাব্যথা, হাত কাঁপা, অস্থির লাগা, মনোযোগের অভাব, নেতিবাচক চিন্তা-ভাবনা, ইত্যাদি যে কোন কিছু হতে পারে)? কোন প্রভাব না ফেললে উত্তরটি “না” লিখুন।",
@@ -126,7 +139,7 @@ class _Activity2State extends State<Activity2> {
                 ),
                 const SizedBox(height: 8),
                 TextInputFieldComment(
-                    secondCommentController, "Add comment", 3, 6),
+                    secondCommentController, "আপনার কমেন্ট লিখুন", 3, 6),
                 const SizedBox(height: 20),
                 NormalButton(false, "সাবমিট", onTap: _submitComment),
               ],

@@ -16,16 +16,20 @@ class Activity6 extends StatefulWidget {
 
 class _Activity6State extends State<Activity6> {
   final TextEditingController commentController = TextEditingController();
+  final TextEditingController commentController1 = TextEditingController();
+  final TextEditingController commentController2 = TextEditingController();
 
   void _submitComment() async {
     final response = commentController.text.trim();
+    final response1 = commentController1.text.trim();
+    final response2 = commentController2.text.trim();
 
-    if (response.isEmpty) {
+    if (response.isEmpty || response1.isEmpty || response2.isEmpty) {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
           title: const Text("সতর্কতা"),
-          content: const Text("অনুগ্রহ করে মন্তব্যের ঘরটি পূরণ করুন।"),
+          content: const Text("অনুগ্রহ করে মন্তব্যের ঘর সবগুলো পূরণ করুন।"),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
@@ -39,6 +43,8 @@ class _Activity6State extends State<Activity6> {
 
     Map<String, dynamic> activityData = {
       "1": "প্রিয় মানুষের ৩টি গুণ : $response",
+      "2": "প্রিয় মানুষের ৩টি গুণ : $response1",
+      "3": "প্রিয় মানুষের ৩টি গুণ : $response2",
     };
 
     try {
@@ -79,7 +85,11 @@ class _Activity6State extends State<Activity6> {
               style: TextStyle(fontSize: DimenValuesUtil.normalFontSize),
             ),
             const SizedBox(height: 16),
-            TextInputFieldComment(commentController, "Add comment: 1, 2, 3", 3, 5),
+            TextInputFieldComment(commentController, "আপনার কমেন্ট লিখুন", 1, 2),
+            const SizedBox(height: 10),
+            TextInputFieldComment(commentController, "আপনার কমেন্ট লিখুন", 1, 2),
+            const SizedBox(height: 10),
+            TextInputFieldComment(commentController, "আপনার কমেন্ট লিখুন", 1, 2),
             const SizedBox(height: 20),
             NormalButton(false, "সাবমিট", onTap: _submitComment),
           ],
