@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../Common/after_activity_dialogue.dart';
 import '../../../Common/normal_button.dart';
@@ -19,11 +20,30 @@ class Activity9 extends StatefulWidget {
 }
 
 class _Activity9State extends State<Activity9> {
+
+  bool _positiveInputsSaved = false;
+
   @override
   void initState() {
     super.initState();
+    _loadSavedInputs();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
   }
+
+  Future<void> _loadSavedInputs() async {
+    final prefs = await SharedPreferences.getInstance();
+    _positiveInputsSaved = prefs.getBool('activity9_positive_saved') ?? false;
+
+    if (_positiveInputsSaved) {
+      for (int i = 2; i < 4; i++) {
+        final text = prefs.getString('activity9_positive_$i') ?? '';
+        positiveControllers[i].text = text;
+      }
+    }
+
+    setState(() {});
+  }
+
 
   @override
   void dispose() {
@@ -53,41 +73,45 @@ class _Activity9State extends State<Activity9> {
   final TextEditingController commentControllerTwo = TextEditingController();
 
   void _submit() async {
+    final prefs = await SharedPreferences.getInstance();
     final extraCommentOne = commentControllerOne.text.trim();
     final extraCommentTwo = commentControllerTwo.text.trim();
 
-    Map<String, dynamic> activityData = {};
+    // First time: require both positive inputs
+    if (!_positiveInputsSaved) {
+      bool allFilled = true;
+      for (int i = 2; i < 4; i++) {
+        if (positiveControllers[i].text.trim().isEmpty) {
+          allFilled = false;
+          break;
+        }
+      }
 
-    // Collect positive phrases for editable rows (i = 2 and 3)
-    for (int i = 2; i < 4; i++) {
-      final value = positiveControllers[i].text.trim();
-      activityData["ইতিবাচক বাক্য ${i + 1}"] = value.isEmpty ? "Not provided" : value;
+      if (!allFilled) {
+        _showAlert("অনুগ্রহ করে দুইটি ইতিবাচক বাক্য পূরণ করুন।");
+        return;
+      }
+
+      // Save for future
+      for (int i = 2; i < 4; i++) {
+        prefs.setString('activity9_positive_$i', positiveControllers[i].text.trim());
+      }
+      prefs.setBool('activity9_positive_saved', true);
+      _positiveInputsSaved = true;
     }
 
-    // Add the two free comments
-    activityData["আজ আমি যেভাবে বলেছি"] =
-    extraCommentOne.isEmpty ? "Not provided" : extraCommentOne;
-    activityData["আমি যেভাবে ইতিবাচকভাবে বলতাম"] =
-    extraCommentTwo.isEmpty ? "Not provided" : extraCommentTwo;
-
-    // Check if anything was actually filled
-    final hasInput = activityData.values.any((value) => value != "Not provided");
-    if (!hasInput) {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text("সতর্কতা"),
-          content: const Text("অনুগ্রহ করে অন্তত একটি ঘর পূরণ করুন।"),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text("ঠিক আছে", style: TextStyle(color: ColorUtil.button)),
-            )
-          ],
-        ),
-      );
+    // Every time: comments required
+    if (extraCommentOne.isEmpty || extraCommentTwo.isEmpty) {
+      _showAlert("দয়া করে দুইটি মন্তব্য পূরণ করুন।");
       return;
     }
+
+    Map<String, dynamic> activityData = {
+      "ইতিবাচক বাক্য 3": positiveControllers[2].text.trim(),
+      "ইতিবাচক বাক্য 4": positiveControllers[3].text.trim(),
+      "আজ আমি যেভাবে বলেছি": extraCommentOne,
+      "আমি যেভাবে ইতিবাচকভাবে বলতাম": extraCommentTwo,
+    };
 
     try {
       await saveActivityOnFirebase(
@@ -98,13 +122,32 @@ class _Activity9State extends State<Activity9> {
 
       if (mounted) {
         showActivityDialog(success: true, context: context);
+        commentControllerOne.clear();
+        commentControllerTwo.clear();
       }
     } catch (e) {
-      if(mounted){
+      if (mounted) {
         showActivityDialog(success: false, context: context, message: e.toString());
       }
     }
   }
+
+  void _showAlert(String msg) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("সতর্কতা"),
+        content: Text(msg),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text("ঠিক আছে", style: TextStyle(color: ColorUtil.button)),
+          )
+        ],
+      ),
+    );
+  }
+
 
 
   @override
@@ -271,6 +314,7 @@ class _Activity9State extends State<Activity9> {
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 controller: positiveControllers[i],
+                enabled: !_positiveInputsSaved,
                 style: const TextStyle(
                     color: Colors.black,
                   fontSize: 12.0,

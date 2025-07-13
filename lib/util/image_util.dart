@@ -25,6 +25,8 @@ class ImageUtil {
   static const String EMPATHY = 'assets/images/5.empathy_new.png';
   static const String SOCIAL_SKILL = 'assets/images/6.social_skill.png';
 
+  static const String AUDIO_EMPATHY = 'assets/images/audio_empathy.png';
+
   static const String VID_EMOTIONAL_BANK_ACCOUNT = 'assets/images/vid_emotional_bank_account.png';
   static const String VID_EMPATHY = 'assets/images/vid_empathy.png';
   static const String VID_HURT_NO_ONE = 'assets/images/vid_hurt_no_one.png';

@@ -6,6 +6,7 @@ import 'package:just_audio/just_audio.dart';
 import '../../route/navigation_service.dart';
 import '../../services/activity_service.dart';
 import '../../util/color_util.dart';
+import 'audio_widget.dart';
 
 class AudioPlayerScreen extends StatefulWidget {
   const AudioPlayerScreen({
@@ -37,6 +38,24 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
   late AudioPlayer _audioPlayer;
   Duration _duration = Duration.zero;
   Duration _position = Duration.zero;
+
+  final List<Widget> _eiWidgets = [
+    AudioWidgets.emotionalIntelligenceInfo,
+    AudioWidgets.selfAwarenessWidget,
+    AudioWidgets.selfRegulationWidget,
+    AudioWidgets.motivationWidget,
+    AudioWidgets.empathyWidget,
+    AudioWidgets.socialSkillsWidget,
+  ];
+
+  final List<Widget> _emotionWidgets = [
+    AudioWidgets.anxietyWidget,
+    AudioWidgets.fearWidget,
+    AudioWidgets.angerWidget,
+    AudioWidgets.sadnessWidget,
+    AudioWidgets.disgustWidget,
+    AudioWidgets.joyWidget,
+  ];
 
   @override
   void initState() {
@@ -107,72 +126,76 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
       appBar: _appbar(),
       body: Padding(
         padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            const SizedBox(height: 12),
-            Image.asset(widget.imagePath, height: 180),
-            const SizedBox(height: 30),
-            // Slider
-            Slider(
-              activeColor: ColorUtil.mainColor,
-              inactiveColor: Colors.grey,
-              value: _position.inSeconds.toDouble(),
-              min: 0,
-              max: _duration.inSeconds.toDouble(),
-              onChanged: (value) async {
-                final newPosition = Duration(seconds: value.toInt());
-                await _audioPlayer.seek(newPosition);
-              },
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(_formatTime(_position),
-                    style: const TextStyle(fontSize: 12)),
-                Text(_formatTime(_duration),
-                    style: const TextStyle(fontSize: 12)),
-              ],
-            ),
-            const SizedBox(height: 10),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 12),
+              Image.asset(widget.imagePath, height: 180),
+              const SizedBox(height: 30),
+              // Slider
+              Slider(
+                activeColor: ColorUtil.mainColor,
+                inactiveColor: Colors.grey,
+                value: _position.inSeconds.toDouble(),
+                min: 0,
+                max: _duration.inSeconds.toDouble(),
+                onChanged: (value) async {
+                  final newPosition = Duration(seconds: value.toInt());
+                  await _audioPlayer.seek(newPosition);
+                },
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(_formatTime(_position),
+                      style: const TextStyle(fontSize: 12)),
+                  Text(_formatTime(_duration),
+                      style: const TextStyle(fontSize: 12)),
+                ],
+              ),
+              const SizedBox(height: 10),
 
-            // Controls
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const Icon(Icons.fast_rewind,
-                    size: 36, color: ColorUtil.mainColor),
-                IconButton(
-                  iconSize: 48,
-                  color: ColorUtil.mainColor,
-                  icon: StreamBuilder<PlayerState>(
-                    stream: _audioPlayer.playerStateStream,
-                    builder: (context, snapshot) {
-                      final playerState = snapshot.data;
-                      final playing = playerState?.playing;
-                      final processingState = playerState?.processingState;
+              // Controls
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  const Icon(Icons.fast_rewind,
+                      size: 36, color: ColorUtil.mainColor),
+                  IconButton(
+                    iconSize: 48,
+                    color: ColorUtil.mainColor,
+                    icon: StreamBuilder<PlayerState>(
+                      stream: _audioPlayer.playerStateStream,
+                      builder: (context, snapshot) {
+                        final playerState = snapshot.data;
+                        final playing = playerState?.playing;
+                        final processingState = playerState?.processingState;
 
-                      if (playing != true) {
-                        return const Icon(Icons.play_circle_fill);
-                      } else if (processingState != ProcessingState.completed) {
-                        return const Icon(Icons.pause_circle_filled);
+                        if (playing != true) {
+                          return const Icon(Icons.play_circle_fill);
+                        } else if (processingState != ProcessingState.completed) {
+                          return const Icon(Icons.pause_circle_filled);
+                        } else {
+                          return const Icon(Icons.replay_circle_filled);
+                        }
+                      },
+                    ),
+                    onPressed: () {
+                      if (_audioPlayer.playing) {
+                        _audioPlayer.pause();
                       } else {
-                        return const Icon(Icons.replay_circle_filled);
+                        _audioPlayer.play();
                       }
                     },
                   ),
-                  onPressed: () {
-                    if (_audioPlayer.playing) {
-                      _audioPlayer.pause();
-                    } else {
-                      _audioPlayer.play();
-                    }
-                  },
-                ),
-                const Icon(Icons.fast_forward,
-                    size: 36, color: ColorUtil.mainColor),
-              ],
-            ),
-          ],
+                  const Icon(Icons.fast_forward,
+                      size: 36, color: ColorUtil.mainColor),
+                ],
+              ),
+              const SizedBox(height: 10),
+              (widget.type == "buddhimotta1")? _eiWidgets[widget.index] : _emotionWidgets[widget.index],
+            ],
+          ),
         ),
       ),
     );

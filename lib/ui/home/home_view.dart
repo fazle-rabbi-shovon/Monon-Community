@@ -21,6 +21,7 @@ import '../folder/folder_view.dart';
 import '../login/common_dialog.dart';
 import 'Nav.dart';
 import 'bottom_nav.dart';
+import 'emotion_dialogue.dart';
 import 'nav_data.dart';
 import 'nav_page.dart';
 
@@ -137,39 +138,51 @@ class _HomeViewState extends BaseViewState<HomeView>
   }
 
   Future<bool> onWillPop() async {
-    bool willPop = false;
-
-    willPop = _navState == Nav.feelings;
-    if (willPop) {
-      willPop = await showDialog(
+    if (_navState == Nav.feelings) {
+      final shouldExit = await showDialog<bool>(
         context: context,
-        builder: (context) =>
-            AlertDialog(
-              // title: Text(getTranslated(context, "EXIT_APP_TITLE")),
-              title: const Text("Exit"),
-              // content: Text(getTranslated(context, "EXIT_APP_MSG")),
-              content: const Text("Do you want to exit?"),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () =>
-                      NavigationService.getCurrentState()?.pop(false),
-                  // child: Text(getTranslated(context, "NO_TITLE")),
-                  child: const Text("No"),
-                ),
-                TextButton(
-                  onPressed: () =>
-                      NavigationService.getCurrentState()?.pop(true),
-                  // child: Text(getTranslated(context, "YES_TITLE")),
-                  child: const Text("Yes"),
-                ),
-              ],
-            ),
-      ) ??
-          false;
-    } else {}
-
-    return willPop;
+        barrierDismissible: false,
+        builder: (context) => const EmotionDialog(),
+      );
+      return shouldExit == true;
+    }
+    return true; // for other cases, allow back
   }
+
+  // Future<bool> onWillPop() async {
+  //   bool willPop = false;
+  //
+  //   willPop = _navState == Nav.feelings;
+  //   if (willPop) {
+  //     willPop = await showDialog(
+  //       context: context,
+  //       builder: (context) =>
+  //           AlertDialog(
+  //             // title: Text(getTranslated(context, "EXIT_APP_TITLE")),
+  //             title: const Text("Exit"),
+  //             // content: Text(getTranslated(context, "EXIT_APP_MSG")),
+  //             content: const Text("Do you want to exit?"),
+  //             actions: <Widget>[
+  //               TextButton(
+  //                 onPressed: () =>
+  //                     NavigationService.getCurrentState()?.pop(false),
+  //                 // child: Text(getTranslated(context, "NO_TITLE")),
+  //                 child: const Text("No"),
+  //               ),
+  //               TextButton(
+  //                 onPressed: () =>
+  //                     NavigationService.getCurrentState()?.pop(true),
+  //                 // child: Text(getTranslated(context, "YES_TITLE")),
+  //                 child: const Text("Yes"),
+  //               ),
+  //             ],
+  //           ),
+  //     ) ??
+  //         false;
+  //   } else {}
+  //
+  //   return willPop;
+  // }
 
   Widget _bottomNavBar() {
     return BottomNav(

@@ -4,6 +4,7 @@ import '../../route/navigation_service.dart';
 import '../../util/color_util.dart';
 import '../../util/image_util.dart';
 import 'audio_player.dart';
+import 'audio_widget.dart';
 
 // ignore: must_be_immutable
 class AudioSub extends StatefulWidget {
@@ -246,4 +247,23 @@ class AudioSubState extends State<AudioSub> {
       ];
     }
   }
+
+  final List<Widget> _eiWidgets = [
+    AudioWidgets.emotionalIntelligenceInfo,
+    AudioWidgets.selfAwarenessWidget,
+    AudioWidgets.selfRegulationWidget,
+    AudioWidgets.motivationWidget,
+    AudioWidgets.empathyWidget,
+    AudioWidgets.socialSkillsWidget,
+  ];
+
+  final List<Widget> _emotionWidgets = [
+    AudioWidgets.anxietyWidget,
+    AudioWidgets.fearWidget,
+    AudioWidgets.angerWidget,
+    AudioWidgets.sadnessWidget,
+    AudioWidgets.disgustWidget,
+    AudioWidgets.joyWidget,
+  ];
+
 }
