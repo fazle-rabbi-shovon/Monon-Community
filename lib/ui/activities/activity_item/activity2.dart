@@ -131,7 +131,7 @@ class _Activity2State extends State<Activity2> {
                 ),
                 const SizedBox(height: 8),
                 TextInputFieldComment(
-                    firstCommentController, "আপনার কমেন্ট লিখুন", 3, 6),
+                    firstCommentController, "আপনার উত্তর লিখুন", 3, 6),
                 const SizedBox(height: 16),
                 const Text(
                   "এই অনুভূতিটি আপনার শরীর ও মনে কোন প্রভাব ফেলেছে (যেমন: বুক ভারী লাগা, মাথাব্যথা, হাত কাঁপা, অস্থির লাগা, মনোযোগের অভাব, নেতিবাচক চিন্তা-ভাবনা, ইত্যাদি যে কোন কিছু হতে পারে)? কোন প্রভাব না ফেললে উত্তরটি “না” লিখুন।",
@@ -139,7 +139,7 @@ class _Activity2State extends State<Activity2> {
                 ),
                 const SizedBox(height: 8),
                 TextInputFieldComment(
-                    secondCommentController, "আপনার কমেন্ট লিখুন", 3, 6),
+                    secondCommentController, "আপনার উত্তর লিখুন", 3, 6),
                 const SizedBox(height: 20),
                 NormalButton(false, "সাবমিট", onTap: _submitComment),
               ],

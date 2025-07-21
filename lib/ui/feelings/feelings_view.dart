@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:monon/ui/feelings/user_emotion_enum.dart';
@@ -70,14 +72,6 @@ class _FeelingsViewState extends State<FeelingsView>
         overlays: SystemUiOverlay.values);
     super.dispose();
   }
-
-  // void _onFeelingTap(String feeling) {
-  //   if (selectedFeeling.isNotEmpty) {
-  //     _controllers[selectedFeeling]?.stop();
-  //   }
-  //   setState(() => selectedFeeling = feeling);
-  //   _controllers[feeling]?.repeat(reverse: true);
-  // }
 
   void _onFeelingTap(UserEmotion emotion) {
     if (selectedEmotion != null) {
@@ -155,6 +149,32 @@ class _FeelingsViewState extends State<FeelingsView>
     );
   }
 
+  Future<void> _saveEmotionToFirebase() async {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null) return;
+
+    final now = DateTime.now();
+    final formattedDate =
+        "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
+
+    final formattedTime =
+        "${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}";
+
+    final docRef = FirebaseFirestore.instance
+        .collection('emotion')
+        .doc(uid)
+        .collection(formattedDate)
+        .doc(formattedTime);
+
+    String? emotion = selectedEmotion?.label;
+
+    await docRef.set({
+      "শুরুতে অনুভূতি": emotion,
+      "শেষে অনুভূতি": "",
+      "listenedAt": FieldValue.serverTimestamp(),
+    });
+  }
+
   Widget applyButton() {
     return Container(
       margin: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 20.0),
@@ -184,7 +204,8 @@ class _FeelingsViewState extends State<FeelingsView>
               ),
             ),
           );
-          Future.delayed(const Duration(seconds: 3), () {
+          Future.delayed(const Duration(seconds: 2), () async {
+            await _saveEmotionToFirebase();
             Navigator.of(context, rootNavigator: true).pop();
             NavigationService.getCurrentState()
                 ?.pushReplacementNamed('/home', arguments: 0);

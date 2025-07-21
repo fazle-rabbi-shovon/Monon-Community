@@ -16,7 +16,6 @@ import '../../../../util/color_util.dart';
 import '../../route/navigation_service.dart';
 import '../../shared_pref/shared_pref_util.dart';
 import '../../util/number_for_features.dart';
-import '../feelings/feelings_main_view.dart';
 import '../folder/folder_view.dart';
 import '../login/common_dialog.dart';
 import 'Nav.dart';
@@ -148,41 +147,6 @@ class _HomeViewState extends BaseViewState<HomeView>
     }
     return true; // for other cases, allow back
   }
-
-  // Future<bool> onWillPop() async {
-  //   bool willPop = false;
-  //
-  //   willPop = _navState == Nav.feelings;
-  //   if (willPop) {
-  //     willPop = await showDialog(
-  //       context: context,
-  //       builder: (context) =>
-  //           AlertDialog(
-  //             // title: Text(getTranslated(context, "EXIT_APP_TITLE")),
-  //             title: const Text("Exit"),
-  //             // content: Text(getTranslated(context, "EXIT_APP_MSG")),
-  //             content: const Text("Do you want to exit?"),
-  //             actions: <Widget>[
-  //               TextButton(
-  //                 onPressed: () =>
-  //                     NavigationService.getCurrentState()?.pop(false),
-  //                 // child: Text(getTranslated(context, "NO_TITLE")),
-  //                 child: const Text("No"),
-  //               ),
-  //               TextButton(
-  //                 onPressed: () =>
-  //                     NavigationService.getCurrentState()?.pop(true),
-  //                 // child: Text(getTranslated(context, "YES_TITLE")),
-  //                 child: const Text("Yes"),
-  //               ),
-  //             ],
-  //           ),
-  //     ) ??
-  //         false;
-  //   } else {}
-  //
-  //   return willPop;
-  // }
 
   Widget _bottomNavBar() {
     return BottomNav(

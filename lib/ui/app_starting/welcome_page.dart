@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:monon/ui/home/home_view.dart';
 
-import '../route/navigation_service.dart';
-import '../util/image_util.dart';
+import '../../route/navigation_service.dart';
+import '../../util/image_util.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});

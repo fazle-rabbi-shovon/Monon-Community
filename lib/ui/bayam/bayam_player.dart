@@ -44,7 +44,7 @@ class _BayamPlayerState extends State<BayamPlayer> {
         watchedDuration = _controller.value.position;
 
         if (!hasSavedToFirebase &&
-            watchedDuration >= const Duration(seconds: 30)) {
+            watchedDuration >= const Duration(seconds: 220)) {
           hasSavedToFirebase = true;
           _saveVideoWatchedToFirebase();
         }

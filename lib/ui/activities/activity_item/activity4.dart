@@ -171,7 +171,7 @@ class _Activity4State extends State<Activity4> {
             ),
             const SizedBox(height: 10),
             TextInputFieldComment(
-                commentController, "Add comment", 3, 6),
+                commentController, "আপনার উত্তর লিখুন", 3, 6),
             const SizedBox(height: 20),
             NormalButton(false, "সাবমিট", onTap: _submit),
             const SizedBox(height: 40),

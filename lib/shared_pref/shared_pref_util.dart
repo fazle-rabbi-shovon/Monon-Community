@@ -6,8 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 // import '../../data/model/employee.dart';
+import '../util/string_val/strings_util_en.dart';
 import 'shared_pref_constants.dart';
-import 'package:monon/string_val/strings_util_en.dart';
 
 class SharedPrefUtil {
   Future<SharedPreferences> _pref = SharedPreferences.getInstance();

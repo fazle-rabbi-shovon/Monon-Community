@@ -103,7 +103,7 @@ class _Activity10State extends State<Activity10> {
             ),
             const SizedBox(height: 10),
             TextInputFieldComment(
-                commentControllerOne, "Add comment", 2, 3),
+                commentControllerOne, "আপনার উত্তর লিখুন", 2, 3),
             const SizedBox(height: 20),
             const Text(
               "বর্তমানে আপনার নিয়ন্ত্রণে যে বিষয়গুলো নেই তার তালিকা",
@@ -111,7 +111,7 @@ class _Activity10State extends State<Activity10> {
             ),
             const SizedBox(height: 10),
             TextInputFieldComment(
-                commentControllerTwo, "Add comment", 2, 3),
+                commentControllerTwo, "আপনার উত্তর লিখুন", 2, 3),
             const SizedBox(height: 20),
             NormalButton(false, "Submit", onTap: _submit),
             const SizedBox(height: 40),

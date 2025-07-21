@@ -143,7 +143,7 @@ class _Activity8State extends State<Activity8> {
             const SizedBox(height: 10),
             TextInputFieldCommentEnabled(
               commentController,
-              "আপনার মন্তব্য",
+              "আপনার উত্তর লিখুন",
               2,
               3,
               enabled: !_firstCommentSaved,
@@ -155,7 +155,7 @@ class _Activity8State extends State<Activity8> {
               style: TextStyle(fontSize: DimenValuesUtil.normalFontSize),
             ),
             const SizedBox(height: 10),
-            TextInputFieldComment(commentController2, "আপনার মন্তব্য লিখুন", 2, 3),
+            TextInputFieldComment(commentController2, "আপনার উত্তর লিখুন", 2, 3),
             const SizedBox(height: 20),
             NormalButton(false, "সাবমিট", onTap: _submitComment),
           ],
