@@ -6,7 +6,7 @@ import 'package:just_audio/just_audio.dart';
 import '../../route/navigation_service.dart';
 import '../../services/activity_service.dart';
 import '../../util/color_util.dart';
-import 'audio_widget.dart';
+import 'audio_document.dart';
 
 class AudioPlayerScreen extends StatefulWidget {
   const AudioPlayerScreen({
@@ -194,6 +194,7 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
               ),
               const SizedBox(height: 10),
               (widget.type == "buddhimotta1")? _eiWidgets[widget.index] : _emotionWidgets[widget.index],
+              const SizedBox(height: 10),
             ],
           ),
         ),

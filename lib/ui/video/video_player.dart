@@ -3,18 +3,21 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import '../../route/navigation_service.dart';
+import '../../services/activity_service.dart';
 import '../../util/color_util.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
   final String title;
   final String url;
   final String imagePath;
+  final int index;
 
   const VideoPlayerScreen({
     Key? key,
     required this.title,
     required this.url,
     required this.imagePath,
+    required this.index,
   }) : super(key: key);
 
   @override
@@ -46,9 +49,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         watchedDuration = _controller.value.position;
 
         if (!hasSavedToFirebase &&
-            watchedDuration >= const Duration(seconds: 2)) {
+            watchedDuration >= const Duration(seconds: 300)) {
           hasSavedToFirebase = true;
-          // _saveVideoWatchedToFirebase();
+          _saveVideoWatchedToFirebase();
         }
       }
 
@@ -65,7 +68,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
 
     final docRef = FirebaseFirestore.instance
-        .collection('kisu_kotha')
+        .collection('onuvuti_o_stithishilota')
         .doc(uid)
         .collection(formattedDate)
         .doc(widget.title); // Using video title as unique doc
@@ -74,6 +77,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       "দেখা হয়েছে": "হ্যাঁ",
       "watchedAt": FieldValue.serverTimestamp(),
     });
+
+    /// ✅ Mark meditation activity complete locally in Hive
+    await ActivityService().markCompleted("meditation", widget.index);
   }
 
   @override

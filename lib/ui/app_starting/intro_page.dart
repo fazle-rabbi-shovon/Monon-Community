@@ -2,12 +2,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:monon/ui/home/home_view.dart';
 
-import '../Common/login_gradient_button_decoration.dart';
-import '../Common/normal_gradient_button_decoration.dart';
-import '../route/navigation_service.dart';
-import '../shared_pref/shared_pref_util.dart';
-import '../util/dimen_values_util.dart';
-import '../util/image_util.dart';
+import '../../Common/login_gradient_button_decoration.dart';
+import '../../route/navigation_service.dart';
+import '../../shared_pref/shared_pref_util.dart';
+import '../../util/dimen_values_util.dart';
+
 
 // ignore: must_be_immutable
 class IntroPage extends StatefulWidget {

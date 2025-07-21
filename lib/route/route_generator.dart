@@ -2,9 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:monon/app_starting/welcome_page.dart';
 import 'package:monon/ui/bayam/bayam_main.dart';
-import 'package:monon/ui/feelings/feelings_main_view.dart';
 import 'package:monon/ui/feelings/feelings_view.dart';
 import 'package:monon/ui/folder/folder_view.dart';
 import 'package:monon/ui/info/info_view.dart';
@@ -15,13 +13,14 @@ import 'package:monon/ui/settings/password_changer.dart';
 import 'package:monon/ui/settings/settings_view.dart';
 import 'package:monon/ui/video/vide_main.dart';
 
-import '../app_starting/intro_emotion_setup.dart';
-import '../app_starting/intro_page.dart';
-import '../app_starting/personal_info.dart';
 import '../splashscreen.dart';
 import '../ui/activities/activities_main.dart';
-import '../ui/audio/audio_sub.dart';
-import '../ui/audio/main_audio.dart';
+import '../ui/app_starting/intro_emotion_setup.dart';
+import '../ui/app_starting/intro_page.dart';
+import '../ui/app_starting/personal_info.dart';
+import '../ui/app_starting/welcome_page.dart';
+import '../ui/audio_buddhimotta/audio_sub.dart';
+import '../ui/audio_buddhimotta/main_audio.dart';
 import '../ui/folder/final_task.dart';
 import '../ui/home/home_view.dart';
 import '../ui/login/login_with_email.dart';
@@ -96,11 +95,6 @@ class RouteGenerator {
       case '/intro_emotion_setup':
         return navigateToRoute(
           builder: (_) => const IntroEmotionSetup(),
-        );
-
-      case '/feelings_main':
-        return navigateToRoute(
-          builder: (_) => const FeelingsMainView(),
         );
 
       case '/emotions_first_submit':

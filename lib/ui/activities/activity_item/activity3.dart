@@ -97,13 +97,13 @@ class _Activity3State extends State<Activity3> {
               ),
               const SizedBox(height: 8),
               TextInputFieldComment(
-                  strengthController, "আপনার কমেন্ট লিখুন", 1, 2),
+                  strengthController, "আপনার উত্তর লিখুন", 1, 2),
               const SizedBox(height: 8),
               TextInputFieldComment(
-                  strengthController1, "আপনার কমেন্ট লিখুন", 1, 2),
+                  strengthController1, "আপনার উত্তর লিখুন", 1, 2),
               const SizedBox(height: 8),
               TextInputFieldComment(
-                  strengthController2, "আপনার কমেন্ট লিখুন", 1, 2),
+                  strengthController2, "আপনার উত্তর লিখুন", 1, 2),
               const SizedBox(height: 20),
               const Text(
                 "নিজের দুর্বলতা",
@@ -111,13 +111,13 @@ class _Activity3State extends State<Activity3> {
               ),
               const SizedBox(height: 8),
               TextInputFieldComment(
-                  weaknessController, "আপনার কমেন্ট লিখুন", 1, 2),
+                  weaknessController, "আপনার উত্তর লিখুন", 1, 2),
               const SizedBox(height: 8),
               TextInputFieldComment(
-                  weaknessController, "আপনার কমেন্ট লিখুন", 1, 2),
+                  weaknessController1, "আপনার উত্তর লিখুন", 1, 2),
               const SizedBox(height: 8),
               TextInputFieldComment(
-                  weaknessController, "আপনার কমেন্ট লিখুন", 1, 2),
+                  weaknessController2, "আপনার উত্তর লিখুন", 1, 2),
               const SizedBox(height: 20),
               NormalButton(false, "সাবমিট", onTap: _submitComment),
             ],

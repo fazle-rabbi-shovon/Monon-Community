@@ -55,18 +55,21 @@ class _FinalTaskState extends State<FinalTask> {
       final formattedDate =
           "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
 
+      final formattedTime =
+          "${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}";
+
+
       final firestore = FirebaseFirestore.instance;
 
       // Fixed document ID per activity per day
       final docRef  = firestore
           .collection('final_activity')
           .doc(uid)
-          .collection(formattedDate);
-          // .doc(activityName) // always overwrite or check this
-          // .collection('entries');
+          .collection(formattedDate)
+          .doc(formattedTime);
 
 
-      await docRef.add({
+      await docRef.set({
         ...activityData,
         'savedAt': FieldValue.serverTimestamp(),
       });

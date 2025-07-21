@@ -4,7 +4,7 @@ import '../../route/navigation_service.dart';
 import '../../util/color_util.dart';
 import '../../util/image_util.dart';
 import 'audio_player.dart';
-import 'audio_widget.dart';
+import 'audio_document.dart';
 
 // ignore: must_be_immutable
 class AudioSub extends StatefulWidget {

@@ -380,6 +380,10 @@ class AudioWidgets {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
 
+        Text(
+          "ভয় এমন এক বিশেষ অনুভূতি যা কোন বিপদ বা ক্ষতির সম্ভাবনা থেকে উদ্ভূত হয় এবং মানুষকে বিপদজনক পরিস্থিতি সম্পর্কে সচেতন করে তোলে। এটি মানুষের স্বভাবজাত বিষয়। ভয় মানুষের জন্য মাঝে মাঝে উপকারী হলেও মাত্রাতিরিক্ত ভয় বিভিন্ন মানসিক সমস্যার কারণ হতে পারে। তাই ভয়কে সতর্কতা ও দৃঢ় মনোবলের সাথে মোকাবেলা করলে তা আমাদের নিরাপদে থাকতে সাহায্য করবে।",
+          style: TextStyle(fontSize: 16),
+        ),
         Text("\nকারণসমূহ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
         Text("• অনাকাঙ্ক্ষিত কোন ঘটনা", style: TextStyle(fontSize: 16)),
         Text("• অতীতের ভয়ঙ্কর বা খারাপ অভিজ্ঞতা", style: TextStyle(fontSize: 16)),

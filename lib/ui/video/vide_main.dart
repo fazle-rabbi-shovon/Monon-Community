@@ -43,7 +43,7 @@ class VideoMainState extends State<VideoMain> {
           itemBuilder: (_, index) {
             final track = tracks[index];
             return _buildAudioTile(track["title"]!,
-                track["image"]!, track["url"]!);
+                track["image"]!, track["url"]!, index);
           },
         ),
       ),
@@ -73,7 +73,7 @@ class VideoMainState extends State<VideoMain> {
   }
 
   Widget _buildAudioTile(
-      String title, String imagePath, String url) {
+      String title, String imagePath, String url, int index) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -83,6 +83,7 @@ class VideoMainState extends State<VideoMain> {
               title: title,
               url: url,
               imagePath: imagePath,
+              index: index,
             ),
           ),
         );
@@ -108,19 +109,6 @@ class VideoMainState extends State<VideoMain> {
                         size: 40, color: ColorUtil.mainColor),
                   ),
                 ),
-                // Positioned(
-                //   bottom: 5,
-                //   right: 5,
-                //   child: Container(
-                //     padding:
-                //         const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                //     color: Colors.black54,
-                //     child: Text(
-                //       duration,
-                //       style: const TextStyle(color: Colors.white),
-                //     ),
-                //   ),
-                // ),
               ],
             ),
             const SizedBox(height: 8),
