@@ -69,7 +69,7 @@ class _EmotionDialogState extends State<EmotionDialog> {
     await docRef.set({
       "শুরুতে অনুভূতি": startLabel ?? "",
       "শেষে অনুভূতি": selectedEmotion,
-      "listenedAt": FieldValue.serverTimestamp(),
+      "savedAt": FieldValue.serverTimestamp(),
     });
   }
 

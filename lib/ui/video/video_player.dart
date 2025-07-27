@@ -75,7 +75,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
     await docRef.set({
       "দেখা হয়েছে": "হ্যাঁ",
-      "watchedAt": FieldValue.serverTimestamp(),
+      "savedAt": FieldValue.serverTimestamp(),
     });
 
     /// ✅ Mark meditation activity complete locally in Hive

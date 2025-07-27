@@ -26,12 +26,7 @@ Future<void> saveActivityOnFirebase({
       .collection(formattedDate)
       .doc(activityName) // always overwrite or check this
       .collection('entries');
-
-  // final docSnapshot = await docRef.get();
-  //
-  // if (docSnapshot.exists) {
-  //   throw Exception('আজকের জন্য এই অ্যাক্টিভিটি আপনি ইতিমধ্যেই জমা দিয়েছেন।');
-  // }
+  
 
   await collectionRef.add({
     ...activityData,
