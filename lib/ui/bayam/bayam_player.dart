@@ -70,7 +70,7 @@ class _BayamPlayerState extends State<BayamPlayer> {
 
     await docRef.set({
       "দেখা হয়েছে": "হ্যাঁ",
-      "watchedAt": FieldValue.serverTimestamp(),
+      "savedAt": FieldValue.serverTimestamp(),
     });
 
     /// ✅ Mark kisu_kotha activity complete locally in Hive

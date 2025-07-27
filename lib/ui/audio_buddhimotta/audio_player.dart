@@ -101,7 +101,7 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
 
     await docRef.set({
       "শুনেছে": "হ্যাঁ",
-      "listenedAt": FieldValue.serverTimestamp(),
+      "savedAt": FieldValue.serverTimestamp(),
     });
 
     /// ✅ Mark buddhimotta1/buddhimotta2 activity complete locally in Hive
