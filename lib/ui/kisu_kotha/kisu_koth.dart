@@ -77,7 +77,7 @@ class _KisuKothaState extends State<KisuKotha> {
     return AppBar(
       title: const Text(
         // getTranslated(context, "LEAVE_APPLY"),
-        "বুদ্ধিমত্তা ও আবেগ",
+        "কিছু কথা",
         style: TextStyle(
           color: Colors.white,
           fontSize: 18.0,

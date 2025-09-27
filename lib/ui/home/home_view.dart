@@ -20,6 +20,7 @@ import '../folder/folder_view.dart';
 import '../login/common_dialog.dart';
 import 'Nav.dart';
 import 'bottom_nav.dart';
+import 'confirm_dialogue.dart';
 import 'emotion_dialogue.dart';
 import 'nav_data.dart';
 import 'nav_page.dart';
@@ -136,17 +137,40 @@ class _HomeViewState extends BaseViewState<HomeView>
         false;
   }
 
+  // Future<bool> onWillPop() async {
+  //   if (_navState == Nav.feelings) {
+  //     final shouldExit = await showDialog<bool>(
+  //       context: context,
+  //       barrierDismissible: false,
+  //       builder: (context) => const EmotionDialog(),
+  //     );
+  //     return shouldExit == true;
+  //   }
+  //   return true; // for other cases, allow back
+  // }
+
   Future<bool> onWillPop() async {
     if (_navState == Nav.feelings) {
-      final shouldExit = await showDialog<bool>(
+      final needHelp = await showDialog<bool>(
         context: context,
         barrierDismissible: false,
-        builder: (context) => const EmotionDialog(),
+        builder: (context) => const ConfirmHelpDialog(),
       );
-      return shouldExit == true;
+
+      if (needHelp == true) {
+        final shouldExit = await showDialog<bool>(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => const EmotionDialog(),
+        );
+        return shouldExit == true;
+      } else {
+        return true;
+      }
     }
-    return true; // for other cases, allow back
+    return true;
   }
+
 
   Widget _bottomNavBar() {
     return BottomNav(
