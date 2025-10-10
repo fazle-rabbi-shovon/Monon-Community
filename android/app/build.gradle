@@ -47,10 +47,10 @@ android {
 
     defaultConfig {
         applicationId "com.monon.community"
-        minSdkVersion 23
+        minSdkVersion flutter.minSdkVersion
         targetSdkVersion 35
-        versionCode 17
-        versionName "1.0.17"
+        versionCode 18
+        versionName "1.0.18"
     }
 
     signingConfigs {
