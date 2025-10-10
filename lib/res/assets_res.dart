@@ -8,4 +8,6 @@ class AssetsRes {
 
   static const String PROJECT_NAME = 'monon';
   static const String PROJECT_VERSION = '1.0.0+1';
+  static const String APP_ICON = 'assets/icon/app_icon.png';
+  static const String MONON_SPLASH = 'assets/splash/monon_splash.png';
 }
