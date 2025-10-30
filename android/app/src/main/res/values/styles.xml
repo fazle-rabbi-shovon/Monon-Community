@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="LaunchTheme" parent="@android:style/Theme.Black.NoTitleBar">
-<!--        <item name="android:windowBackground">@drawable/launch_background</item>-->
-        <item name="android:windowSplashScreenBackground">@drawable/launch_background</item>
+        <!--        <item name="android:windowBackground">@drawable/launch_background</item>-->
+        <item name="android:forceDarkAllowed">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
     </style>
-
     <style name="Theme.Monon" parent="@android:style/Theme.Light.NoTitleBar">
         <item name="android:windowBackground">@drawable/launch_background</item>
     </style>
-
-<!--    <style name="Theme.MyApp.Splash" parent="Theme.SplashScreen">-->
-<!--        <item name="windowSplashScreenAnimatedIcon">@mipmap/logo</item>-->
-<!--        <item name="windowSplashScreenIconBackgroundColor">@color/background</item>-->
-<!--        <item name="windowSplashScreenIconSize">96dp</item> &lt;!&ndash; You can control size here &ndash;&gt;-->
-<!--    </style>-->
-
+    <!--    <style name="Theme.MyApp.Splash" parent="Theme.SplashScreen">-->
+    <!--        <item name="windowSplashScreenAnimatedIcon">@mipmap/logo</item>-->
+    <!--        <item name="windowSplashScreenIconBackgroundColor">@color/background</item>-->
+    <!--        <item name="windowSplashScreenIconSize">96dp</item> &lt;!&ndash; You can control size here &ndash;&gt;-->
+    <!--    </style>-->
     <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
         <item name="android:windowBackground">?android:colorBackground</item>
     </style>

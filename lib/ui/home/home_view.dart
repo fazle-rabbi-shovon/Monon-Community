@@ -27,35 +27,31 @@ import 'nav_page.dart';
 
 // ignore: must_be_immutable
 class HomeView extends StatefulWidget {
-
   HomeView(this.index);
 
   int index;
 
   @override
   State<HomeView> createState() => _HomeViewState(index);
-
 }
 
 class _HomeViewState extends BaseViewState<HomeView>
     with SingleTickerProviderStateMixin {
-
-
   _HomeViewState(this._currentIndex);
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-
   Nav _navState = Nav.feelings;
   int _currentIndex;
-
 
   var config;
 
   @override
   void initState() {
     // _checkRatingPrompt();
-    _checkAppVersion();
+    if (Platform.isAndroid) {
+      _checkAppVersion();
+    }
     super.initState();
   }
 
@@ -66,11 +62,7 @@ class _HomeViewState extends BaseViewState<HomeView>
 
   Future<void> afterBuild() async {
     // SystemChrome.restoreSystemUIOverlays();
-    NumberUtil.deviceHeight = MediaQuery
-        .of(context)
-        .size
-        .height;
-
+    NumberUtil.deviceHeight = MediaQuery.of(context).size.height;
   }
 
   // int _currentIndex = 0;
@@ -80,7 +72,7 @@ class _HomeViewState extends BaseViewState<HomeView>
     // const FeelingsMainView(),
     const FolderView(),
     const InfoView(),
-     SettingsView(),
+    SettingsView(),
   ];
 
   @override
@@ -109,8 +101,7 @@ class _HomeViewState extends BaseViewState<HomeView>
               onWillPop: onWillPop,
               child: _appBody(),
             ),
-            bottomNavigationBar:
-            _bottomNavBar(),
+            bottomNavigationBar: _bottomNavBar(),
           );
         },
       ),
@@ -119,21 +110,21 @@ class _HomeViewState extends BaseViewState<HomeView>
 
   Future _logoutDialogue(BuildContext context) async {
     return await showDialog(
-      context: context,
-      builder: (context) {
-        return CommonDialog(
-            title: getTranslated(context, "ARE_YOU_SURE"),
-            titleColor: ColorUtil.primary,
-            titleWeight: null,
-            description: getTranslated(context, "CONFIRMATION_LOGOUT"),
-            button2: getTranslated(context, "NO_TITLE"),
-            button2Flag: false,
-            button2Color: ColorUtil.red,
-            button1: getTranslated(context, "YES_TITLE"),
-            button1Flag: true,
-            button1Color: ColorUtil.button);
-      },
-    ) ??
+          context: context,
+          builder: (context) {
+            return CommonDialog(
+                title: getTranslated(context, "ARE_YOU_SURE"),
+                titleColor: ColorUtil.primary,
+                titleWeight: null,
+                description: getTranslated(context, "CONFIRMATION_LOGOUT"),
+                button2: getTranslated(context, "NO_TITLE"),
+                button2Flag: false,
+                button2Color: ColorUtil.red,
+                button1: getTranslated(context, "YES_TITLE"),
+                button1Flag: true,
+                button1Color: ColorUtil.button);
+          },
+        ) ??
         false;
   }
 
@@ -171,7 +162,6 @@ class _HomeViewState extends BaseViewState<HomeView>
     return true;
   }
 
-
   Widget _bottomNavBar() {
     return BottomNav(
       currentIndex: _currentIndex,
@@ -201,11 +191,11 @@ class _HomeViewState extends BaseViewState<HomeView>
         _navState = Nav.submit;
         setState(() {});
         break;
-    // case 2:
-    //   _currentIndex = 2;
-    //   _navState = Nav.info;
-    //   setState(() {});
-    //   break;
+      // case 2:
+      //   _currentIndex = 2;
+      //   _navState = Nav.info;
+      //   setState(() {});
+      //   break;
       default:
         _currentIndex = 0;
         _navState = Nav.folder;
@@ -229,8 +219,10 @@ class _HomeViewState extends BaseViewState<HomeView>
       final packageInfo = await PackageInfo.fromPlatform();
       final currentVersion = packageInfo.version;
 
-      final doc = await FirebaseFirestore.instance.collection('config').doc(
-          'app_version').get();
+      final doc = await FirebaseFirestore.instance
+          .collection('config')
+          .doc('app_version')
+          .get();
       if (doc.exists) {
         final latestVersion = doc['latest_version'];
         final isUpdateRequired = doc['update_required'] ?? false;
@@ -260,22 +252,24 @@ class _HomeViewState extends BaseViewState<HomeView>
 
   void _showUpdateDialog(String playStoreUrl) {
     showDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: (_) =>
-          AlertDialog(
-            title: const Text("আপডেট করুন",
-              style: TextStyle(color: ColorUtil.mainColor),),
+          context: context,
+          barrierDismissible: true,
+          builder: (_) => AlertDialog(
+            title: const Text(
+              "আপডেট করুন",
+              style: TextStyle(color: ColorUtil.mainColor),
+            ),
             content: const Text(
                 "মনন অ্যাপটির নতুন ভার্সন এসেছে, অনুগ্রহ করে আপডেট করুন।"),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
-                  NavigationService.getCurrentState()
-                      ?.pop();
+                  NavigationService.getCurrentState()?.pop();
                 },
                 child: const Text(
-                  "পরে", style: TextStyle(color: Colors.red),),
+                  "পরে",
+                  style: TextStyle(color: Colors.red),
+                ),
               ),
               TextButton(
                 onPressed: () async {
@@ -285,13 +279,13 @@ class _HomeViewState extends BaseViewState<HomeView>
                   }
                 },
                 child: const Text(
-                  "আপডেট", style: TextStyle(color: ColorUtil.mainColor),),
+                  "আপডেট",
+                  style: TextStyle(color: ColorUtil.mainColor),
+                ),
               ),
             ],
           ),
-    ) ??
-        NavigationService.getCurrentState()
-            ?.pop()
-    ;
+        ) ??
+        NavigationService.getCurrentState()?.pop();
   }
 }

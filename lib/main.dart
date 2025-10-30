@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,7 +17,10 @@ import 'model/activity_progress.dart';
 Future<void> main() async {
   // setupLocator();
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  // await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await Hive.initFlutter();
 
   // Register the adapter
@@ -52,7 +56,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   void initState() {
     super.initState();
@@ -60,7 +63,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -72,8 +74,8 @@ class _MyAppState extends State<MyApp> {
           statusBarColor: ColorUtil.statusBar,
           statusBarBrightness: Brightness.light,
           statusBarIconBrightness: Brightness.dark
-        //systemNavigationBarColor: ColorUtil.navigationBar,
-      ),
+          //systemNavigationBarColor: ColorUtil.navigationBar,
+          ),
     );
 
     return MaterialApp(
@@ -83,7 +85,8 @@ class _MyAppState extends State<MyApp> {
         scaffoldBackgroundColor: Colors.white, // Sets background of entire app
         // primarySwatch: ColorUtil.primary, // For AppBar, buttons, etc.
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          backgroundColor: ColorUtil.bgGreyDarkReal, // Background color of bottom nav
+          backgroundColor:
+              ColorUtil.bgGreyDarkReal, // Background color of bottom nav
           selectedItemColor: ColorUtil.button, // Selected item color
           unselectedItemColor: ColorUtil.bgGrey, // Unselected item color
         ),
@@ -92,8 +95,6 @@ class _MyAppState extends State<MyApp> {
       supportedLocales: [Locale('en', 'US'), Locale('bn', null)],
       initialRoute: '/',
       onGenerateRoute: RouteGenerator.generateRoute,
-
     );
   }
 }
-
