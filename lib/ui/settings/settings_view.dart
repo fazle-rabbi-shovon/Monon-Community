@@ -167,7 +167,7 @@ class _SettingsViewState extends State<SettingsView>
                     children: [
                       Text(
                         // getTranslated(context, "LOGIN_TITLE"),
-                        "এক্সিট",
+                        "শেষের অনুভূতি",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,
@@ -211,11 +211,6 @@ class _SettingsViewState extends State<SettingsView>
     // Close all dialogs / pages
     Navigator.of(context, rootNavigator: true)
         .popUntil((route) => route.isFirst);
-
-    // Optional: send app to background (Apple-safe)
-    Future.delayed(const Duration(milliseconds: 200), () {
-      SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-    });
   }
 
 
