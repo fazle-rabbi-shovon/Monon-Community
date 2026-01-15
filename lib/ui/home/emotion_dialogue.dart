@@ -43,8 +43,14 @@ class _EmotionDialogState extends State<EmotionDialog> {
     // Wait 60ms for smooth UI transition
     await Future.delayed(const Duration(milliseconds: 60));
 
-    SystemNavigator.pop(); // exit app
+    // SystemNavigator.pop(); // exit app
+    Navigator.of(context).pop();
+    Navigator.of(context).pop(true);
   }
+
+  // void _submit(){
+  //   Navigator.of(context).pop(true);
+  // }
 
   Future<void> _saveEmotionToFirebase() async {
     final uid = FirebaseAuth.instance.currentUser?.uid;

@@ -152,10 +152,11 @@ class _SettingsViewState extends State<SettingsView>
                 ),
               ),
             ),
-            // if (Platform.isIOS && userRole != "participant")
+            if (Platform.isIOS && userRole != "participant")
              const SizedBox(height: 30),
-            // if (Platform.isIOS)
+            if (Platform.isIOS)
             GestureDetector(
+              // onTap: () => _handleIOSExit(context),
               onTap: () => _handleIOSExit(context),
               child: Container(
                 height: 50.0,
@@ -197,25 +198,19 @@ class _SettingsViewState extends State<SettingsView>
         barrierDismissible: false,
         builder: (_) => const EmotionDialog(),
       );
-
-      _goBackgroundIOS(context);
-      // if (shouldExit == true) {
-      //   _goBackgroundIOS(context);
-      // }
+      if (shouldExit == true) {
+        _goBackgroundIOS(context);
+      }
     } else {
-      final shouldExit = await showDialog<bool>(
-        context: context,
-        barrierDismissible: false,
-        builder: (_) => const EmotionDialog(),
-      );
+        _goBackgroundIOS(context);
 
-      _goBackgroundIOS(context);
     }
   }
 
   void _goBackgroundIOS(BuildContext context) {
     // Close all dialogs / pages
-    Navigator.of(context).popUntil((route) => route.isFirst);
+    Navigator.of(context, rootNavigator: true)
+        .popUntil((route) => route.isFirst);
 
     // Optional: send app to background (Apple-safe)
     Future.delayed(const Duration(milliseconds: 200), () {
