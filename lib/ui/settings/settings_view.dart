@@ -152,9 +152,9 @@ class _SettingsViewState extends State<SettingsView>
                 ),
               ),
             ),
-            if (Platform.isIOS && userRole != "participant")
+            // if (Platform.isIOS && userRole != "participant")
              const SizedBox(height: 30),
-            if (Platform.isIOS)
+            // if (Platform.isIOS)
             GestureDetector(
               onTap: () => _handleIOSExit(context),
               child: Container(
@@ -198,10 +198,17 @@ class _SettingsViewState extends State<SettingsView>
         builder: (_) => const EmotionDialog(),
       );
 
-      if (shouldExit == true) {
-        _goBackgroundIOS(context);
-      }
+      _goBackgroundIOS(context);
+      // if (shouldExit == true) {
+      //   _goBackgroundIOS(context);
+      // }
     } else {
+      final shouldExit = await showDialog<bool>(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => const EmotionDialog(),
+      );
+
       _goBackgroundIOS(context);
     }
   }
