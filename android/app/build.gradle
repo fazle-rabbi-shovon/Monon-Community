@@ -30,7 +30,7 @@ if (flutterVersionName == null) {
 android {
     namespace "com.monon.community"
     compileSdkVersion 36
-    ndkVersion flutter.ndkVersion
+    ndkVersion "29.0.14206865"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -47,10 +47,10 @@ android {
 
     defaultConfig {
         applicationId "com.monon.community"
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 23
         targetSdkVersion 36
-        versionCode 18
-        versionName "1.0.18"
+        versionCode 19
+        versionName "1.0.19"
     }
 
     signingConfigs {
