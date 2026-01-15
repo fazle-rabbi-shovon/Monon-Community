@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +12,8 @@ import '../../route/navigation_service.dart';
 import '../../shared_pref/shared_pref_util.dart';
 import '../../util/color_util.dart';
 import '../../util/dimen_values_util.dart';
+import '../home/confirm_dialogue.dart';
+import '../home/emotion_dialogue.dart';
 
 // ignore: must_be_immutable
 class SettingsView extends StatefulWidget {
@@ -149,12 +152,71 @@ class _SettingsViewState extends State<SettingsView>
                 ),
               ),
             ),
-            const SizedBox(height: 30),
+            if (Platform.isIOS && userRole != "participant")
+             const SizedBox(height: 30),
+            if (Platform.isIOS)
+            GestureDetector(
+              onTap: () => _handleIOSExit(context),
+              child: Container(
+                height: 50.0,
+                decoration: GradientButtonDecoration(),
+                child: const Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        // getTranslated(context, "LOGIN_TITLE"),
+                        "এক্সিট",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
+
+  Future<void> _handleIOSExit(BuildContext context) async {
+    final needHelp = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const ConfirmHelpDialog(),
+    );
+
+    if (needHelp == true) {
+      final shouldExit = await showDialog<bool>(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => const EmotionDialog(),
+      );
+
+      if (shouldExit == true) {
+        _goBackgroundIOS(context);
+      }
+    } else {
+      _goBackgroundIOS(context);
+    }
+  }
+
+  void _goBackgroundIOS(BuildContext context) {
+    // Close all dialogs / pages
+    Navigator.of(context).popUntil((route) => route.isFirst);
+
+    // Optional: send app to background (Apple-safe)
+    Future.delayed(const Duration(milliseconds: 200), () {
+      SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+    });
+  }
+
+
 
   Widget nextButton() {
     return Container(
